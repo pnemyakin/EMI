@@ -68,7 +68,10 @@ namespace EMI
         /// </summary>
         public event Action OnChangedRegisteredMethodsForwarding;
 #endif
-        internal RPC()
+        /// <summary>
+        /// Необходим для HeadlessHandler, в остальных случаях конструктор вызывать не требуется
+        /// </summary>
+        public RPC()
         {
         }
 

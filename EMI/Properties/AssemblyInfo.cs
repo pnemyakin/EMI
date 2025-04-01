@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("EMI")]
 [assembly: AssemblyDescription("Implements client-server data exchange between applications")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("FoxTail")]
+[assembly: AssemblyCompany("Avangard Game Studio")]
 [assembly: AssemblyProduct("EMI")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("6.4.0.0")]
-[assembly: AssemblyFileVersion("6.4.0.0")]
+[assembly: AssemblyVersion("6.5.0.0")]
+[assembly: AssemblyFileVersion("6.5.0.0")]

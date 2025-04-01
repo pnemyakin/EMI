@@ -11,7 +11,7 @@ namespace EMI
     /// <summary>
     /// Позвояет получить число тиков для расчёта задержек (точное)
     /// </summary>
-    internal static class TickTime
+    public static class TickTime
     {
         /// <summary>
         /// Текущие кол-во тиков

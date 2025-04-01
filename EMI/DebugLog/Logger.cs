@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMI.DebugLog
 {
+    using Headless;
     /// <summary>
     /// Для вывода отладочной информации
     /// </summary>
@@ -54,6 +55,16 @@ namespace EMI.DebugLog
             string msg = string.Format(message.Message, format);
             Console.WriteLine($"EMI => {message.Type} => client: {client.RemoteAddress} => {msg}");
             OnMessage?.Invoke(client, message.Type, DateTime.Now, msg);
+#endif
+        }
+
+
+        internal void Log(HeadlessHandler client, LogMessage message, params object[] format)
+        {
+#if DEBUG
+            string msg = string.Format(message.Message, format);
+            Console.WriteLine($"EMI => {message.Type} => client: {client.RemoteAddress} => {msg}");
+            OnMessage?.Invoke(null, message.Type, DateTime.Now, msg);
 #endif
         }
     }

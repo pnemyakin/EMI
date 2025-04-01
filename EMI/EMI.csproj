@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>bin\Release\EMI.xml</DocumentationFile>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -50,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AClient.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="CurrentTime.cs" />
     <Compile Include="DebugLog\Logger.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Exception\RegisterLimitException.cs" />
     <Compile Include="Exception\RPCRegisterNameException.cs" />
     <Compile Include="FixedStack.cs" />
+    <Compile Include="Headless\HeadlessHandler.cs" />
     <Compile Include="Indicators\AIndicator.cs" />
     <Compile Include="Indicators\Indicator.cs" />
     <Compile Include="InputStackBuffer.cs" />

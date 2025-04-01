@@ -14,7 +14,7 @@ namespace EMI
     /// <summary>
     /// Клиент EMI
     /// </summary>
-    public class Client
+    public class Client : AClient
     {
         /// <summary>
         /// Отвечает за регистрирование удалённых процедур для последующего вызова [локальный - вызов будет произведён только у этого клиента]
@@ -100,10 +100,6 @@ namespace EMI
         internal CancellationTokenSource CancellationRun = new CancellationTokenSource();
         internal InputStackBuffer InputStack;
         private readonly static TaskFactory TaskLongFactory = new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None);
-        /// <summary>
-        /// Массив запросов на ожидание ответа (возврат значения)
-        /// </summary>
-        internal Dictionary<int, RCWaitHandle> RPCReturn;
         /// <summary>
         /// Ссылка на сервер (если клиент серверный)
         /// </summary>
@@ -577,6 +573,20 @@ namespace EMI
             {
                 Logger.Log(this, Messages.RPCNotFount, id);
             }
+        }
+
+        /// <summary>
+        /// Обёртка отправки пакета
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="guaranteed"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal override async Task Send(INGCArray array, bool guaranteed, CancellationToken token)
+        {
+            await MyNetworkClient.Send(array, guaranteed, token).ConfigureAwait(false);
         }
     }
 }

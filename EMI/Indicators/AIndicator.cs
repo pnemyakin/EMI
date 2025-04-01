@@ -41,7 +41,7 @@ namespace EMI.Indicators
         /// <param name="type">тип вызова</param>
         /// <param name="token">токен отмены</param>
         /// <returns></returns>
-        internal async Task RCallLow(Client client, RCType type, CancellationToken token)
+        internal async Task RCallLow(AClient client, RCType type, CancellationToken token)
         {
             bool guarant = type != RCType.Fast && type != RCType.FastForwarding;
             byte packetType;
@@ -76,11 +76,20 @@ namespace EMI.Indicators
 
                 PackUp(sendArray);
 
-                await client.MyNetworkClient.Send(sendArray, guarant, token).ConfigureAwait(false);
+                await client.Send(sendArray, guarant, token).ConfigureAwait(false);
                 if (type == RCType.ReturnWait)
                 {
                     var handle = new RCWaitHandle(this);
-                    var tokenPro = CancellationTokenSource.CreateLinkedTokenSource(token, client.CancellationRun.Token).Token;
+                    //TODO client.CancellationRun не реализован в AClient иHeadlessHandler
+                    CancellationToken tokenPro;
+                    if (client is Client real_client)
+                    {
+                        tokenPro = CancellationTokenSource.CreateLinkedTokenSource(token, real_client.CancellationRun.Token).Token;
+                    }
+                    else
+                    {
+                        tokenPro = token;
+                    }
 
                     lock (client.RPCReturn)
                     {

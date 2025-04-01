@@ -40,7 +40,7 @@ namespace EMI.Indicators
             /// <param name="token">токен отмены операции</param>
             /// <param name="type">тип вызова</param>
             /// <returns></returns>
-            public async Task RCall(Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 await RCallLow(client, type, token).ConfigureAwait(false);
             }
@@ -86,7 +86,7 @@ namespace EMI.Indicators
             /// <param name="token">токен отмены операции</param>
             /// <param name="type">тип вызова</param>
             /// <returns></returns>
-            public async Task RCall(T1 t1, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 await RCallLow(client, type, token).ConfigureAwait(false);
@@ -146,7 +146,7 @@ namespace EMI.Indicators
             /// <param name="token">токен отмены операции</param>
             /// <param name="type">тип вызова</param>
             /// <returns></returns>
-            public async Task RCall(T1 t1, T2 t2, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -191,7 +191,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -227,7 +227,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -265,7 +265,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -305,7 +305,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -347,7 +347,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -391,7 +391,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -437,7 +437,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -485,7 +485,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, Client client, RCType type = RCType.Guaranteed, CancellationToken token = default)
+            public async Task RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, AClient client, RCType type = RCType.Guaranteed, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -550,7 +550,7 @@ namespace EMI.Indicators
             /// <param name="token">токен отмены операции</param>
             /// <param name="type">тип вызова</param>
             /// <returns></returns>
-            public async Task<TOut> RCall(Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dtout = default;
                 await RCallLow(client, type, token).ConfigureAwait(false);
@@ -600,7 +600,7 @@ namespace EMI.Indicators
             /// <param name="token">токен отмены операции</param>
             /// <param name="type">тип вызова</param>
             /// <returns></returns>
-            public async Task<TOut> RCall(T1 t1, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dtout = default;
@@ -646,7 +646,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -684,7 +684,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -724,7 +724,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -766,7 +766,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -810,7 +810,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -856,7 +856,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -904,7 +904,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -954,7 +954,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
@@ -1006,7 +1006,7 @@ namespace EMI.Indicators
 #endif
             }
 
-            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, Client client, RCType type = RCType.ReturnWait, CancellationToken token = default)
+            public async Task<TOut> RCall(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6, T7 t7, T8 t8, T9 t9, T10 t10, AClient client, RCType type = RCType.ReturnWait, CancellationToken token = default)
             {
                 Dt1 = t1;
                 Dt2 = t2;
