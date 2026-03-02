@@ -67,6 +67,16 @@ await indicator.RCall("Привет!", client, RCType.Guaranteed);
 | EMI.DebugServer | Серверный мост для отладчика | net9.0 |
 | EMI.Debugger | WPF-отладчик | net9.0-windows |
 
+## Зависимости для сборки
+
+Проект использует библиотеку **[SmartPackager](https://github.com/pnemyakin/SmartPackager)** для бинарной сериализации. При клонировании репозитория необходимо также клонировать SmartPackager в соседний каталог:
+
+```
+Projects/
+├── EMI/          ← этот репозиторий
+└── SmartPackager/ ← https://github.com/pnemyakin/SmartPackager
+```
+
 ## Документация
 
 Подробное описание архитектуры, API и примеры использования находятся в каталоге [docs](docs/).
