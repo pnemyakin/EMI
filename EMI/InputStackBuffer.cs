@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 /*
  * 21.06.2022 - создано, тестирование - юнит тесты
  */
-[assembly: InternalsVisibleTo("EMI.Test")]
 namespace EMI
 {
     using NGC;
@@ -63,13 +62,18 @@ namespace EMI
         /// <param name="token">токен отмены операции</param>
         public async Task Push(INGCArray array, CancellationToken token)
         {
+            // Ждём пока освободится место по байтам
             while (BytesCount >= MaxBytesCount && !token.IsCancellationRequested)
-                await Task.Yield();
+            {
+                try { await Task.Delay(1, token).ConfigureAwait(false); }
+                catch (OperationCanceledException) { break; }
+            }
+            if (token.IsCancellationRequested) return;
             lock (this)
             {
                 BytesCount += array.Bytes.Length;
             }
-            await Stack.Push(array, token);
+            await Stack.Push(array, token).ConfigureAwait(false);
             if (token.IsCancellationRequested)
                 lock (this)
                 {
@@ -84,7 +88,7 @@ namespace EMI
         /// <returns></returns>
         public async Task<Handle> Pop(CancellationToken token)
         {
-            return new Handle(this, await Stack.Pop(token));
+            return new Handle(this, await Stack.Pop(token).ConfigureAwait(false));
         }
 
         /// <summary>

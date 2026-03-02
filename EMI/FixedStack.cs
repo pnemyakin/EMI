@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 /*
  * 21.06.2022 - создано и полность отестировано в ручную
+ * 2025 - переход с spin-wait (Task.Yield) на Channel<T>
  */
 
 /// <summary>
@@ -12,26 +14,19 @@ using System.Threading.Tasks;
 /// <typeparam name="T">Тип который будет содержаться в стеке</typeparam>
 internal class FixedStack<T>
 {
-    /// <summary>
-    /// Индекс последней свободной ячейки (если 0 то пуст если равен размеру стека - значит заполнен)
-    /// </summary>
-    private volatile int FreeIndex = 0;
-    /// <summary>
-    /// Элементы стека
-    /// </summary>
-    private readonly T[] Items;
+    private readonly Channel<T> _channel;
     /// <summary>
     /// Сколько элементов находить в стеке
     /// </summary>
-    public int Count => FreeIndex;
+    public int Count => _channel.Reader.Count;
     /// <summary>
     /// Сколько максимум может находиться элементов в стеке
     /// </summary>
-    public int Size => Items.Length;
+    public int Size { get; }
     /// <summary>
     /// Максимальное время ожидания до отмены операции <see cref="Pop(CancellationToken)"/>
     /// </summary>
-    private TimeSpan MaxWaitTime;
+    private readonly TimeSpan MaxWaitTime;
 
     /// <summary>
     /// Инициализировать новый стек
@@ -40,8 +35,14 @@ internal class FixedStack<T>
     /// <param name="maxWaitTime">Максимальное время ожидания до отмены операции <see cref="Pop(CancellationToken)"/></param>
     public FixedStack(int size, TimeSpan maxWaitTime)
     {
-        Items = new T[size];
+        Size = size;
         MaxWaitTime = maxWaitTime;
+        _channel = Channel.CreateBounded<T>(new BoundedChannelOptions(size)
+        {
+            FullMode = BoundedChannelFullMode.Wait,
+            SingleReader = false,
+            SingleWriter = false
+        });
     }
 
     /// <summary>
@@ -51,20 +52,13 @@ internal class FixedStack<T>
     /// <param name="token">токен отмены операции</param>
     public async Task Push(T item, CancellationToken token)
     {
-    //ожидаем если стек заполнен
-    reWait: while (!token.IsCancellationRequested && FreeIndex == Items.Length)
-            await Task.Yield();
-
-        if (token.IsCancellationRequested)
-            return;
-
-        lock (Items)
+        try
         {
-            //если стек опять переполнился
-            if (FreeIndex == Items.Length)
-                goto reWait;
-
-            Items[FreeIndex++] = item;
+            await _channel.Writer.WriteAsync(item, token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            // Совместимость со старым поведением: при отмене — просто выход
         }
     }
 
@@ -75,21 +69,15 @@ internal class FixedStack<T>
     /// <returns>элемент из стека</returns>
     public async Task<T> Pop(CancellationToken token)
     {
-        DateTime time = DateTime.UtcNow + MaxWaitTime;
-    //ожидаем если стек пуст
-    reWait: while (!token.IsCancellationRequested && FreeIndex == 0 && time > DateTime.UtcNow)
-            await Task.Yield();
-
-        if (token.IsCancellationRequested)
-            return default;
-
-        lock (Items)
+        using var cts = CancellationTokenSource.CreateLinkedTokenSource(token);
+        cts.CancelAfter(MaxWaitTime);
+        try
         {
-            //если кто то уже забрал предмет
-            if (FreeIndex == 0)
-                goto reWait;
-
-            return Items[--FreeIndex];
+            return await _channel.Reader.ReadAsync(cts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return default;
         }
     }
 }

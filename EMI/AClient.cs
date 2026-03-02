@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +12,7 @@ namespace EMI
     /// </summary>
     public abstract class AClient
     {
-        internal Dictionary<int, RCWaitHandle> RPCReturn { get; set; }
+        internal ConcurrentDictionary<int, RCWaitHandle> RPCReturn { get; set; }
         /// <summary>
         /// Массив запросов на ожидание ответа (возврат значения)
         /// </summary>

@@ -12,7 +12,7 @@
         /// <summary>
         /// Предупреждение
         /// </summary>
-        Waring,
+        Warning,
         /// <summary>
         /// Ошибка не вызывающие отключение
         /// </summary>

@@ -10,7 +10,7 @@ namespace EMI.Test
         }
 
 
-        [TestMethod("Проверка блокировки при переполнении размера 1")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1")]
         public void Test1()
         {
             try
@@ -33,15 +33,15 @@ namespace EMI.Test
         }
 
 
-        [TestMethod("Проверка блокировки при переполнении размера 2")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 2")]
         public void Test2()
         {
             CancellationTokenSource source = new(1000);
             Task.Run(async () =>
             {
                 InputStackBuffer buffer = new(5, 15);
+                await buffer.Push(new FakeArray(12), default);
                 await buffer.Push(new FakeArray(6), default);
-                await buffer.Push(new FakeArray(15), default);
                 var handle = await buffer.Pop(default);
                 handle.Dispose();
                 await buffer.Push(new FakeArray(100), default);
@@ -49,7 +49,7 @@ namespace EMI.Test
             }).Wait(source.Token);
         }
 
-        [TestMethod("проверка блокировки пустого стека")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
         public void Test3()
         {
             CancellationTokenSource source = new(1000);
@@ -63,7 +63,7 @@ namespace EMI.Test
             task.Wait(source.Token);
         }
 
-        [TestMethod("Проверка блокировки переполненого стека")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
         public void Test4()
         {
             try

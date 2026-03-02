@@ -7,65 +7,68 @@ using System.Threading.Tasks;
 namespace EMI.Test
 {
     [TestClass]
+    [DoNotParallelize]
     public class Test_NGCArray
     {
         [TestInitialize]
         public void Init()
         {
             NGCArray.ArrayLifetime = new TimeSpan(0, 0, 0, 0, 50);
+            NGCArray.ClearPool();
         }
 
         [TestMethod("Проверка реиспользования массива")]
         public void Test1()
         {
-            var arr1 = new NGCArray(1000);
-            new NGCArray(5000).Dispose();
-            var arr2 = new NGCArray(50000);
+            // Используем уникальные размеры чтобы избежать влияния других тестов
+            var arr1 = new NGCArray(10001);
+            new NGCArray(50001).Dispose();
+            var arr2 = new NGCArray(500001);
             byte[] a1 = arr1.Bytes;
             byte[] a2 = arr2.Bytes;
             arr1.Dispose();
             arr2.Dispose();
-            var arrT = new NGCArray(1000);
+            var arrT = new NGCArray(10001);
             Assert.AreEqual(a1, arrT.Bytes);
             arrT.Dispose();
-            arrT = new NGCArray(2000);
+            arrT = new NGCArray(20001);
             Assert.AreNotEqual(a2, arrT.Bytes);
             Assert.AreNotEqual(a1, arrT.Bytes);
             arrT.Dispose();
-            arrT = new NGCArray(15000);
+            arrT = new NGCArray(150001);
             Assert.AreEqual(a2, arrT.Bytes);
             arrT.Dispose();
 
-            Task.Delay(150).Wait();
+            Task.Delay(200).Wait();
         }
 
         [TestMethod("Проверка счётчиков и сборщика неиспользуемых массивов")]
         public void Test2()
         {
-            Task.Delay(150).Wait();
+            Task.Delay(200).Wait();
             Test1();
 
-            Assert.AreEqual(NGCArray.UseArrays, 0);
-            Assert.AreEqual(NGCArray.TotalUseSize, 0);
-            Assert.AreEqual(NGCArray.FreeArraysCount, 0);
-            Assert.AreEqual(NGCArray.TotalFreeArraysSize, 0);
-            var arr1 = new NGCArray(1000);
-            Assert.AreEqual(NGCArray.UseArrays, 1);
-            Assert.AreEqual(NGCArray.TotalUseSize, 1000);
+            Assert.AreEqual(0, NGCArray.UseArrays);
+            Assert.AreEqual(0, NGCArray.TotalUseSize);
+            Assert.AreEqual(0, NGCArray.FreeArraysCount);
+            Assert.AreEqual(0, NGCArray.TotalFreeArraysSize);
+            var arr1 = new NGCArray(10003);
+            Assert.AreEqual(1, NGCArray.UseArrays);
+            Assert.AreEqual(10003, NGCArray.TotalUseSize);
             var a = arr1.Bytes;
             arr1.Dispose();
-            Assert.AreEqual(NGCArray.UseArrays, 0);
-            Assert.AreEqual(NGCArray.FreeArraysCount, 1);
-            Assert.AreEqual(NGCArray.TotalFreeArraysSize, 1000);
-            Assert.AreEqual(NGCArray.TotalUseSize, 0);
-            Task.Delay(150).Wait();
-            Assert.AreEqual(NGCArray.UseArrays, 0);
-            Assert.AreEqual(NGCArray.FreeArraysCount, 0);
-            Assert.AreEqual(NGCArray.TotalFreeArraysSize, 0);
-            Assert.AreEqual(NGCArray.TotalUseSize, 0);
-            Assert.AreNotEqual(a, new NGCArray(1000).Bytes);
+            Assert.AreEqual(0, NGCArray.UseArrays);
+            Assert.AreEqual(1, NGCArray.FreeArraysCount);
+            Assert.AreEqual(10003, NGCArray.TotalFreeArraysSize);
+            Assert.AreEqual(0, NGCArray.TotalUseSize);
+            Task.Delay(200).Wait();
+            Assert.AreEqual(0, NGCArray.UseArrays);
+            Assert.AreEqual(0, NGCArray.FreeArraysCount);
+            Assert.AreEqual(0, NGCArray.TotalFreeArraysSize);
+            Assert.AreEqual(0, NGCArray.TotalUseSize);
+            Assert.AreNotEqual(a, new NGCArray(10002).Bytes);
 
-            Task.Delay(150).Wait();
+            Task.Delay(200).Wait();
         }
     }
 }

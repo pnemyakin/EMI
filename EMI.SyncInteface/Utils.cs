@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,14 +11,13 @@ namespace EMI.SyncInterface
 {
     using Indicators;
 
-    internal static class Utils
+    internal static partial class Utils
     {
         public static ModuleBuilder InitModuleBuilder()
         {
             SmartPackager.PackMethods.SetupAgainPackMethods(); //иначе smart packager будет пытаться просканировать несозданные типы и крашнет всю прогу
             AssemblyName aName = new AssemblyName("EMI.DynamicCodeGenerate.SyncInterface");
-            AppDomain appDomain = Thread.GetDomain();
-            AssemblyBuilder aBuilder = appDomain.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
+            AssemblyBuilder aBuilder = AssemblyBuilder.DefineDynamicAssembly(aName, AssemblyBuilderAccess.Run);
 
             return aBuilder.DefineDynamicModule(aName.Name);
         }
@@ -136,10 +137,10 @@ namespace EMI.SyncInterface
             return $"SyncInterface::Field#[{id++}]";
         }
 
-        public static bool IsAsync(this MethodInfo method,bool onlyTaskReturn = false)
+        public static bool IsAsync(this MethodInfo method, bool onlyTaskReturn = false)
         {
             var rp = method.ReturnParameter.ParameterType;
-            return rp == typeof(Task) && !onlyTaskReturn || rp.BaseType == typeof(Task);
+            return (rp == typeof(Task) && !onlyTaskReturn) || rp.BaseType == typeof(Task);
         }
 
         public static Type[] GetParametersType(this MethodInfo method)
@@ -151,65 +152,69 @@ namespace EMI.SyncInterface
             return mParameters;
         }
 
-        public static Delegate MakeRPCDelegate(Type[] types,object context,MethodInfo mi)
+// MakeRPCDelegate moved to Utils.Generated.cs (generated from Utils.Generated.tt)
+
+        /// <summary>
+        /// Создаёт RPCfunc делегат-обёртку для async метода, возвращающего Task (без результата).
+        /// Обёртка: () => method(...).GetAwaiter().GetResult()
+        /// </summary>
+        public static Delegate MakeRPCDelegateAsyncVoid(Type[] inTypes, object context, MethodInfo mi)
         {
-            switch (types.Length)
-            {
-                case 0: return Delegate.CreateDelegate(typeof(RPCfunc),context,mi);
-                case 1: return Delegate.CreateDelegate(typeof(RPCfunc<>).MakeGenericType(types), context,mi);
-                case 2: return Delegate.CreateDelegate(typeof(RPCfunc<,>).MakeGenericType(types),context,mi);
-                case 3: return Delegate.CreateDelegate(typeof(RPCfunc<,,>).MakeGenericType(types),context,mi);
-                case 4: return Delegate.CreateDelegate(typeof(RPCfunc<,,,>).MakeGenericType(types),context,mi);
-                case 5: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,>).MakeGenericType(types),context,mi);
-                case 6: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,>).MakeGenericType(types),context,mi);
-                case 7: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,>).MakeGenericType(types),context,mi);
-                case 8: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,>).MakeGenericType(types),context,mi);
-                case 9: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 10: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 11: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 12: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 13: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 14: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 15: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 16: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 17: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 18: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 19: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 20: return Delegate.CreateDelegate(typeof(RPCfunc<,,,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                default: throw new IndexOutOfRangeException();
-            }
+            var targetConst = Expression.Constant(context);
+            var paramExprs = new ParameterExpression[inTypes.Length];
+            for (int i = 0; i < inTypes.Length; i++)
+                paramExprs[i] = Expression.Parameter(inTypes[i], "p" + i);
+
+            var callExpr = Expression.Call(targetConst, mi, paramExprs);
+
+            var getAwaiterMethod = typeof(Task).GetMethod(nameof(Task.GetAwaiter));
+            var awaiterType = typeof(TaskAwaiter);
+            var getResultMethod = awaiterType.GetMethod(nameof(TaskAwaiter.GetResult));
+
+            var awaiterVar = Expression.Variable(awaiterType, "awaiter");
+            var bodyBlock = Expression.Block(
+                new[] { awaiterVar },
+                Expression.Assign(awaiterVar, Expression.Call(callExpr, getAwaiterMethod)),
+                Expression.Call(awaiterVar, getResultMethod)
+            );
+
+            Type delegateType = GetRPCfuncDelegateType(inTypes);
+            return Expression.Lambda(delegateType, bodyBlock, paramExprs).Compile();
         }
 
-        public static Delegate MakeRPCDelegateOut(Type outType, Type[] inTypes, object context, MethodInfo mi)
+        /// <summary>
+        /// Создаёт RPCfuncOut делегат-обёртку для async метода, возвращающего Task&lt;T&gt;.
+        /// Обёртка: () => method(...).GetAwaiter().GetResult() → T
+        /// </summary>
+        public static Delegate MakeRPCDelegateAsyncOut(Type returnType, Type[] inTypes, object context, MethodInfo mi)
         {
-            var types = new Type[inTypes.Length + 1];
-            types[0] = outType;
+            var targetConst = Expression.Constant(context);
+            var paramExprs = new ParameterExpression[inTypes.Length];
             for (int i = 0; i < inTypes.Length; i++)
-                types[i + 1] = inTypes[i];
-            switch (types.Length)
-            {
-                case 1: return Delegate.CreateDelegate(typeof(RPCfuncOut<>).MakeGenericType(types),context,mi);
-                case 2: return Delegate.CreateDelegate(typeof(RPCfuncOut<,>).MakeGenericType(types),context,mi);
-                case 3: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,>).MakeGenericType(types),context,mi);
-                case 4: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,>).MakeGenericType(types),context,mi);
-                case 5: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,>).MakeGenericType(types),context,mi);
-                case 6: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,>).MakeGenericType(types),context,mi);
-                case 7: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,>).MakeGenericType(types),context,mi);
-                case 8: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,>).MakeGenericType(types),context,mi);
-                case 9: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 10: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 11: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 12: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 13: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 14: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 15: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 16: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 17: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 18: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 19: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                case 20: return Delegate.CreateDelegate(typeof(RPCfuncOut<,,,,,,,,,,,,,,,,,,,>).MakeGenericType(types),context,mi);
-                default: throw new IndexOutOfRangeException();
-            }
+                paramExprs[i] = Expression.Parameter(inTypes[i], "p" + i);
+
+            var callExpr = Expression.Call(targetConst, mi, paramExprs);
+
+            var taskType = typeof(Task<>).MakeGenericType(returnType);
+            var getAwaiterMethod = taskType.GetMethod(nameof(Task.GetAwaiter));
+            var awaiterType = typeof(TaskAwaiter<>).MakeGenericType(returnType);
+            var getResultMethod = awaiterType.GetMethod("GetResult");
+
+            var awaiterVar = Expression.Variable(awaiterType, "awaiter");
+            var bodyBlock = Expression.Block(
+                returnType,
+                new[] { awaiterVar },
+                Expression.Assign(awaiterVar, Expression.Call(callExpr, getAwaiterMethod)),
+                Expression.Call(awaiterVar, getResultMethod)
+            );
+
+            var types = new Type[inTypes.Length + 1];
+            types[0] = returnType;
+            Array.Copy(inTypes, 0, types, 1, inTypes.Length);
+            Type delegateType = GetRPCfuncOutDelegateType(types);
+            return Expression.Lambda(delegateType, bodyBlock, paramExprs).Compile();
         }
+
+// GetRPCfuncDelegateType, GetRPCfuncOutDelegateType, MakeRPCDelegateOut moved to Utils.Generated.cs
     }
 }

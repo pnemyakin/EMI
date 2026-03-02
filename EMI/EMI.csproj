@@ -1,115 +1,74 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E73775B8-58DD-45A6-A686-BD5878F7E5CA}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>EMI</RootNamespace>
     <AssemblyName>EMI</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
     <DefineConstants>TRACE;DEBUG;Debug</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Debug\EMI.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>
-    </CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <DocumentationFile>bin\Release\EMI.xml</DocumentationFile>
-    <PlatformTarget>x64</PlatformTarget>
+    <Optimize>true</Optimize>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\..\SmartPackager\SmartPackager\SmartPackager.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="AClient.cs" />
-    <Compile Include="Client.cs" />
-    <Compile Include="CurrentTime.cs" />
-    <Compile Include="DebugLog\Logger.cs" />
-    <Compile Include="DebugLog\LogInfo.cs" />
-    <Compile Include="DebugLog\LogMessage.cs" />
-    <Compile Include="DebugLog\Messages.cs" />
-    <Compile Include="DebugUtil.cs" />
-    <Compile Include="Deterministic.cs" />
-    <Compile Include="DPack.cs" />
-    <Compile Include="Exception\AlreadyException.cs" />
-    <Compile Include="Exception\ClientViolationRightsException.cs" />
-    <Compile Include="Exception\RegisterLimitException.cs" />
-    <Compile Include="Exception\RPCRegisterNameException.cs" />
-    <Compile Include="FixedStack.cs" />
-    <Compile Include="Headless\HeadlessHandler.cs" />
-    <Compile Include="Indicators\AIndicator.cs" />
-    <Compile Include="Indicators\Indicator.cs" />
-    <Compile Include="InputStackBuffer.cs" />
-    <Compile Include="Network\RandomDropType.cs" />
-    <Compile Include="NGC\EasyArray.cs" />
-    <Compile Include="NGC\INGCArray.cs" />
-    <Compile Include="NGC\INGCArrayUtils.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="RCType.cs" />
-    <Compile Include="RCWaitHandle.cs" />
-    <Compile Include="RPC\IRPCRemoveHandle.cs" />
-    <Compile Include="RPC\IRPCReturn.cs" />
-    <Compile Include="Network\INetworkService.cs" />
-    <Compile Include="Network\INetworkClient.cs" />
-    <Compile Include="Network\INetworkServer.cs" />
-    <Compile Include="Exception\ClientDisconnectException.cs" />
-    <Compile Include="PacketType.cs" />
-    <Compile Include="NGC\NGCArray.cs" />
-    <Compile Include="RPC\RPCFuncDelegate.cs" />
-    <Compile Include="RPC\RPC.cs" />
-    <Compile Include="RPC\RPCReturn.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="TaskUtilities.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SmartPackager\SmartPackager\SmartPackager.csproj">
-      <Project>{7bb03a3c-b5ed-474d-89b0-c457630c5cfe}</Project>
-      <Name>SmartPackager</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Defines.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Indicators\Indicator.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Indicator.tt</DependentUpon>
+    </Compile>
+    <Compile Update="RPC\RPCFuncDelegate.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPCFuncDelegate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="RPC\RPC.g.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RPC.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Indicators\Indicator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Indicator.g.cs</LastGenOutput>
+    </None>
+    <None Update="RPC\RPCFuncDelegate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RPCFuncDelegate.g.cs</LastGenOutput>
+    </None>
+    <None Update="RPC\RPC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RPC.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+
 </Project>

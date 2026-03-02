@@ -75,6 +75,7 @@ namespace EMI.Indicators
                 sendArray.Bytes[0] = packetType;
 
                 PackUp(sendArray);
+                sendArray.Offset = 0; // Offset использовался как курсор записи; данные начинаются с 0
 
                 await client.Send(sendArray, guarant, token).ConfigureAwait(false);
                 if (type == RCType.ReturnWait)
@@ -91,10 +92,7 @@ namespace EMI.Indicators
                         tokenPro = token;
                     }
 
-                    lock (client.RPCReturn)
-                    {
-                        client.RPCReturn.Add(ID, handle);
-                    }
+                    client.RPCReturn.TryAdd(ID, handle);
                     await handle.Semaphore.WaitAsync(tokenPro).ConfigureAwait(false);
                 }
             }

@@ -1,5 +1,5 @@
 ﻿using EMI;
-using NetBaseTCP;
+using EMI.Network.NetTCPV3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +35,7 @@ namespace TestSyncInterface
 
         private static void Run(string[] args)
         {
-            Client client = new Client(NetBaseTCPService.Service);
+            Client client = new Client(NetTCPV3Service.Service);
             
             var sync = new SyncInterface<ITest>("MyTest");
             sync.RegisterClass(client, new MyTest());
@@ -45,7 +45,7 @@ namespace TestSyncInterface
             {
                 System.Diagnostics.Process.Start("server.bat");
 
-                client = new Client(NetBaseTCPService.Service);
+                client = new Client(NetTCPV3Service.Service);
                 client.Disconnected += Client_Disconnected;
             reconect:
                 Console.WriteLine("Попытка подключиться...");//"31.10.114.169#25566"
@@ -65,7 +65,7 @@ namespace TestSyncInterface
             }//server
             else
             {
-                Server server = new Server(NetBaseTCPService.Service);
+                Server server = new Server(NetTCPV3Service.Service);
                 server.Start("any#25566");
 
                 MyTest test = new MyTest();

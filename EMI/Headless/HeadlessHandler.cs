@@ -47,6 +47,11 @@ namespace EMI.Headless
         private readonly static TaskFactory TaskLongFactory = new TaskFactory(TaskCreationOptions.LongRunning, TaskContinuationOptions.None);
 
         /// <summary>
+        /// Middleware для обработки пакетов (null = без middleware)
+        /// </summary>
+        private IPacketMiddleware[] _middlewares;
+
+        /// <summary>
         /// Инициализирует HeadlessHandler
         /// </summary>
         /// <param name="onSendPacket">Метод отправки пакетов</param>
@@ -63,31 +68,62 @@ namespace EMI.Headless
                 LocalRPC = new RPC();
             }
             OnSendPacket = onSendPacket;
-        }
-
-        private readonly EasyArray PingPacketArray = InitPingPacketArray();
-
-        private static EasyArray InitPingPacketArray()
-        {
-            const int size = DPack.sizeof_DPing + 1; 
-            var array = new EasyArray(size);
-            array.Bytes[0] = (byte)PacketType.Ping_Send;
-            return array;
+            RPCReturn = new System.Collections.Concurrent.ConcurrentDictionary<int, RCWaitHandle>();
         }
 
         /// <summary>
-        /// Заставляет клиента проверить пинг один раз
+        /// Устанавливает middleware для обработки исходящих/входящих пакетов.
+        /// Порядок: compress → encrypt (при отправке), decrypt → decompress (при приёме).
+        /// </summary>
+        public void UseMiddleware(params IPacketMiddleware[] middlewares)
+        {
+            _middlewares = middlewares != null && middlewares.Length > 0 ? middlewares : null;
+        }
+
+        /// <summary>
+        /// Заставляет клиента проверить пинг один раз (thread-safe)
         /// </summary>
         public void OneSendPing()
         {
-            DPack.DPing.PackUP(PingPacketArray.Bytes, 1, TickTime.Now);
-            OnSendPacket(PingPacketArray, true);
+            const int size = DPack.sizeof_DPing + 1;
+            var array = new EasyArray(size);
+            array.Bytes[0] = (byte)PacketType.Ping_Send;
+            DPack.DPing.PackUP(array.Bytes, 1, TickTime.Now);
+            SendWithMiddleware(array, true);
         }
 
         /// <summary>
-        /// Процесс обработки пакета
+        /// Процесс обработки пакета.
+        /// Если установлен middleware, входящий пакет будет обработан (расшифрован/распакован) перед разбором.
         /// </summary>
         public void AcceptPacket(INGCArray array)
+        {
+            // Применяем middleware (reverse chain: decrypt → decompress)
+            if (_middlewares != null)
+            {
+                INGCArray current = array;
+                try
+                {
+                    for (int i = _middlewares.Length - 1; i >= 0; i--)
+                    {
+                        var next = _middlewares[i].ProcessIncoming(current);
+                        if (current != array)
+                            current.Dispose();
+                        current = next;
+                    }
+                    AcceptPacketInner(current);
+                }
+                finally
+                {
+                    if (current != array)
+                        current?.Dispose();
+                }
+                return;
+            }
+            AcceptPacketInner(array);
+        }
+
+        private void AcceptPacketInner(INGCArray array)
         {
             PacketType packetType = (PacketType)array.Bytes[array.Offset];
             array.Offset += 1;
@@ -95,7 +131,7 @@ namespace EMI.Headless
             {
                 case PacketType.Ping_Send:
                     array.Bytes[array.Offset - 1] = (byte)PacketType.Ping_Receive;
-                    OnSendPacket(array, true);
+                    SendWithMiddleware(array, true);
                     break;
                 case PacketType.Ping_Receive:
                     DPack.DPing.UnPack(array.Bytes, array.Offset, out var time);
@@ -115,33 +151,32 @@ namespace EMI.Headless
                     break;
                 case PacketType.RPC_Returned:
                     {
-                        Task.Factory.StartNew(async () =>
+                        DPack.DRPC.UnPack(array.Bytes, array.Offset, out var returnedId);
+                        array.Offset += sizeof(int);
+
+                        if (RPCReturn.TryRemove(returnedId, out var handle))
                         {
-                            DPack.DRPC.UnPack(array.Bytes, array.Offset, out var id);
-                            array.Offset += sizeof(int);
-
-                            RCWaitHandle handle;
-
-                            CancellationTokenSource source = new CancellationTokenSource(new TimeSpan(0, 5, 0));
-
-                            while (!RPCReturn.TryGetValue(id, out handle))
-                            {
-                                if (source.IsCancellationRequested)
-                                {
-                                    return;
-                                }
-                                await Task.Yield();
-                            }
-
-                            source.Dispose();
-
-                            lock (RPCReturn)
-                            {
-                                RPCReturn.Remove(id);
-                            }
                             handle.Indicator.UnPack(array);
                             handle.Semaphore.Release();
-                        });
+                        }
+                        else
+                        {
+                            // Handle может ещё не быть зарегистрирован — ждём асинхронно
+                            Task.Run(async () =>
+                            {
+                                using (var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)))
+                                {
+                                    while (!RPCReturn.TryRemove(returnedId, out handle))
+                                    {
+                                        if (cts.IsCancellationRequested)
+                                            return;
+                                        await Task.Delay(1).ConfigureAwait(false);
+                                    }
+                                    handle.Indicator.UnPack(array);
+                                    handle.Semaphore.Release();
+                                }
+                            });
+                        }
                     }
                     break;
                 case PacketType.RPC_Forwarding:
@@ -189,7 +224,8 @@ namespace EMI.Headless
                             sendArray.Offset += bsize;
                             @return.PackUp(sendArray);
                         }
-                        OnSendPacket(sendArray, true);
+                        sendArray.Offset = 0; // сбрасываем offset перед отправкой
+                        SendWithMiddleware(sendArray, true);
                     }
                     finally
                     {
@@ -203,7 +239,9 @@ namespace EMI.Headless
             }
             else
             {
-                Console.WriteLine(Messages.RPCNotFount.Message, id);
+#if DEBUG
+                Console.WriteLine($"EMI => Warning => HeadlessHandler: {Messages.RPCNotFound.Format(id, "unknown")}");
+#endif
             }
         }
 
@@ -218,8 +256,44 @@ namespace EMI.Headless
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal override Task Send(INGCArray array, bool guaranteed, CancellationToken token)
         {
-            OnSendPacket(array, guaranteed);
+            SendWithMiddleware(array, guaranteed);
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Применяет middleware (compress → encrypt) и передаёт в OnSendPacket
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void SendWithMiddleware(INGCArray array, bool guaranteed)
+        {
+            if (_middlewares == null || _middlewares.Length == 0)
+            {
+                OnSendPacket(array, guaranteed);
+                return;
+            }
+
+            INGCArray current = array;
+            INGCArray previous = null;
+            try
+            {
+                for (int i = 0; i < _middlewares.Length; i++)
+                {
+                    var next = _middlewares[i].ProcessOutgoing(current);
+                    if (previous != null)
+                        previous.Dispose();
+                    previous = current != array ? current : null;
+                    current = next;
+                }
+                if (previous != null && previous != current)
+                    previous.Dispose();
+
+                OnSendPacket(current, guaranteed);
+            }
+            finally
+            {
+                if (current != null && current != array)
+                    current.Dispose();
+            }
         }
     }
 }

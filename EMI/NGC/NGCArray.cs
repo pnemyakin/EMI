@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-[assembly: InternalsVisibleTo("EMI.Test")]
 namespace EMI.NGC
 {
     /// <summary>
@@ -22,7 +21,7 @@ namespace EMI.NGC
         /// <summary>
         /// Запущена ли задача очистки массивов
         /// </summary>
-        private static bool CleaningTimer = false;
+        private static volatile bool CleaningTimer = false;
 
         /// <summary>
         /// Сколько массивов используется [<see cref=" FreeArrays"/> не учитываются]
@@ -169,15 +168,32 @@ namespace EMI.NGC
 
                     Bytes = null;
                     if (!CleaningTimer)
-                        Cleaner();
+                        _ = Cleaner();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Очищает пул свободных массивов (для тестов)
+        /// </summary>
+        internal static void ClearPool()
+        {
+            lock (FreeArrays)
+            {
+#if DEBUG
+                TotalFreeArraysSize = 0;
+                TotalUseSize = 0;
+                UseArrays = 0;
+#endif
+                FreeArrays.Clear();
+                CleaningTimer = false;
             }
         }
 
         /// <summary>
         /// Ждёт/Удаляет неиспользуемые массивы
         /// </summary>
-        private static async void Cleaner()
+        private static async Task Cleaner()
         {
             CleaningTimer = true;
             while (true)

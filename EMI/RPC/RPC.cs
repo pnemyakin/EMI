@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -11,24 +11,24 @@ namespace EMI
     using MyException;
     using RPCInternal;
     /// <summary>
-    /// Отвечает за регистрирование удалённых процедур для последующего вызова
+    /// �������� �� ��������������� �������� �������� ��� ������������ ������
     /// </summary>
-    public class RPC
+    public partial class RPC
     {
         /// <summary>
-        /// Содержит в себе код по запуску функции
+        /// �������� � ���� ��� �� ������� �������
         /// </summary>
-        /// <param name="array">необработанный пакет данных</param>
+        /// <param name="array">�������������� ����� ������</param>
         /// <returns></returns>
         internal delegate IRPCReturn MicroFunc(INGCArray array);
         /// <summary>
-        /// Указывает каким клиентам необходимо выполнить пересылку
+        /// ��������� ����� �������� ���������� ��������� ���������
         /// </summary>
-        /// <param name="sendClient">какой клиент хочет произвевти пересылку</param>
+        /// <param name="sendClient">����� ������ ����� ���������� ���������</param>
         /// <returns></returns>
         public delegate Client[] ForwardingInfo(Client sendClient);
         /// <summary>
-        /// Зарегестрированные функции - используется при вызове
+        /// ������������������ ������� - ������������ ��� ������
         /// </summary>
         private readonly Dictionary<int, MicroFunc> RegisteredMethods = new Dictionary<int, MicroFunc>();
         private readonly Dictionary<int, ForwardingInfo> RegisteredForwarding = new Dictionary<int, ForwardingInfo>();
@@ -40,43 +40,93 @@ namespace EMI
 
 #if DEBUG
         /// <summary>
-        /// Получает список зарегистрированных функций
+        /// �������� ������ ������������������ �������
         /// </summary>
         /// <returns></returns>
         public KeyValuePair<int,(string,int)>[] GetRegisteredMethodsName()
         {
-            return RegisteredMethodsName.ToArray();
+            lock (this)
+            {
+                return RegisteredMethodsName.ToArray();
+            }
         }
 
         /// <summary>
-        /// Получает список зарегистрированных функций (Forwarding)
+        /// �������� ������ ������������������ ������� (Forwarding)
         /// </summary>
         /// <returns></returns>
         public KeyValuePair<int, string>[] GetRegisteredForwardingName()
         {
-            return RegisteredForwardingName.ToArray();
+            lock (this)
+            {
+                return RegisteredForwardingName.ToArray();
+            }
         }
 #endif
 
 #if DEBUG
         /// <summary>
-        /// Вызывается когда изменён список зарегистрированных методов
+        /// ���������� ����� ������� ������ ������������������ �������
         /// </summary>
         public event Action OnChangedRegisteredMethods;
         /// <summary>
-        /// Вызывается когда изменён список зарегистрированных методов (Forwarding)
+        /// ���������� ����� ������� ������ ������������������ ������� (Forwarding)
         /// </summary>
         public event Action OnChangedRegisteredMethodsForwarding;
 #endif
         /// <summary>
-        /// Необходим для HeadlessHandler, в остальных случаях конструктор вызывать не требуется
+        /// ��������� ��� HeadlessHandler, � ��������� ������� ����������� �������� �� ���������
         /// </summary>
         public RPC()
         {
         }
 
         /// <summary>
-        /// Пытается получить функцию по айди - если не получиться вернёт null (потоко-безопасен)
+        /// ���������� ������ � ����������� � ������ (��� + ID � DEBUG, ������ ID � Release)
+        /// </summary>
+        internal string GetMethodInfo(int ID)
+        {
+#if DEBUG
+            lock (this)
+            {
+                if (RegisteredMethodsName.TryGetValue(ID, out var info))
+                    return $"{info.Item1} (ID: {ID})";
+            }
+#endif
+            return $"ID: {ID}";
+        }
+
+        /// <summary>
+        /// ���������� ������ ������������������ ������� ��� �����������
+        /// </summary>
+        internal string GetRegisteredMethodsList()
+        {
+#if DEBUG
+            lock (this)
+            {
+                if (RegisteredMethodsName.Count == 0)
+                    return "(�����)";
+                return string.Join(", ", RegisteredMethodsName.Values.Select(v => v.Item1));
+            }
+#else
+            return "(�������� ������ � DEBUG)";
+#endif
+        }
+
+        /// <summary>
+        /// �������� ���������� ��� ������ RPC ������
+        /// </summary>
+        internal static void LogRPCException(AIndicator indicator, Exception e)
+        {
+#if DEBUG
+            Console.WriteLine($"EMI RPC => Exception in [{indicator.Name}] (ID: {indicator.ID}): {e}");
+#else
+            Console.WriteLine($"EMI RPC => Exception (ID: {indicator.ID}): {e}");
+#endif
+        }
+
+        /// <summary>
+        /// �������� �������� ������� �� ���� - ���� �� ���������� ������ null (������-���������)
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -90,7 +140,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// Пытается получить функцию по айди - если не получиться вернёт null (потоко-безопасен)
+        /// �������� �������� ������� �� ���� - ���� �� ���������� ������ null (������-���������)
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -104,7 +154,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// Производит основную регистрацию метода (остаётся только написать микрофункцию)
+        /// ���������� �������� ����������� ������ (������� ������ �������� ������������)
         /// </summary>
         /// <param name="indicator"></param>
         /// <param name="micro"></param>
@@ -136,10 +186,10 @@ namespace EMI
         }
 
         /// <summary>
-        /// Регестрирует метод пересылки вызовов
+        /// ������������ ����� ��������� �������
         /// </summary>
-        /// <param name="indicator">ссылка на функцию для вызова на указанных клиентах</param>
-        /// <param name="info">функция будет вызываться при пересылке сообщений и должна вернуть список клиентов которым необходимо отправить пересылку</param>
+        /// <param name="indicator">������ �� ������� ��� ������ �� ��������� ��������</param>
+        /// <param name="info">������� ����� ���������� ��� ��������� ��������� � ������ ������� ������ �������� ������� ���������� ��������� ���������</param>
         /// <returns></returns>
         public IRPCRemoveHandle RegisterForwarding(AIndicator indicator, ForwardingInfo info)
         {
@@ -159,560 +209,10 @@ namespace EMI
             }
         }
 
-#region RegisterMethod
-        /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">имя ключа</param>
-        public IRPCRemoveHandle RegisterMethod(RPCfunc method, Indicator.Func indicator)
-        {
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-             {
-                 try
-                 {
-                     method();
-                 }
-                 catch (Exception e)
-                 {
-                     Console.WriteLine("EMI RPC => " + e);
-                 }
-                 return null;
-             });
-        }
+// RegisterMethod overloads moved to RPC.Generated.cs (generated from RPC.Generated.tt)
 
         /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1>(RPCfunc<T1> method, Indicator.Func<T1> indicator)
-        {
-            var packager = Packager.Create<T1>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-             {
-                 packager.UnPack(array.Bytes, array.Offset, out T1 t1);
-                 try
-                 {
-                     method(t1);
-                 }
-                 catch (Exception e)
-                 {
-                     //TODO Loging
-                     Console.WriteLine("EMI RPC => " + e);
-                 }
-                 return null;
-             });
-        }
-
-        /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2>(RPCfunc<T1, T2> method, Indicator.Func<T1, T2> indicator)
-        {
-            var packager = Packager.Create<T1, T2>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2);
-                try
-                {
-                    method(t1, t2);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3>(RPCfunc<T1, T2, T3> method, Indicator.Func<T1, T2, T3> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3);
-                try
-                {
-                    method(t1, t2, t3);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4>(RPCfunc<T1, T2, T3, T4> method, Indicator.Func<T1, T2, T3, T4> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4);
-                try
-                {
-                    method(t1, t2, t3, t4);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5>(RPCfunc<T1, T2, T3, T4, T5> method, Indicator.Func<T1, T2, T3, T4, T5> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5);
-                try
-                {
-                    method(t1, t2, t3, t4, t5);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6>(RPCfunc<T1, T2, T3, T4, T5, T6> method, Indicator.Func<T1, T2, T3, T4, T5, T6> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6);
-                try
-                {
-                    method(t1, t2, t3, t4, t5, t6);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7>(RPCfunc<T1, T2, T3, T4, T5, T6, T7> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7);
-                try
-                {
-                    method(t1, t2, t3, t4, t5, t6, t7);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8);
-                try
-                {
-                    method(t1, t2, t3, t4, t5, t6, t7, t8);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9);
-                try
-                {
-                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10);
-                try
-                {
-                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10);
-                }
-                catch (Exception
-        e)
-                {
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                return null;
-            });
-        }
-        #endregion
-        #region RegisterMethodReturned
-        /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<Tout>(RPCfuncOut<Tout> method, Indicator.FuncOut<Tout> indicator)
-        {
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                Tout data;
-                try
-                {
-                    data = method();
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<Tout, T1>(RPCfuncOut<Tout, T1> method, Indicator.FuncOut<Tout,T1> indicator)
-        {
-            var packager = Packager.Create<T1>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1);
-                Tout data;
-                try
-                {
-                    data = method(t1);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary>
-        /// Регистрирует метод для возможности вызвать его
-        /// </summary>
-        /// <param name="method">метод</param>
-        /// <param name="indicator">ссылка на метод</param>
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2>(RPCfuncOut<Tout, T1, T2> method, Indicator.FuncOut<Tout, T1, T2> indicator)
-        {
-            var packager = Packager.Create<T1,T2>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1,out T2 t2);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3>(RPCfuncOut<Tout, T1, T2, T3> method, Indicator.FuncOut<Tout, T1, T2, T3> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4>(RPCfuncOut<Tout, T1, T2, T3, T4> method, Indicator.FuncOut<Tout, T1, T2, T3, T4> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5>(RPCfuncOut<Tout, T1, T2, T3, T4, T5> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5, t6);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5, t6, t7);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5, t6, t7, t8);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        /// <summary> 
-        /// Регистрирует метод для возможности вызвать его 
-        /// </summary> 
-        /// <param name="method">метод</param> 
-        /// <param name="indicator">ссылка на метод</param> 
-        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10> indicator)
-        {
-            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>();
-            var @out = RPCReturn<Tout>.Create();
-            return RegisterMethodHelp(indicator, (INGCArray array) =>
-            {
-                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10);
-                Tout data;
-                try
-                {
-                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10);
-                }
-                catch (Exception e)
-                {
-                    data = default;
-                    Console.WriteLine("EMI RPC => " + e);
-                }
-                @out.Set(data);
-                return @out;
-            });
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Позволяет удалить зарегистрированный метод
+        /// ��������� ������� ������������������ �����
         /// </summary>
         public class RemoveHandleMethod : IRPCRemoveHandle
         {
@@ -729,7 +229,7 @@ namespace EMI
             }
 
             /// <summary>
-            /// Удаляет метод из списка зарегестрированных (его больше нельзя будет вызвать)
+            /// ������� ����� �� ������ ������������������ (��� ������ ������ ����� �������)
             /// </summary>
             public void Remove()
             {
@@ -766,7 +266,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// Позволяет удалить зарегистрированный метод
+        /// ��������� ������� ������������������ �����
         /// </summary>
         public class RemoveHandleForwarding : IRPCRemoveHandle
         {
@@ -781,7 +281,7 @@ namespace EMI
             }
 
             /// <summary>
-            /// Удаляет метод из списка зарегестрированных (его больше нельзя бужет вызвать)
+            /// ������� ����� �� ������ ������������������ (��� ������ ������ ����� �������)
             /// </summary>
             public void Remove()
             {
@@ -802,23 +302,23 @@ namespace EMI
         }
 
         /// <summary>
-        /// Позволяет добавить все методы в группу что бы удалить всю группу когда это будет нужно
+        /// ��������� �������� ��� ������ � ������ ��� �� ������� ��� ������ ����� ��� ����� �����
         /// </summary>
         public class RemoveHandleGroup
         {
             private readonly HashSet<IRPCRemoveHandle> Handles = new HashSet<IRPCRemoveHandle>();
 
             /// <summary>
-            /// Добавить метод в группу для удаления
+            /// �������� ����� � ������ ��� ��������
             /// </summary>
-            /// <param name="handle">метод</param>
+            /// <param name="handle">�����</param>
             public void Add(IRPCRemoveHandle handle)
             {
                 Handles.Add(handle);
             }
 
             /// <summary>
-            /// Удалить все добавленные методы
+            /// ������� ��� ����������� ������
             /// </summary>
             public void RemoveAll()
             {

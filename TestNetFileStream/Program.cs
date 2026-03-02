@@ -1,6 +1,5 @@
 ﻿using EMI;
-using EMI.NetParallelTCP;
-using NetBaseTCP;
+using EMI.Network.NetTCPV3;
 using EMI.NetStream;
 using System.Diagnostics;
 
@@ -17,7 +16,7 @@ if (args.Length == 0 || args[0].Trim().ToLower() == "client")
     //if (args.Length != 0)
     //    System.Diagnostics.Process.Start("server.bat");
 
-    client = new(NetParallelTCPService.Service);
+    client = new(NetTCPV3Service.Service);
     client.Disconnected += Client_Disconnected;
 reconect:
     Console.WriteLine("Попытка подключиться...");//"31.10.114.169#25566"
@@ -54,7 +53,7 @@ reconect:
 }//server
 else
 {
-    Server server = new Server(NetParallelTCPService.Service);
+    Server server = new Server(NetTCPV3Service.Service);
     Console.WriteLine("Нажмите кнопку что бы запустить сервер");
     Console.ReadLine();
 

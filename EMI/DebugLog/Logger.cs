@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EMI.DebugLog
 {
@@ -31,20 +27,11 @@ namespace EMI.DebugLog
 
         }
 
-//        private static string Trace()
-//        {
-//#if DEBUG
-//            return $"\nDebugTrace: {DebugUtil.GetStackTrace()}";
-//#else
-//            return "";
-//#endif
-//        }
-
-        internal void Log(LogMessage message,params object[] format)
+        internal void Log(LogMessage message, params object[] format)
         {
 #if DEBUG
-            string msg = string.Format(message.Message, format);
-            Console.WriteLine($"EMI => {message.Type} => {msg}");
+            string msg = message.ArgCount > 0 ? message.Format(format) : message.Message;
+            Console.WriteLine(string.Concat("EMI => ", message.Type.ToString(), " => ", msg));
             OnMessage?.Invoke(null, message.Type, DateTime.Now, msg);
 #endif
         }
@@ -52,8 +39,8 @@ namespace EMI.DebugLog
         internal void Log(Client client, LogMessage message, params object[] format)
         {
 #if DEBUG
-            string msg = string.Format(message.Message, format);
-            Console.WriteLine($"EMI => {message.Type} => client: {client.RemoteAddress} => {msg}");
+            string msg = message.ArgCount > 0 ? message.Format(format) : message.Message;
+            Console.WriteLine(string.Concat("EMI => ", message.Type.ToString(), " => client: ", client.RemoteAddress, " => ", msg));
             OnMessage?.Invoke(client, message.Type, DateTime.Now, msg);
 #endif
         }
@@ -62,8 +49,8 @@ namespace EMI.DebugLog
         internal void Log(HeadlessHandler client, LogMessage message, params object[] format)
         {
 #if DEBUG
-            string msg = string.Format(message.Message, format);
-            Console.WriteLine($"EMI => {message.Type} => client: {client.RemoteAddress} => {msg}");
+            string msg = message.ArgCount > 0 ? message.Format(format) : message.Message;
+            Console.WriteLine(string.Concat("EMI => ", message.Type.ToString(), " => client: ", client.ToString(), " => ", msg));
             OnMessage?.Invoke(null, message.Type, DateTime.Now, msg);
 #endif
         }

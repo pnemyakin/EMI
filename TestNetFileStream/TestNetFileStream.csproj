@@ -8,10 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EMI.NetParallelTCP\EMI.NetParallelTCP.csproj" />
+    <ProjectReference Include="..\EMI.NetTCPV3\EMI.NetTCPV3.csproj" />
     <ProjectReference Include="..\EMI.NetStream\EMI.NetStream.csproj" />
     <ProjectReference Include="..\EMI\EMI.csproj" />
-    <ProjectReference Include="..\NetBaseTCP\NetBaseTCP.csproj" />
   </ItemGroup>
 
   <ItemGroup>

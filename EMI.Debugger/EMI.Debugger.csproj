@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
@@ -32,8 +32,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EMI.DebugServer\EMI.DebugServer.csproj" />
-    <ProjectReference Include="..\EMI\EMI.csproj" />
-    <ProjectReference Include="..\NetBaseTCP\NetBaseTCP.csproj" />
+    <ProjectReference Include="..\EMI\EMI.csproj">
+      <SetConfiguration>Configuration=Debug</SetConfiguration>
+    </ProjectReference>
+    <ProjectReference Include="..\EMI.NetTCPV3\EMI.NetTCPV3.csproj" />
   </ItemGroup>
 
   <ItemGroup>

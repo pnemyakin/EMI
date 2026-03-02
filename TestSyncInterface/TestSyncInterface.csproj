@@ -68,9 +68,9 @@
       <Project>{e73775b8-58dd-45a6-a686-bd5878f7e5ca}</Project>
       <Name>EMI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NetBaseTCP\NetBaseTCP.csproj">
-      <Project>{fe1deb7c-fa5e-4da1-b2e2-58530b36f40a}</Project>
-      <Name>NetBaseTCP</Name>
+    <ProjectReference Include="..\EMI.NetTCPV3\EMI.NetTCPV3.csproj">
+      <Project>{690c9063-3950-49b7-94d8-edada832c8f4}</Project>
+      <Name>EMI.NetTCPV3</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

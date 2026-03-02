@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 
 namespace EMI.SyncInterface
 {
@@ -16,11 +15,10 @@ namespace EMI.SyncInterface
     public class SyncInterface<T> where T : class
     {
         private readonly static ModuleBuilder MBuilder = Utils.InitModuleBuilder();
-        private readonly static Dictionary<Type, InterfaceTypes> CachedInterfaces = new Dictionary<Type, InterfaceTypes>();
+        private readonly static ConcurrentDictionary<Type, InterfaceTypes> CachedInterfaces = new ConcurrentDictionary<Type, InterfaceTypes>();
+        private readonly static object BuildLock = new object();
 
         private InterfaceTypes Types;
-        private readonly List<MarkeredMethod> ServerMethods = new List<MarkeredMethod>();
-        private readonly List<MarkeredMethod> ClientMethods = new List<MarkeredMethod>();
 
         public SyncInterface(string name)
         {
@@ -28,9 +26,17 @@ namespace EMI.SyncInterface
             if (!interfaceType.IsInterface)
                 throw new InvalidInterfaceException("A generic type is not an interface!");
 
+            Types = CachedInterfaces.GetOrAdd(interfaceType, _ => BuildInterfaceTypes(interfaceType, name));
+        }
 
-            if (!CachedInterfaces.TryGetValue(interfaceType, out InterfaceTypes types))
+        private static InterfaceTypes BuildInterfaceTypes(Type interfaceType, string name)
+        {
+            lock (BuildLock) // ModuleBuilder не потокобезопасен
             {
+                // Повторная проверка после захвата блокировки
+                if (CachedInterfaces.TryGetValue(interfaceType, out InterfaceTypes existing))
+                    return existing;
+
                 const MethodAttributes mAttributes = MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.HideBySig | MethodAttributes.NewSlot;
                 const FieldAttributes fieldAttributes = FieldAttributes.Private | FieldAttributes.SpecialName;
 
@@ -45,12 +51,14 @@ namespace EMI.SyncInterface
                 var fieldClientServer = tBuilderServer.DefineField(Utils.FieldNameCreate(ref NameID), typeof(Client), fieldAttributes);
                 var ServerFields = new List<FieldList>();
                 var ClientFields = new List<FieldList>();
+                var serverMethods = new List<MarkeredMethod>();
+                var clientMethods = new List<MarkeredMethod>();
 
                 var methods = interfaceType.GetMethods();
 
                 foreach (var method in methods)
                 {
-                    if (method.Attributes.HasFlag(MethodAttributes.SpecialName)) //пропуск спецтодов по типу ToString()
+                    if (method.Attributes.HasFlag(MethodAttributes.SpecialName)) //пропуск спецметодов по типу get_/set_ для свойств
                         continue;
 
                     var mParameters = method.GetParametersType();
@@ -58,7 +66,7 @@ namespace EMI.SyncInterface
                     void build(TypeBuilder tBuilder, FieldInfo clientField, List<FieldList> fieldsClass, List<MarkeredMethod> methodsList, bool plug)
                     {
                         var mBuilder = tBuilder.DefineMethod(method.Name, mAttributes, method.CallingConvention, method.ReturnType, mParameters);
-                        var ilCode = mBuilder.GetILGenerator(); //TODO посчитать стек
+                        var ilCode = mBuilder.GetILGenerator();
                         if (!plug)
                         {
                             ilCode.ThrowException(typeof(NotImplementedException));
@@ -82,16 +90,29 @@ namespace EMI.SyncInterface
 
                             var fieldRCType = tBuilder.DefineField(Utils.FieldNameCreate(ref NameID), typeof(RCType), fieldAttributes);
 
+                            // Читаем RCTypeOptionAttribute если он задан на методе
+                            RCType rcTypeDefault;
+                            var rcAttr = method.GetCustomAttribute<RCTypeOptionAttribute>();
+                            if (rcAttr != null)
+                            {
+                                rcTypeDefault = rcAttr.RCType;
+                            }
+                            else
+                            {
+                                // Берём значение по умолчанию из параметра RCall
+                                rcTypeDefault = (RCType)funParam[funParam.Length - 2].DefaultValue;
+                            }
+
                             ilCode.DeclareLocal(typeof(CancellationToken));
 
                             ilCode.Emit(OpCodes.Ldarg_0);                  //0
-                            ilCode.Emit(OpCodes.Ldfld, fieldIndicatorInst);//1 вызываймый метод
+                            ilCode.Emit(OpCodes.Ldfld, fieldIndicatorInst);//1 вызываемый метод
 
                             for (int i = 0; i < mParameters.Length; i++)   //
                                 ilCode.Emit(OpCodes.Ldarg, i + 1);         //входные аргументы
 
                             ilCode.Emit(OpCodes.Ldarg_0);                  //
-                            ilCode.Emit(OpCodes.Ldfld, clientField);       //Client загрзука параметра в аргумент
+                            ilCode.Emit(OpCodes.Ldfld, clientField);       //Client загрузка параметра в аргумент
 
                             ilCode.Emit(OpCodes.Ldarg_0);                  //
                             ilCode.Emit(OpCodes.Ldfld, fieldRCType);       //RCType загрузка параметра в аргумент
@@ -102,8 +123,9 @@ namespace EMI.SyncInterface
 
                             if (method.IsAsync())
                             {
+                                // RCall возвращает Task/Task<T> — просто пробрасываем
                                 ilCode.Emit(OpCodes.Callvirt, func);
-                                //throw new NotImplementedException();
+                                ilCode.Emit(OpCodes.Ret);
                             }
                             else
                             {
@@ -121,11 +143,8 @@ namespace EMI.SyncInterface
                                 ilCode.Emit(OpCodes.Ret);
                             }
 
-                            var t = funParam[funParam.Length - 2].DefaultValue.GetType();
-
-
                             fieldsClass.Add(new FieldList() { Type = fieldIndicatorInst.FieldType, FieldInfo = fieldIndicatorInst, Content = inst });
-                            fieldsClass.Add(new FieldList() { Type = fieldRCType.FieldType, FieldInfo = fieldRCType, Content = funParam[funParam.Length - 2].DefaultValue });
+                            fieldsClass.Add(new FieldList() { Type = fieldRCType.FieldType, FieldInfo = fieldRCType, Content = rcTypeDefault });
                         }
                         tBuilder.DefineMethodOverride(mBuilder, method);
                     }
@@ -134,14 +153,17 @@ namespace EMI.SyncInterface
                     var isClient = method.GetCustomAttribute<OnlyClientAttribute>() != null;
                     var allSide = !isServer & !isClient;
 
-                    build(tBuilderClient, fieldClientClient, ClientFields, ClientMethods, isClient | allSide);
-                    build(tBuilderServer, fieldClientServer, ServerFields, ServerMethods, isServer | allSide);
+                    build(tBuilderClient, fieldClientClient, ClientFields, clientMethods, isClient | allSide);
+                    build(tBuilderServer, fieldClientServer, ServerFields, serverMethods, isServer | allSide);
                 }
 
-                var fields = interfaceType.GetProperties();
-                foreach (var field in fields)
+                // Свойства интерфейса не поддерживаются — выдаём понятную ошибку
+                var properties = interfaceType.GetProperties();
+                if (properties.Length > 0)
                 {
-                    throw new NotImplementedException();
+                    throw new InvalidInterfaceException(
+                        $"Interface '{interfaceType.Name}' contains properties which are not supported by SyncInterface. " +
+                        $"Use methods instead. Unsupported property: '{properties[0].Name}'");
                 }
 
                 //конструктор
@@ -169,11 +191,10 @@ namespace EMI.SyncInterface
                 createConstructor(tBuilderClient, fieldClientClient, ClientFields);
                 createConstructor(tBuilderServer, fieldClientServer, ServerFields);
 
-                types = new InterfaceTypes(tBuilderClient.CreateType(), ClientFields, tBuilderServer.CreateType(), ServerFields);
-                CachedInterfaces.Add(interfaceType, types);
+                return new InterfaceTypes(
+                    tBuilderClient.CreateType(), ClientFields, clientMethods,
+                    tBuilderServer.CreateType(), ServerFields, serverMethods);
             }
-
-            Types = types;
         }
 
         public T NewIndicator(Client client)
@@ -196,12 +217,12 @@ namespace EMI.SyncInterface
 
         public void RegisterClass(Client client, T Class)
         {
-            RegisterClass(client.RPC, Class, ServerMethods);
+            RegisterClass(client.RPC, Class, Types.ServerMethods);
         }
 
         public void RegisterClass(Server server, T Class)
         {
-            RegisterClass(server.RPC, Class, ClientMethods);
+            RegisterClass(server.RPC, Class, Types.ClientMethods);
         }
 
         private void RegisterClass(RPC rpc, T Class, List<MarkeredMethod> methods)
@@ -213,9 +234,26 @@ namespace EMI.SyncInterface
                 //создаёт делегат для регистрации метода
                 Delegate runDelegate;
                 if (method.ReturnType == typeof(void))
+                {
+                    // Синхронный void → RPCfunc напрямую
                     runDelegate = Utils.MakeRPCDelegate(mParameters, Class, method);
+                }
+                else if (method.ReturnType == typeof(Task))
+                {
+                    // Async void (Task) → обёртка в RPCfunc через .GetAwaiter().GetResult()
+                    runDelegate = Utils.MakeRPCDelegateAsyncVoid(mParameters, Class, method);
+                }
+                else if (method.ReturnType.BaseType == typeof(Task))
+                {
+                    // Async с возвратом (Task<T>) → обёртка в RPCfuncOut<T>
+                    var returnType = method.GetReturnType();
+                    runDelegate = Utils.MakeRPCDelegateAsyncOut(returnType, mParameters, Class, method);
+                }
                 else
+                {
+                    // Синхронный с возвратом → RPCfuncOut<T> напрямую
                     runDelegate = Utils.MakeRPCDelegateOut(method.ReturnType, mParameters, Class, method);
+                }
 
                 Type delegateType = runDelegate.GetType();
                 Type genericDelegateType;
@@ -229,7 +267,6 @@ namespace EMI.SyncInterface
                 if (genericIndicatorType.IsGenericType)
                     genericIndicatorType = genericIndicatorType.GetGenericTypeDefinition();
 
-                //TODO мб можно ускорить
                 MethodInfo RegMethod = typeof(RPC).FindMethodPro(nameof(rpc.RegisterMethod), new Type[] { genericDelegateType, genericIndicatorType });
                 if(RegMethod.IsGenericMethod)
                     RegMethod = RegMethod.MakeGenericMethod(delegateType.GetGenericArguments());

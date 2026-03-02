@@ -222,7 +222,7 @@ namespace EMI.Network.NetTCPV3
             }
         }
 
-        public async Task<bool> Сonnect(string address, CancellationToken token)
+        public async Task<bool> Connect(string address, CancellationToken token)
         {
             if (IsServerSide)
             {

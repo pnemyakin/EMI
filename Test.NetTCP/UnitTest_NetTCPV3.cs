@@ -10,7 +10,7 @@ namespace Test.NetTCP
         readonly static INetworkService Service = NetTCPV3Service.Service;
         const int Port = 30000;
 
-        [TestMethod("Проверка подключения")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
         public void Test1()
         {
             var env = new TestService();
@@ -28,7 +28,7 @@ namespace Test.NetTCP
             }
         }
 
-        [TestMethod("Пересылка пакета (маленький)")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
         public void Test2()
         {
             CancellationTokenSource cts = new(5000);
@@ -55,7 +55,7 @@ namespace Test.NetTCP
             }
         }
 
-        [TestMethod("Пересылка пакета (большой)")]
+        [TestMethod("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
         public void Test3()
         {
             CancellationTokenSource cts = new(60000);
@@ -109,7 +109,7 @@ namespace Test.NetTCP
                 Client1 = service.GetNewClient();
 
                 Server.StartServer("any#" + port);
-                Task<bool> status = Client1.Сonnect("localhost#" + port, cts.Token);
+                Task<bool> status = Client1.Connect("localhost#" + port, cts.Token);
 
                 Client2 = Server.AcceptClient(cts.Token).Result;
                 return status.Result;

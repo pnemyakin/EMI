@@ -4,7 +4,7 @@ using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Linq;
-using NetBaseTCP;
+using EMI.Network.NetTCPV3;
 
 namespace EMI.Debugger
 {
@@ -13,7 +13,7 @@ namespace EMI.Debugger
     internal static class EMIDClient
     {
         public static RecordedData Data = null!;
-        public static Client Client = new(NetBaseTCPService.Service);
+        public static Client Client = new(NetTCPV3Service.Service);
         public static event Action? Connect;
         public static event Action? Disconnect;
         public static event Action? OnDataGet;

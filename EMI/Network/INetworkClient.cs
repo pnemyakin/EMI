@@ -53,7 +53,7 @@ namespace EMI.Network
         /// <param name="address">адрес сервера</param>
         /// <returns>было ли произведено подключение</returns>
         /// <param name="token">токен отмены задачи</param>
-        Task<bool> Сonnect(string address, CancellationToken token);
+        Task<bool> Connect(string address, CancellationToken token);
         /// <summary>
         /// Отключиться от сервера
         /// <param name="user_error">ошибка/сообщение отключения</param>

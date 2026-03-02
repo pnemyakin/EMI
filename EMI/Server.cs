@@ -8,6 +8,7 @@ namespace EMI
     using EMI.DebugLog;
     using MyException;
     using Network;
+    using NGC;
 
     /// <summary>
     /// Сервер
@@ -94,14 +95,64 @@ namespace EMI
         internal event Action PingSend;
 
         /// <summary>
+        /// Цепочка middleware для всех новых клиентов (сжатие, шифрование).
+        /// Устанавливать ДО Start(). Передать null для отключения (нулевой overhead).
+        /// Порядок: compress → encrypt.
+        /// Если используется UseEncryption/UseCompression — заполняется автоматически при Start().
+        /// </summary>
+        public IPacketMiddleware[] Middlewares { get; set; }
+
+        /// <summary>
+        /// Конфигурация ограничения частоты RPC-вызовов (защита от флуда).
+        /// Устанавливать ДО Start(). null = без ограничений (по умолчанию).
+        /// <para>
+        /// Двухуровневая схема: soft-лимит дропает пакеты без отключения,
+        /// hard-лимит кикает клиента при устойчивом злоупотреблении.
+        /// </para>
+        /// </summary>
+        public RateLimitConfig RateLimit { get; set; }
+
+        /// <summary>
+        /// Включить AES-256-GCM шифрование. Ключ генерируется автоматически при Start() и передаётся клиентам при handshake.
+        /// Устанавливать ДО Start().
+        /// </summary>
+        public bool UseEncryption { get; set; }
+
+        /// <summary>
+        /// Включить LZ4 сжатие.
+        /// Устанавливать ДО Start().
+        /// </summary>
+        public bool UseCompression { get; set; }
+
+        /// <summary>
+        /// Ключ шифрования, генерируется при Start() если UseEncryption = true
+        /// </summary>
+        internal byte[] EncryptionKey { get; private set; }
+
+        /// <summary>
         /// Создаёт новый сервер
         /// </summary>
         /// <param name="service">интерфейс подключения</param>
+        /// <exception cref="PlatformNotSupportedException">Платформа big-endian не поддерживается</exception>
         public Server(INetworkService service)
         {
+            ThrowIfBigEndian();
             Service = service;
             LowServer = Service.GetNewServer();
             Logger.Log(Messages.InitServer, Service);
+        }
+
+        /// <summary>
+        /// Проверяет что платформа little-endian. EMI использует native byte order в заголовках и SmartPackager,
+        /// поэтому big-endian машины несовместимы по сетевому протоколу.
+        /// </summary>
+        /// <exception cref="PlatformNotSupportedException">Платформа big-endian не поддерживается</exception>
+        private static void ThrowIfBigEndian()
+        {
+            if (!BitConverter.IsLittleEndian)
+                throw new PlatformNotSupportedException(
+                    "EMI does not support big-endian platforms. " +
+                    "Network protocol headers and SmartPackager serialize data in native (little-endian) byte order.");
         }
 
         /// <summary>
@@ -120,6 +171,14 @@ namespace EMI
                 IsRun = true;
                 Clients = new List<Client>();
                 CancellationTokenSource = new CancellationTokenSource();
+
+                // Автогенерация ключа шифрования при UseEncryption (если EncryptionKey не задан вручную)
+                if (UseEncryption && EncryptionKey == null)
+                {
+                    EncryptionKey = new byte[32];
+                    using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+                        rng.GetBytes(EncryptionKey);
+                }
 
                 LowServer.StartServer(address);
                 PingProcessStart();
@@ -147,7 +206,7 @@ namespace EMI
                     }
                 }
             }
-            Logger.Log(Messages.ServerStoped);
+            Logger.Log(Messages.ServerStopped);
         }
 
         private void PingProcessStart()
@@ -161,7 +220,7 @@ namespace EMI
                     await Task.Delay(PingPollingInterval).ConfigureAwait(false);
                     PingSend?.Invoke();
                 }
-                Logger.Log(Messages.ServerPingStoped);
+                Logger.Log(Messages.ServerPingStopped);
             }, TaskCreationOptions.LongRunning);
         }
 
@@ -185,11 +244,49 @@ namespace EMI
             token.ThrowIfCancellationRequested();
             Client client = null;
 
+            // Подготовка middleware для серверного клиента
+            // ВАЖНО: каждый клиент получает СВОИ экземпляры middleware (AesGcm имеет stateful nonce)
+            IPacketMiddleware[] clientMws = null;
+            if (UseEncryption || UseCompression)
+            {
+                var mwList = new System.Collections.Generic.List<IPacketMiddleware>();
+                if (UseCompression) mwList.Add(new LZ4Middleware());
+                if (UseEncryption && EncryptionKey != null) mwList.Add(new AesGcmMiddleware(EncryptionKey));
+                clientMws = mwList.ToArray();
+            }
+            else if (Middlewares != null && Middlewares.Length > 0)
+            {
+                // Ручные middleware — пользователь отвечает за thread-safety
+                clientMws = Middlewares;
+            }
+
+            MiddlewareNetworkClient middlewareWrapper = null;
+            INetworkClient clientToUse = LowClient;
+            if (clientMws != null && clientMws.Length > 0)
+            {
+                middlewareWrapper = new MiddlewareNetworkClient(LowClient, clientMws);
+                clientToUse = middlewareWrapper;
+            }
+
+            // Handshake: отправка ключа + проверка совместимости
+            // Выполняем только если есть middleware (клиент делает то же самое)
+            bool needsHandshake = clientMws != null || UseEncryption || UseCompression;
+            if (needsHandshake)
+            {
+                var error = await MiddlewareNetworkClient.PerformServerHandshake(
+                    LowClient, middlewareWrapper, EncryptionKey, token).ConfigureAwait(false);
+                if (error != null)
+                {
+                    LowClient.Disconnect(error);
+                    throw new InvalidOperationException(error);
+                }
+            }
+
             CancellationTokenSource cts = new CancellationTokenSource();
             token.Register(() => cts.Cancel());
             await TaskUtilities.InvokeAsync(() =>
             {
-                client = new Client(LowClient, RPC, this)
+                client = new Client(clientToUse, RPC, this)
                 {
                     MaxPacketAcceptSize = MaxPacketAcceptSize,
                     RandomDrop = RandomDrop,

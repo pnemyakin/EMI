@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ namespace EMI
     using MyException;
     using Network;
     using NGC;
+    using System.Diagnostics;
 
     /// <summary>
     /// Клиент EMI
@@ -19,7 +21,7 @@ namespace EMI
         /// <summary>
         /// Отвечает за регистрирование удалённых процедур для последующего вызова [локальный - вызов будет произведён только у этого клиента]
         /// </summary>
-        public readonly RPC LocalRPC = new RPC();
+        public readonly RPC LocalRPC = new();
         /// <summary>
         /// Отвечает за регистрирование удалённых процедур для последующего вызова [глобальный]
         /// </summary>
@@ -33,7 +35,7 @@ namespace EMI
         /// </summary>
         public bool IsServerSide => Server != null;
 
-        private TimeSpan _PingPollingInterval = new TimeSpan(0, 0, 0, 15);
+        private TimeSpan _PingPollingInterval = new(0, 0, 0, 15);
         /// <summary>
         /// Частота опроса пинга (устанавливается только на стороне клиента)
         /// </summary>
@@ -87,6 +89,10 @@ namespace EMI
         /// </summary>
         public int MaxPacketAcceptSize = 1024 * 1024 * 10; //10 мегобайт
         /// <summary>
+        /// Ограничитель частоты RPC-вызовов (null = без ограничений)
+        /// </summary>
+        private RpcRateLimiter _rateLimiter;
+        /// <summary>
         /// Интерфейс отправки/считывания датаграмм
         /// </summary>
         internal INetworkClient MyNetworkClient;
@@ -127,11 +133,30 @@ namespace EMI
         }
 
         /// <summary>
+        /// Middleware цепочка (null = отключено, нулевой overhead)
+        /// </summary>
+        private IPacketMiddleware[] _middlewares;
+
+        /// <summary>
+        /// Включить AES-256-GCM шифрование. Ключ будет получен от сервера при Connect().
+        /// Устанавливать ДО Connect().
+        /// </summary>
+        public bool UseEncryption { get; set; }
+
+        /// <summary>
+        /// Включить LZ4 сжатие.
+        /// Устанавливать ДО Connect().
+        /// </summary>
+        public bool UseCompression { get; set; }
+
+        /// <summary>
         /// Инициализирует клиента но не подключает к серверу
         /// </summary>
         /// <param name="network">интерфейс подключения</param>
+        /// <exception cref="PlatformNotSupportedException">Платформа big-endian не поддерживается</exception>
         public Client(INetworkService network)
         {
+            ThrowIfBigEndian();
             Logger = new Logger();
             MyNetworkClient = network.GetNewClient();
             RPC = LocalRPC;
@@ -141,29 +166,66 @@ namespace EMI
         }
 
         /// <summary>
+        /// Устанавливает цепочку middleware (сжатие, шифрование) вручную.
+        /// Вызывать ДО Connect(). Порядок: compress → encrypt.
+        /// Передать null или пустой массив для отключения.
+        /// Если используете UseEncryption/UseCompression — вызывать не нужно.
+        /// </summary>
+        /// <param name="middlewares">Цепочка middleware для обработки пакетов</param>
+        public void UseMiddleware(params IPacketMiddleware[] middlewares)
+        {
+            if (IsConnect)
+                throw new InvalidOperationException("Cannot change middleware while connected");
+            _middlewares = middlewares != null && middlewares.Length > 0 ? middlewares : null;
+        }
+
+        /// <summary>
         /// Для сосздания клиента на стороне сервера
         /// </summary>
         /// <param name="network"></param>
         /// <param name="rpc"></param>
         /// <param name="server"></param>
-        internal Client(INetworkClient network, RPC rpc, Server server)
+        /// <param name="middlewares">Middleware цепочка от сервера (null = без middleware)</param>
+        internal Client(INetworkClient network, RPC rpc, Server server, IPacketMiddleware[] middlewares = null)
         {
             Logger = server.Logger;
-            MyNetworkClient = network;
+            _middlewares = middlewares;
+            if (_middlewares != null && _middlewares.Length > 0)
+                MyNetworkClient = new MiddlewareNetworkClient(network, _middlewares);
+            else
+                MyNetworkClient = network;
             RPC = rpc;
             Server = server;
+
+            // Инициализация rate limiter из конфигурации сервера
+            if (server.RateLimit != null)
+                _rateLimiter = new RpcRateLimiter(server.RateLimit);
+
             Init();
             RunProcces();
 
             Logger.Log(this, Messages.InitServerSide, network);
         }
         /// <summary>
+        /// Проверяет что платформа little-endian. EMI использует native byte order в заголовках и SmartPackager,
+        /// поэтому big-endian машины несовместимы по сетевому протоколу.
+        /// </summary>
+        /// <exception cref="PlatformNotSupportedException">Платформа big-endian не поддерживается</exception>
+        private static void ThrowIfBigEndian()
+        {
+            if (!BitConverter.IsLittleEndian)
+                throw new PlatformNotSupportedException(
+                    "EMI does not support big-endian platforms. " +
+                    "Network protocol headers and SmartPackager serialize data in native (little-endian) byte order.");
+        }
+
+        /// <summary>
         /// Для инициализации клиента
         /// </summary>
         private void Init()
         {
             InputStack = new InputStackBuffer(64, 134217728);
-            RPCReturn = new Dictionary<int, RCWaitHandle>();
+            RPCReturn = new ConcurrentDictionary<int, RCWaitHandle>();
             MyNetworkClient.Disconnected += LowDisconnect;
         }
 
@@ -175,7 +237,7 @@ namespace EMI
         /// <returns>было ли произведено подключение</returns>
         public async Task<bool> Connect(string address, CancellationToken token)
         {
-            Logger.Log(this, Messages.ConnectBeding, IsConnect, IsServerSide);
+            Logger.Log(this, Messages.ConnectBegin, IsConnect, IsServerSide);
 
             if (IsConnect)
             {
@@ -190,7 +252,14 @@ namespace EMI
 
             CancellationRun = new CancellationTokenSource();
 
-            var status = await MyNetworkClient.Сonnect(address, token).ConfigureAwait(false);
+            // Автогенерация middleware из UseEncryption/UseCompression (если не заданы вручную)
+            if (_middlewares == null && (UseEncryption || UseCompression))
+            {
+                // Middleware будут созданы после получения ключа от сервера в handshake
+                // Пока только помечаем что они нужны
+            }
+
+            var status = await MyNetworkClient.Connect(address, token).ConfigureAwait(false);
 
 
             Logger.Log(this, Messages.ConnectStatus, status);
@@ -207,6 +276,29 @@ namespace EMI
 
             if (status == true)
             {
+                // Handshake: получаем ключ от сервера + проверка совместимости
+                bool needsHandshake = _middlewares != null || UseEncryption || UseCompression;
+                if (needsHandshake)
+                {
+                    var result = await MiddlewareNetworkClient.PerformClientHandshake(
+                        MyNetworkClient, UseCompression, UseEncryption, _middlewares, token).ConfigureAwait(false);
+
+                    if (result.Error != null)
+                    {
+                        Logger.Log(this, Messages.ConnectCanceled);
+                        MyNetworkClient.Disconnect(result.Error);
+                        DoCancellationRun();
+                        throw new InvalidOperationException(result.Error);
+                    }
+
+                    // Оборачиваем клиент middleware декоратором с полученными middleware
+                    if (result.Middlewares != null && result.Middlewares.Length > 0)
+                    {
+                        _middlewares = result.Middlewares;
+                        MyNetworkClient = new MiddlewareNetworkClient(MyNetworkClient, _middlewares);
+                    }
+                }
+
                 RunProcces();
                 Logger.Log(this, Messages.ConnectDone);
                 return true;
@@ -268,7 +360,7 @@ namespace EMI
                     }
                     catch (Exception e)
                     {
-                        Logger.Log(this, Messages.DoCanellationError, e.ToString());
+                        Logger.Log(this, Messages.DoCancellationError, e.ToString());
                     }
                 });
             }
@@ -353,7 +445,7 @@ namespace EMI
                         await Task.Delay(_PingPollingInterval).ConfigureAwait(false);
                         pingTask();
                     }
-                    Logger.Log(this, Messages.PingStoped);
+                    Logger.Log(this, Messages.PingStopped);
                 }
             });
         }
@@ -367,11 +459,11 @@ namespace EMI
         {
             Logger.Log(this, Messages.AcceptStart);
 
-            void process()
+            async Task process()
             {
                 try
                 {
-                    ProccesAccept(token);
+                    await ProccesAccept(token).ConfigureAwait(false);
                 }
                 catch (Exception e)
                 {
@@ -387,11 +479,11 @@ namespace EMI
                     var packet = await MyNetworkClient.AcceptPacket(MaxPacketAcceptSize, token);
                     if (packet.IsEmpty())
                         break;
-                    
+
                     await InputStack.Push(packet, token).ConfigureAwait(false);
-                    _ = Task.Factory.StartNew(process);
+                    _ = Task.Run(() => process());
                 }
-                Logger.Log(this, Messages.AcceptStoped);
+                Logger.Log(this, Messages.AcceptStopped);
             }
             catch (Exception e)
             {
@@ -404,7 +496,7 @@ namespace EMI
         /// </summary>
         /// <param name="token">токен отмены</param>
         /// <returns></returns>
-        private async void ProccesAccept(CancellationToken token)
+        private async Task ProccesAccept(CancellationToken token)
         {
             if (token.IsCancellationRequested)
                 return;
@@ -417,6 +509,23 @@ namespace EMI
                 PacketType packetType = (PacketType)array.Bytes[array.Offset];
                 //Debug.WriteLine("accept => " + packetType);
                 array.Offset += 1;
+                // Rate limiting (только для RPC-пакетов, пинг не ограничивается)
+                if (_rateLimiter != null && IsRpcPacket(packetType))
+                {
+                    var rlResult = _rateLimiter.TryConsume();
+                    if (rlResult == RateLimitResult.Kick)
+                    {
+                        Logger.Log(this, Messages.RateLimitKick, _rateLimiter.SoftDropCount);
+                        MyNetworkClient.Disconnect(Messages.RateLimitKick.Format(_rateLimiter.SoftDropCount));
+                        return;
+                    }
+                    if (rlResult == RateLimitResult.SoftDrop)
+                    {
+                        Logger.Log(this, Messages.RateLimitSoftDrop, _rateLimiter.SoftDropCount);
+                        return;
+                    }
+                }
+
                 switch (packetType)
                 {
                     case PacketType.Ping_Send:
@@ -456,15 +565,12 @@ namespace EMI
                                     MyNetworkClient.Disconnect(Messages.RPCReturnNotFound.Message);
                                     return;
                                 }
-                                await Task.Yield();
+                                await Task.Delay(1).ConfigureAwait(false);
                             }
 
                             source.Dispose();
 
-                            lock (RPCReturn)
-                            {
-                                RPCReturn.Remove(id);
-                            }
+                            RPCReturn.TryRemove(id, out _);
                             handle.Indicator.UnPack(array);
                             handle.Semaphore.Release();
                         }
@@ -556,6 +662,7 @@ namespace EMI
                         {
                             sendArray.Offset += bsize;
                             @return.PackUp(sendArray);
+                            sendArray.Offset = 0; // Offset использовался как курсор записи; данные начинаются с 0
                         }
                         await MyNetworkClient.Send(sendArray, true, token);
                     }
@@ -571,8 +678,27 @@ namespace EMI
             }
             else
             {
-                Logger.Log(this, Messages.RPCNotFount, id);
+                // Логируем информацию о незарегистрированном методе
+                string methodInfo = RPC.GetMethodInfo(id);
+                string localInfo = LocalRPC.GetMethodInfo(id);
+                Logger.Log(this, Messages.RPCNotFound, id, methodInfo);
+#if DEBUG
+                Logger.Log(this, Messages.RPCRegisteredList, RPC.GetRegisteredMethodsList());
+                if (RPC != LocalRPC)
+                    Logger.Log(this, Messages.RPCRegisteredListLocal, LocalRPC.GetRegisteredMethodsList());
+#endif
             }
+        }
+
+        /// <summary>
+        /// Проверяет, является ли тип пакета RPC-вызовом (подлежит rate limiting).
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool IsRpcPacket(PacketType type)
+        {
+            return type == PacketType.RPC_Simple
+                || type == PacketType.RPC_Return
+                || type == PacketType.RPC_Forwarding;
         }
 
         /// <summary>
