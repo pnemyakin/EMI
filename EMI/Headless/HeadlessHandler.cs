@@ -146,17 +146,22 @@ namespace EMI.Headless
                     break;
                 case PacketType.RPC_Return:
                     {
-                        RPCRun(true, array);
+                        RPCRunWithReturn(array);
                     }
                     break;
                 case PacketType.RPC_Returned:
                     {
-                        DPack.DRPC.UnPack(array.Bytes, array.Offset, out var returnedId);
-                        array.Offset += sizeof(int);
+                        // Распаковываем callId (не methodId)
+                        DPack.DRPCReturned.UnPack(array.Bytes, array.Offset, out var callId);
+                        array.Offset += DPack.sizeof_DRPCReturned;
 
-                        if (RPCReturn.TryRemove(returnedId, out var handle))
+                        if (RPCReturn.TryRemove(callId, out var handle))
                         {
-                            handle.Indicator.UnPack(array);
+                            // Копируем данные ответа, так как array будет возвращён в пул
+                            int dataLength = array.Length - array.Offset;
+                            byte[] resultBytes = new byte[dataLength];
+                            System.Array.Copy(array.Bytes, array.Offset, resultBytes, 0, dataLength);
+                            handle.ResultData = new EasyArray(resultBytes);
                             handle.Semaphore.Release();
                         }
                         else
@@ -166,13 +171,17 @@ namespace EMI.Headless
                             {
                                 using (var cts = new CancellationTokenSource(TimeSpan.FromMinutes(5)))
                                 {
-                                    while (!RPCReturn.TryRemove(returnedId, out handle))
+                                    while (!RPCReturn.TryRemove(callId, out handle))
                                     {
                                         if (cts.IsCancellationRequested)
                                             return;
                                         await Task.Delay(1).ConfigureAwait(false);
                                     }
-                                    handle.Indicator.UnPack(array);
+                                    // Копируем данные ответа, так как array будет возвращён в пул
+                                    int dataLen = array.Length - array.Offset;
+                                    byte[] resBytes = new byte[dataLen];
+                                    System.Array.Copy(array.Bytes, array.Offset, resBytes, 0, dataLen);
+                                    handle.ResultData = new EasyArray(resBytes);
                                     handle.Semaphore.Release();
                                 }
                             });
@@ -187,7 +196,7 @@ namespace EMI.Headless
         }
 
         /// <summary>
-        /// Вызов метода
+        /// Вызов метода (без возврата значения)
         /// </summary>
         /// <param name="needReturn">нужно ли отправить результат</param>
         /// <param name="array">массив данных для отправки</param>
@@ -196,7 +205,7 @@ namespace EMI.Headless
         private void RPCRun(bool needReturn, INGCArray array)
         {
             DPack.DRPC.UnPack(array.Bytes, array.Offset, out var id);
-            array.Offset += sizeof(int);
+            array.Offset += sizeof(long);
             var funcs = RPC.TryGetRegisteredMethod(id);
 
             if (funcs == null)
@@ -241,6 +250,58 @@ namespace EMI.Headless
             {
 #if DEBUG
                 Console.WriteLine($"EMI => Warning => HeadlessHandler: {Messages.RPCNotFound.Format(id, "unknown")}");
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Вызов метода с возвратом значения (RPC_Return).
+        /// Извлекает methodId и callId из пакета, отправляет callId в ответе.
+        /// </summary>
+        /// <param name="array">массив данных</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void RPCRunWithReturn(INGCArray array)
+        {
+            DPack.DRPCReturn.UnPack(array.Bytes, array.Offset, out var methodId, out var callId);
+            array.Offset += DPack.sizeof_DRPCReturn;
+            var funcs = RPC.TryGetRegisteredMethod(methodId);
+
+            if (funcs == null)
+            {
+                funcs = LocalRPC.TryGetRegisteredMethod(methodId);
+            }
+
+            if (funcs != null)
+            {
+                var @return = funcs.Invoke(array);
+                const int bsize = DPack.sizeof_DRPCReturned + 1;
+                int size = bsize;
+                if (@return != null)
+                    size += @return.PackSize;
+
+                INGCArray sendArray = new NGCArray(size);
+                try
+                {
+                    sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
+                    DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, callId);
+                    if (@return != null)
+                    {
+                        sendArray.Offset += bsize;
+                        @return.PackUp(sendArray);
+                    }
+                    sendArray.Offset = 0; // сбрасываем offset перед отправкой
+                    SendWithMiddleware(sendArray, true);
+                }
+                finally
+                {
+                    sendArray.Dispose();
+                }
+            }
+            else
+            {
+#if DEBUG
+                Console.WriteLine($"EMI => Warning => HeadlessHandler: {Messages.RPCNotFound.Format(methodId, "unknown")}");
 #endif
             }
         }

@@ -54,5 +54,16 @@ namespace EMI.DebugLog
             OnMessage?.Invoke(null, message.Type, DateTime.Now, msg);
 #endif
         }
+
+        /// <summary>
+        /// Логирует предупреждение (публичный метод для использования из SyncInterface)
+        /// </summary>
+        public void LogWarning(string message)
+        {
+#if DEBUG
+            Console.WriteLine(string.Concat("EMI => Warning => ", message));
+            OnMessage?.Invoke(null, LogType.Warning, DateTime.Now, message);
+#endif
+        }
     }
 }

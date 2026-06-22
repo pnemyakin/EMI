@@ -87,7 +87,7 @@ namespace EMI
         /// <summary>
         /// Максимальный размер пакета который может отправить удалённый пользователь за один раз (если размер будет превышен - клиент будет отключен)
         /// </summary>
-        public int MaxPacketAcceptSize = 1024 * 1024 * 10; //10 мегобайт
+        public int MaxPacketAcceptSize = 1024 * 1024 * 64; //64 мегабайт
         /// <summary>
         /// Ограничитель частоты RPC-вызовов (null = без ограничений)
         /// </summary>
@@ -117,20 +117,31 @@ namespace EMI
         /// <summary>
         ///  Возвращает адресс удалённого связанного клиента
         /// </summary>
+        /// <summary>
+        /// Последний известный адрес (сохраняется даже после отключения, чтобы логи были читаемы).
+        /// </summary>
+        private string _remoteAddressCache = "none";
+
         public string RemoteAddress
         {
             get
             {
                 if (IsConnect)
                 {
-                    return MyNetworkClient.GetRemoteClientAddress();
+                    _remoteAddressCache = MyNetworkClient.GetRemoteClientAddress();
+                    return _remoteAddressCache;
                 }
-                else
-                {
-                    return "none";
-                }
+                return _remoteAddressCache;
             }
         }
+
+        /// <summary>
+        /// Клиент, чей RPC обрабатывается прямо сейчас на этом потоке (thread-local).
+        /// Устанавливается в RPCRunWithReturn/RPCRun перед вызовом обработчика.
+        /// Используется серверными обработчиками для определения вызывающего клиента.
+        /// </summary>
+        [ThreadStatic]
+        public static Client CurrentCaller;
 
         /// <summary>
         /// Middleware цепочка (null = отключено, нулевой overhead)
@@ -418,7 +429,8 @@ namespace EMI
                         else
                         {
                             DPack.DPing.PackUP(array.Bytes, 1, TickTime.Now);
-                            _ = MyNetworkClient.Send(array, true, token);
+                            // Отправляем ping как unreliable чтобы не блокироваться congestion window при тяжёлой нагрузке
+                            _ = MyNetworkClient.Send(array, false, token);
                         }
                     }
                     catch (Exception e)
@@ -526,17 +538,21 @@ namespace EMI
                     }
                 }
 
+                // Любой входящий пакет подтверждает что соединение живо
+                LastPing = TickTime.Now;
+
                 switch (packetType)
                 {
                     case PacketType.Ping_Send:
                         array.Bytes[array.Offset - 1] = (byte)PacketType.Ping_Receive;
-                        await MyNetworkClient.Send(array, true, token).ConfigureAwait(false);
+                        // Отправляем pong как unreliable чтобы не застревать в очереди congestion window
+                        await MyNetworkClient.Send(array, false, token).ConfigureAwait(false);
                         break;
                     case PacketType.Ping_Receive:
                         DPack.DPing.UnPack(array.Bytes, array.Offset, out var time);
                         if (LastPing < time)
                             Ping = TickTime.Now - time;
-                        LastPing = TickTime.Now;
+                        // LastPing уже обновлён выше
                         break;
                     case PacketType.RPC_Simple:
                         {
@@ -545,33 +561,44 @@ namespace EMI
                         break;
                     case PacketType.RPC_Return:
                         {
-                            _ = RPCRun(true, array, token).ConfigureAwait(false);
+                            _ = RPCRunWithReturn(array, token).ConfigureAwait(false);
                         }
                         break;
                     case PacketType.RPC_Returned:
                         {
-                            DPack.DRPC.UnPack(array.Bytes, array.Offset, out var id);
-                            array.Offset += sizeof(int);
+                            // Распаковываем callId (не methodId)
+                            DPack.DRPCReturned.UnPack(array.Bytes, array.Offset, out var callId);
+                            array.Offset += DPack.sizeof_DRPCReturned;
 
                             RCWaitHandle handle;
 
-                            CancellationTokenSource source = new CancellationTokenSource(new TimeSpan(0, 5, 0));
-
-                            while (!RPCReturn.TryGetValue(id, out handle))
+                            // Short window to handle race where RPC_Returned arrives before TryAdd.
+                            // On timeout: silently drop the stale packet — do NOT disconnect.
+                            var source = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                            while (!RPCReturn.TryGetValue(callId, out handle))
                             {
+                                if (token.IsCancellationRequested)
+                                {
+                                    source.Dispose();
+                                    return; // connection closing — nothing to do
+                                }
                                 if (source.IsCancellationRequested)
                                 {
-                                    Logger.Log(this, Messages.RPCReturnNotFound);
-                                    MyNetworkClient.Disconnect(Messages.RPCReturnNotFound.Message);
-                                    return;
+                                    Logger.Log(this, Messages.RPCReturnNotFound); // warn only, do NOT disconnect
+                                    source.Dispose();
+                                    return; // stale/unknown callId — drop packet, keep connection alive
                                 }
                                 await Task.Delay(1).ConfigureAwait(false);
                             }
 
                             source.Dispose();
 
-                            RPCReturn.TryRemove(id, out _);
-                            handle.Indicator.UnPack(array);
+                            RPCReturn.TryRemove(callId, out _);
+                            // Копируем данные ответа, так как array будет возвращён в пул
+                            int dataLength = array.Length - array.Offset;
+                            byte[] resultBytes = new byte[dataLength];
+                            System.Array.Copy(array.Bytes, array.Offset, resultBytes, 0, dataLength);
+                            handle.ResultData = new EasyArray(resultBytes);
                             handle.Semaphore.Release();
                         }
                         break;
@@ -625,7 +652,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// Вызов метода
+        /// Вызов метода (без возврата значения)
         /// </summary>
         /// <param name="needReturn">нужно ли отправить результат</param>
         /// <param name="array">массив данных для отправки</param>
@@ -635,7 +662,7 @@ namespace EMI
         private async Task RPCRun(bool needReturn, INGCArray array, CancellationToken token)
         {
             DPack.DRPC.UnPack(array.Bytes, array.Offset, out var id);
-            array.Offset += sizeof(int);
+            array.Offset += sizeof(long);
             var funcs = RPC.TryGetRegisteredMethod(id);
 
             if (funcs == null)
@@ -645,6 +672,7 @@ namespace EMI
 
             if (funcs != null)
             {
+                CurrentCaller = this; // expose calling client to server-side handlers
                 if (needReturn)
                 {
                     var @return = funcs.Invoke(array);
@@ -682,6 +710,66 @@ namespace EMI
                 string methodInfo = RPC.GetMethodInfo(id);
                 string localInfo = LocalRPC.GetMethodInfo(id);
                 Logger.Log(this, Messages.RPCNotFound, id, methodInfo);
+#if DEBUG
+                Logger.Log(this, Messages.RPCRegisteredList, RPC.GetRegisteredMethodsList());
+                if (RPC != LocalRPC)
+                    Logger.Log(this, Messages.RPCRegisteredListLocal, LocalRPC.GetRegisteredMethodsList());
+#endif
+            }
+        }
+
+        /// <summary>
+        /// Вызов метода с возвратом значения (RPC_Return).
+        /// Извлекает methodId и callId из пакета, отправляет callId в ответе.
+        /// </summary>
+        /// <param name="array">массив данных</param>
+        /// <param name="token">токен отмены</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private async Task RPCRunWithReturn(INGCArray array, CancellationToken token)
+        {
+            DPack.DRPCReturn.UnPack(array.Bytes, array.Offset, out var methodId, out var callId);
+            array.Offset += DPack.sizeof_DRPCReturn;
+            var funcs = RPC.TryGetRegisteredMethod(methodId);
+
+            if (funcs == null)
+            {
+                funcs = LocalRPC.TryGetRegisteredMethod(methodId);
+            }
+
+            if (funcs != null)
+            {
+                CurrentCaller = this;
+                var @return = funcs.Invoke(array);
+                const int bsize = DPack.sizeof_DRPCReturned + 1;
+                int size = bsize;
+                if (@return != null)
+                    size += @return.PackSize;
+
+                INGCArray sendArray = new NGCArray(size);
+                try
+                {
+                    sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
+                    DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, callId);
+                    if (@return != null)
+                    {
+                        sendArray.Offset += bsize;
+                        @return.PackUp(sendArray);
+                        sendArray.Offset = 0; // Offset использовался как курсор записи; данные начинаются с 0
+                    }
+                    await MyNetworkClient.Send(sendArray, true, token);
+                }
+                finally
+                {
+                    sendArray.Dispose();
+                }
+            }
+            else
+            {
+                // Логируем информацию о незарегистрированном методе
+                string methodInfo = RPC.GetMethodInfo(methodId);
+                string localInfo = LocalRPC.GetMethodInfo(methodId);
+                Logger.Log(this, Messages.RPCNotFound, methodId, methodInfo);
 #if DEBUG
                 Logger.Log(this, Messages.RPCRegisteredList, RPC.GetRegisteredMethodsList());
                 if (RPC != LocalRPC)

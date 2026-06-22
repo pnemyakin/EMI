@@ -10,75 +10,89 @@ static void Client_Disconnected(string error)
     Console.WriteLine("Client_Disconnected => " + error);
 }
 
-//client
+// client
 if (args.Length == 0 || args[0].Trim().ToLower() == "client")
 {
-    //if (args.Length != 0)
-    //    System.Diagnostics.Process.Start("server.bat");
-
     client = new(NetTCPV3Service.Service);
     client.Disconnected += Client_Disconnected;
+
 reconect:
-    Console.WriteLine("Попытка подключиться...");//"31.10.114.169#25566"
-    var status = client.Connect("127.0.0.1#25566", default).Result;
+    Console.WriteLine("Попытка подключиться...");
+    var status = await client.Connect("127.0.0.1#25566", default);
     if (status == false)
     {
         Console.WriteLine("Не удалось подключиться...");
+        await Task.Delay(1000);
         goto reconect;
     }
-    Console.WriteLine("Успех, нажмите что бы продолжить");
+
+    Console.WriteLine("Успех, нажмите чтобы продолжить");
     Console.ReadLine();
     Console.WriteLine("Попытка скачать файл");
-    var f = new FileInfo("ня.png");
-    if (f.Exists)
-    {
-        f.Delete();
-    }
-    var file = File.Create("ня.png");
-    Stopwatch stopwatch = new Stopwatch();
-    stopwatch.Start();
-    int pp=-1;
-    FileDownloader.Download(client, 0, "ня!", file, (info) =>
-    {
-        int p = (int)info.Progress / 5;
-        if (p != pp)
+
+    var f = new FileInfo("downloaded.png");
+    if (f.Exists) f.Delete();
+
+    using var file = File.Create("downloaded.png");
+    var stopwatch = Stopwatch.StartNew();
+    int lastPercent = -1;
+
+    bool found = await FileDownloader.Download(
+        client,
+        hostId: 0,
+        fileName: "test_file",
+        destination: file,
+        progress: info =>
         {
-            pp = p;
-            Console.WriteLine("===============\n" + info.ToString());
-        }
-    }, 1024 * 1024).Wait();
+            int p = (int)info.Percent / 5;
+            if (p != lastPercent)
+            {
+                lastPercent = p;
+                Console.WriteLine("===============\n" + info.ToString());
+            }
+        },
+        bufferSize: 1024 * 1024);
+
     stopwatch.Stop();
-    Console.WriteLine("Файл загружен! "+ (file.Length / 1024 / 1024 / stopwatch.Elapsed.TotalSeconds) + "MB/s");
-    file.Close();
-}//server
+
+    if (found)
+    {
+        double mbps = file.Length / 1024.0 / 1024.0 / stopwatch.Elapsed.TotalSeconds;
+        Console.WriteLine($"Файл загружен! {mbps:F2} MB/s");
+    }
+    else
+    {
+        Console.WriteLine("Файл не найден на сервере.");
+    }
+}
+// server
 else
 {
     Server server = new Server(NetTCPV3Service.Service);
-    Console.WriteLine("Нажмите кнопку что бы запустить сервер");
+    Console.WriteLine("Нажмите кнопку чтобы запустить сервер");
     Console.ReadLine();
 
     server.Start("any#25566");
     Console.WriteLine("Ожидание клиента");
+
 rep:
     try
     {
-        client = server.Accept().Result;
+        client = await server.Accept();
         client.Disconnected += Client_Disconnected;
-        Console.WriteLine("Готово");
+        Console.WriteLine("Клиент подключён");
 
-        FilesHost host = new FilesHost(client, 0, (string name) =>
+        using var host = new FilesHost(client, 0, (string name) =>
         {
-            Console.WriteLine("Файл? -> " + name);
-            if (name == "ня!")
+            Console.WriteLine("Запрос файла: " + name);
+            if (name == "test_file")
             {
                 return File.OpenRead("test.png");
             }
-            else
-            {
-                return null;
-            }
+            return null;
         });
 
+        Console.WriteLine("Нажмите Enter для завершения...");
         Console.ReadLine();
     }
     catch (Exception e)

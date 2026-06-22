@@ -16,6 +16,7 @@ namespace EMI
         /// <summary>
         /// Текущие кол-во тиков
         /// </summary>
-        public static DateTime Now => new DateTime(Stopwatch.GetTimestamp());
+        public static DateTime Now => new DateTime(
+            (long)((double)Stopwatch.GetTimestamp() / Stopwatch.Frequency * TimeSpan.TicksPerSecond));
     }
 }

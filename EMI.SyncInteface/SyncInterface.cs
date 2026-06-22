@@ -6,6 +6,7 @@ using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using EMI.DebugLog;
 
 namespace EMI.SyncInterface
 {
@@ -53,6 +54,9 @@ namespace EMI.SyncInterface
                 var ClientFields = new List<FieldList>();
                 var serverMethods = new List<MarkeredMethod>();
                 var clientMethods = new List<MarkeredMethod>();
+#if DEBUG
+                var validationWarnings = new List<string>();
+#endif
 
                 var methods = interfaceType.GetMethods();
 
@@ -75,6 +79,7 @@ namespace EMI.SyncInterface
                         else
                         {
                             bool isReturnData = method.IsReturnData();
+                            bool hasCancellationToken = method.HasTrailingCancellationToken();
                             var indicatorType = Utils.GetIndicatorFunc(method);
                             if (indicatorType.IsGenericType)
                                 indicatorType = Utils.CreateGenericIndicator(indicatorType, method);
@@ -96,6 +101,15 @@ namespace EMI.SyncInterface
                             if (rcAttr != null)
                             {
                                 rcTypeDefault = rcAttr.RCType;
+#if DEBUG
+                                if (isReturnData && rcAttr.RCType != RCType.ReturnWait)
+                                {
+                                    validationWarnings.Add(
+                                        $"SyncInterface: метод '{interfaceType.Name}.{method.Name}' имеет [RCTypeOption({rcAttr.RCType})], но возвращает Task<T> (FuncOut). " +
+                                        $"RCType.{rcAttr.RCType} не ждёт ответа — вызывающая сторона получит default(T) вместо реального результата. " +
+                                        $"Для FuncOut используйте RCType.ReturnWait (или уберите атрибут — это значение по умолчанию).");
+                                }
+#endif
                             }
                             else
                             {
@@ -103,13 +117,18 @@ namespace EMI.SyncInterface
                                 rcTypeDefault = (RCType)funParam[funParam.Length - 2].DefaultValue;
                             }
 
-                            ilCode.DeclareLocal(typeof(CancellationToken));
+                            // Количество RPC-аргументов данных (без CancellationToken)
+                            int rpcDataArgCount = hasCancellationToken ? mParameters.Length - 1 : mParameters.Length;
+
+                            // Объявляем локальную переменную для default(CancellationToken) только если метод не предоставляет свой
+                            if (!hasCancellationToken)
+                                ilCode.DeclareLocal(typeof(CancellationToken));
 
                             ilCode.Emit(OpCodes.Ldarg_0);                  //0
                             ilCode.Emit(OpCodes.Ldfld, fieldIndicatorInst);//1 вызываемый метод
 
-                            for (int i = 0; i < mParameters.Length; i++)   //
-                                ilCode.Emit(OpCodes.Ldarg, i + 1);         //входные аргументы
+                            for (int i = 0; i < rpcDataArgCount; i++)      //
+                                ilCode.Emit(OpCodes.Ldarg, i + 1);         //входные аргументы (без CancellationToken)
 
                             ilCode.Emit(OpCodes.Ldarg_0);                  //
                             ilCode.Emit(OpCodes.Ldfld, clientField);       //Client загрузка параметра в аргумент
@@ -117,9 +136,17 @@ namespace EMI.SyncInterface
                             ilCode.Emit(OpCodes.Ldarg_0);                  //
                             ilCode.Emit(OpCodes.Ldfld, fieldRCType);       //RCType загрузка параметра в аргумент
 
-                            ilCode.Emit(OpCodes.Ldloca, 0);                         //
-                            ilCode.Emit(OpCodes.Initobj, typeof(CancellationToken));//
-                            ilCode.Emit(OpCodes.Ldloc, 0);                          //default CancellationToken
+                            if (hasCancellationToken)
+                            {
+                                // Пробрасываем CancellationToken из последнего аргумента интерфейсного метода
+                                ilCode.Emit(OpCodes.Ldarg, mParameters.Length); // arg_0=this, поэтому последний param = mParameters.Length
+                            }
+                            else
+                            {
+                                ilCode.Emit(OpCodes.Ldloca, 0);                         //
+                                ilCode.Emit(OpCodes.Initobj, typeof(CancellationToken));//
+                                ilCode.Emit(OpCodes.Ldloc, 0);                          //default CancellationToken
+                            }
 
                             if (method.IsAsync())
                             {
@@ -191,9 +218,13 @@ namespace EMI.SyncInterface
                 createConstructor(tBuilderClient, fieldClientClient, ClientFields);
                 createConstructor(tBuilderServer, fieldClientServer, ServerFields);
 
-                return new InterfaceTypes(
+                var result = new InterfaceTypes(
                     tBuilderClient.CreateType(), ClientFields, clientMethods,
                     tBuilderServer.CreateType(), ServerFields, serverMethods);
+#if DEBUG
+                result.Validation.Warnings.AddRange(validationWarnings);
+#endif
+                return result;
             }
         }
 
@@ -217,42 +248,68 @@ namespace EMI.SyncInterface
 
         public void RegisterClass(Client client, T Class)
         {
+#if DEBUG
+            LogValidationWarnings(client.Logger);
+#endif
             RegisterClass(client.RPC, Class, Types.ServerMethods);
         }
 
         public void RegisterClass(Server server, T Class)
         {
+#if DEBUG
+            LogValidationWarnings(server.Logger);
+#endif
             RegisterClass(server.RPC, Class, Types.ClientMethods);
         }
+
+#if DEBUG
+        private void LogValidationWarnings(Logger logger)
+        {
+            if (Types.Validation.TryMarkLogged())
+            {
+                foreach (var warning in Types.Validation.Warnings)
+                {
+                    logger.LogWarning(warning);
+                }
+            }
+        }
+#endif
 
         private void RegisterClass(RPC rpc, T Class, List<MarkeredMethod> methods)
         {
             foreach (var mMethod in methods)
             {
                 var method = mMethod.MethodInfo;
-                var mParameters = method.GetParametersType();
+                var rpcParameters = method.GetRpcParametersType();
+                bool hasCT = method.HasTrailingCancellationToken();
                 //создаёт делегат для регистрации метода
                 Delegate runDelegate;
                 if (method.ReturnType == typeof(void))
                 {
-                    // Синхронный void → RPCfunc напрямую
-                    runDelegate = Utils.MakeRPCDelegate(mParameters, Class, method);
+                    // Синхронный void → RPCfunc напрямую (или через обёртку если есть CancellationToken)
+                    if (hasCT)
+                        runDelegate = Utils.MakeRPCDelegateWithTrailingCT(rpcParameters, Class, method);
+                    else
+                        runDelegate = Utils.MakeRPCDelegate(rpcParameters, Class, method);
                 }
                 else if (method.ReturnType == typeof(Task))
                 {
                     // Async void (Task) → обёртка в RPCfunc через .GetAwaiter().GetResult()
-                    runDelegate = Utils.MakeRPCDelegateAsyncVoid(mParameters, Class, method);
+                    runDelegate = Utils.MakeRPCDelegateAsyncVoid(rpcParameters, Class, method);
                 }
                 else if (method.ReturnType.BaseType == typeof(Task))
                 {
                     // Async с возвратом (Task<T>) → обёртка в RPCfuncOut<T>
                     var returnType = method.GetReturnType();
-                    runDelegate = Utils.MakeRPCDelegateAsyncOut(returnType, mParameters, Class, method);
+                    runDelegate = Utils.MakeRPCDelegateAsyncOut(returnType, rpcParameters, Class, method);
                 }
                 else
                 {
-                    // Синхронный с возвратом → RPCfuncOut<T> напрямую
-                    runDelegate = Utils.MakeRPCDelegateOut(method.ReturnType, mParameters, Class, method);
+                    // Синхронный с возвратом → RPCfuncOut<T> напрямую (или через обёртку если есть CancellationToken)
+                    if (hasCT)
+                        runDelegate = Utils.MakeRPCDelegateOutWithTrailingCT(method.ReturnType, rpcParameters, Class, method);
+                    else
+                        runDelegate = Utils.MakeRPCDelegateOut(method.ReturnType, rpcParameters, Class, method);
                 }
 
                 Type delegateType = runDelegate.GetType();

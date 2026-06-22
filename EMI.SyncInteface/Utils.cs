@@ -13,6 +13,31 @@ namespace EMI.SyncInterface
 
     internal static partial class Utils
     {
+        /// <summary>
+        /// Возвращает true, если последний параметр метода — CancellationToken.
+        /// Такие параметры трактуются как токен отмены RPC, а не сериализуемые данные.
+        /// </summary>
+        public static bool HasTrailingCancellationToken(this MethodInfo method)
+        {
+            var parameters = method.GetParameters();
+            return parameters.Length > 0 && parameters[parameters.Length - 1].ParameterType == typeof(CancellationToken);
+        }
+
+        /// <summary>
+        /// Возвращает типы параметров для RPC-данных (исключая завершающий CancellationToken, если он есть).
+        /// </summary>
+        public static Type[] GetRpcParametersType(this MethodInfo method)
+        {
+            var all = method.GetParametersType();
+            if (method.HasTrailingCancellationToken())
+            {
+                var result = new Type[all.Length - 1];
+                Array.Copy(all, result, result.Length);
+                return result;
+            }
+            return all;
+        }
+
         public static ModuleBuilder InitModuleBuilder()
         {
             SmartPackager.PackMethods.SetupAgainPackMethods(); //иначе smart packager будет пытаться просканировать несозданные типы и крашнет всю прогу
@@ -47,7 +72,7 @@ namespace EMI.SyncInterface
             else
                 name = nameof(Indicator.Func);
 
-            int gen = method.GetParameters().Length;
+            int gen = method.GetRpcParametersType().Length;
 
             if (method.ReturnType != typeof(void) && method.ReturnType != typeof(Task))
                 gen++;
@@ -102,21 +127,20 @@ namespace EMI.SyncInterface
         public static Type[] GetReturnAndParametrs(this MethodInfo method)
         {
             Type[] types;
+            var rpcParams = method.GetRpcParametersType();
             if (method.IsReturnData())
             {
-                var param = method.GetParameters();
-                types = new Type[param.Length + 1];
+                types = new Type[rpcParams.Length + 1];
                 types[0] = method.GetReturnType();
 
-                for (int i = 0; i < param.Length; i++)
-                    types[i + 1] = param[i].ParameterType;
+                for (int i = 0; i < rpcParams.Length; i++)
+                    types[i + 1] = rpcParams[i];
             }
             else
             {
-                var param = method.GetParameters();
-                types = new Type[param.Length];
-                for (int i = 0; i < param.Length; i++)
-                    types[i] = param[i].ParameterType;
+                types = new Type[rpcParams.Length];
+                for (int i = 0; i < rpcParams.Length; i++)
+                    types[i] = rpcParams[i];
             }
             return types;
         }
@@ -165,7 +189,20 @@ namespace EMI.SyncInterface
             for (int i = 0; i < inTypes.Length; i++)
                 paramExprs[i] = Expression.Parameter(inTypes[i], "p" + i);
 
-            var callExpr = Expression.Call(targetConst, mi, paramExprs);
+            // Если метод ожидает CancellationToken последним параметром, добавляем default(CancellationToken)
+            Expression[] callArgs;
+            if (mi.HasTrailingCancellationToken())
+            {
+                callArgs = new Expression[paramExprs.Length + 1];
+                Array.Copy(paramExprs, callArgs, paramExprs.Length);
+                callArgs[paramExprs.Length] = Expression.Default(typeof(CancellationToken));
+            }
+            else
+            {
+                callArgs = paramExprs;
+            }
+
+            var callExpr = Expression.Call(targetConst, mi, callArgs);
 
             var getAwaiterMethod = typeof(Task).GetMethod(nameof(Task.GetAwaiter));
             var awaiterType = typeof(TaskAwaiter);
@@ -193,7 +230,20 @@ namespace EMI.SyncInterface
             for (int i = 0; i < inTypes.Length; i++)
                 paramExprs[i] = Expression.Parameter(inTypes[i], "p" + i);
 
-            var callExpr = Expression.Call(targetConst, mi, paramExprs);
+            // Если метод ожидает CancellationToken последним параметром, добавляем default(CancellationToken)
+            Expression[] callArgs;
+            if (mi.HasTrailingCancellationToken())
+            {
+                callArgs = new Expression[paramExprs.Length + 1];
+                Array.Copy(paramExprs, callArgs, paramExprs.Length);
+                callArgs[paramExprs.Length] = Expression.Default(typeof(CancellationToken));
+            }
+            else
+            {
+                callArgs = paramExprs;
+            }
+
+            var callExpr = Expression.Call(targetConst, mi, callArgs);
 
             var taskType = typeof(Task<>).MakeGenericType(returnType);
             var getAwaiterMethod = taskType.GetMethod(nameof(Task.GetAwaiter));
@@ -213,6 +263,49 @@ namespace EMI.SyncInterface
             Array.Copy(inTypes, 0, types, 1, inTypes.Length);
             Type delegateType = GetRPCfuncOutDelegateType(types);
             return Expression.Lambda(delegateType, bodyBlock, paramExprs).Compile();
+        }
+
+        /// <summary>
+        /// Создаёт RPCfunc делегат-обёртку для синхронного void метода с завершающим CancellationToken.
+        /// Обёртка: (p0, ..., pN-1) => method(p0, ..., pN-1, default(CancellationToken))
+        /// </summary>
+        public static Delegate MakeRPCDelegateWithTrailingCT(Type[] rpcTypes, object context, MethodInfo mi)
+        {
+            var targetConst = Expression.Constant(context);
+            var paramExprs = new ParameterExpression[rpcTypes.Length];
+            for (int i = 0; i < rpcTypes.Length; i++)
+                paramExprs[i] = Expression.Parameter(rpcTypes[i], "p" + i);
+
+            var callArgs = new Expression[paramExprs.Length + 1];
+            Array.Copy(paramExprs, callArgs, paramExprs.Length);
+            callArgs[paramExprs.Length] = Expression.Default(typeof(CancellationToken));
+
+            var callExpr = Expression.Call(targetConst, mi, callArgs);
+            Type delegateType = GetRPCfuncDelegateType(rpcTypes);
+            return Expression.Lambda(delegateType, callExpr, paramExprs).Compile();
+        }
+
+        /// <summary>
+        /// Создаёт RPCfuncOut делегат-обёртку для синхронного метода с возвратным значением и завершающим CancellationToken.
+        /// Обёртка: (p0, ..., pN-1) => method(p0, ..., pN-1, default(CancellationToken))
+        /// </summary>
+        public static Delegate MakeRPCDelegateOutWithTrailingCT(Type returnType, Type[] rpcTypes, object context, MethodInfo mi)
+        {
+            var targetConst = Expression.Constant(context);
+            var paramExprs = new ParameterExpression[rpcTypes.Length];
+            for (int i = 0; i < rpcTypes.Length; i++)
+                paramExprs[i] = Expression.Parameter(rpcTypes[i], "p" + i);
+
+            var callArgs = new Expression[paramExprs.Length + 1];
+            Array.Copy(paramExprs, callArgs, paramExprs.Length);
+            callArgs[paramExprs.Length] = Expression.Default(typeof(CancellationToken));
+
+            var callExpr = Expression.Call(targetConst, mi, callArgs);
+            var types = new Type[rpcTypes.Length + 1];
+            types[0] = returnType;
+            Array.Copy(rpcTypes, 0, types, 1, rpcTypes.Length);
+            Type delegateType = GetRPCfuncOutDelegateType(types);
+            return Expression.Lambda(delegateType, callExpr, paramExprs).Compile();
         }
 
 // GetRPCfuncDelegateType, GetRPCfuncOutDelegateType, MakeRPCDelegateOut moved to Utils.Generated.cs

@@ -2,10 +2,10 @@
 {
     public struct RegMethodForwarding
     {
-        public int ID;
+        public long ID;
         public string Name;
 
-        public RegMethodForwarding(int iD, string name)
+        public RegMethodForwarding(long iD, string name)
         {
             ID = iD;
             Name = name;

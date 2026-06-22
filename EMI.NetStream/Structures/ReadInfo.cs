@@ -1,21 +1,19 @@
-﻿using System;
-
-namespace EMI.NetStream.Structures
+﻿namespace EMI.NetStream.Structures
 {
     internal struct ReadInfo
     {
         public bool Result;
         public int ReadLen;
         public byte[] Buffer;
-        public long Lenght;
+        public long Length;
         public long Position;
 
-        public ReadInfo(bool result, int readLen, byte[] buffer, long lenght, long position)
+        public ReadInfo(bool result, int readLen, byte[] buffer, long length, long position)
         {
             Result = result;
             ReadLen = readLen;
             Buffer = buffer;
-            Lenght = lenght;
+            Length = length;
             Position = position;
         }
     }

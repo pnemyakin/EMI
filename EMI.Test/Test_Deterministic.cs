@@ -7,31 +7,32 @@ namespace EMI.Test
         public void SameInput_SameHash()
         {
             string input = "TestMethod";
-            int hash1 = input.DeterministicGetHashCode();
-            int hash2 = input.DeterministicGetHashCode();
+            long hash1 = input.DeterministicGetHashCode();
+            long hash2 = input.DeterministicGetHashCode();
             Assert.AreEqual(hash1, hash2);
         }
 
-        [TestMethod("Хеш детерминирован — известные значения не меняются между запусками")]
+        [TestMethod("Хеш детерминирован — FNV-1a 64-bit даёт стабильный результат")]
         public void KnownValues_AreStable()
         {
-            // Зафиксированные значения — если хеш-алгоритм изменится, тест упадёт
-            int hash = "Hello".DeterministicGetHashCode();
-            int hash2 = "Hello".DeterministicGetHashCode();
-            Assert.AreEqual(hash, hash2);
+            // FNV-1a 64-bit — проверяем что хеш воспроизводится
+            long hash1 = "Hello".DeterministicGetHashCode();
+            long hash2 = "Hello".DeterministicGetHashCode();
+            Assert.AreEqual(hash1, hash2);
 
-            // Сохраняем snapshot для регрессии
-            int snapshot = "EMI.RPC.TestMethod".DeterministicGetHashCode();
-            int snapshot2 = "EMI.RPC.TestMethod".DeterministicGetHashCode();
-            Assert.AreEqual(snapshot, snapshot2);
+            long snapshot1 = "EMI.RPC.TestMethod".DeterministicGetHashCode();
+            long snapshot2 = "EMI.RPC.TestMethod".DeterministicGetHashCode();
+            Assert.AreEqual(snapshot1, snapshot2);
+            // Один и тот же хеш должен выдаваться всегда
+            Assert.AreEqual(hash1, "Hello".DeterministicGetHashCode());
         }
 
         [TestMethod("Разные строки дают разные хеши")]
         public void DifferentInputs_DifferentHashes()
         {
-            int hash1 = "Alpha".DeterministicGetHashCode();
-            int hash2 = "Beta".DeterministicGetHashCode();
-            int hash3 = "Gamma".DeterministicGetHashCode();
+            long hash1 = "Alpha".DeterministicGetHashCode();
+            long hash2 = "Beta".DeterministicGetHashCode();
+            long hash3 = "Gamma".DeterministicGetHashCode();
 
             Assert.AreNotEqual(hash1, hash2);
             Assert.AreNotEqual(hash2, hash3);
@@ -41,7 +42,7 @@ namespace EMI.Test
         [TestMethod("Пустая строка не вызывает исключения")]
         public void EmptyString_DoesNotThrow()
         {
-            int hash = "".DeterministicGetHashCode();
+            long hash = "".DeterministicGetHashCode();
             // Просто проверяем что не упало — значение может быть любое
             Assert.AreEqual(hash, "".DeterministicGetHashCode());
         }
@@ -49,7 +50,7 @@ namespace EMI.Test
         [TestMethod("Один символ работает корректно")]
         public void SingleChar_Works()
         {
-            int hash = "A".DeterministicGetHashCode();
+            long hash = "A".DeterministicGetHashCode();
             Assert.AreEqual(hash, "A".DeterministicGetHashCode());
             Assert.AreNotEqual(hash, "B".DeterministicGetHashCode());
         }
@@ -58,11 +59,11 @@ namespace EMI.Test
         public void EvenAndOddLength()
         {
             // Чётная длина (4)
-            int even = "ABCD".DeterministicGetHashCode();
+            long even = "ABCD".DeterministicGetHashCode();
             Assert.AreEqual(even, "ABCD".DeterministicGetHashCode());
 
             // Нечётная длина (5)
-            int odd = "ABCDE".DeterministicGetHashCode();
+            long odd = "ABCDE".DeterministicGetHashCode();
             Assert.AreEqual(odd, "ABCDE".DeterministicGetHashCode());
 
             Assert.AreNotEqual(even, odd);
@@ -72,15 +73,15 @@ namespace EMI.Test
         public void LongString_Works()
         {
             string longStr = new string('X', 10000);
-            int hash = longStr.DeterministicGetHashCode();
+            long hash = longStr.DeterministicGetHashCode();
             Assert.AreEqual(hash, longStr.DeterministicGetHashCode());
         }
 
         [TestMethod("Юникод строки работают")]
         public void Unicode_Works()
         {
-            int hash1 = "Привет".DeterministicGetHashCode();
-            int hash2 = "Мир".DeterministicGetHashCode();
+            long hash1 = "Привет".DeterministicGetHashCode();
+            long hash2 = "Мир".DeterministicGetHashCode();
             Assert.AreNotEqual(hash1, hash2);
             Assert.AreEqual(hash1, "Привет".DeterministicGetHashCode());
         }
@@ -97,7 +98,7 @@ namespace EMI.Test
                 "Player.Move", "Player.Jump", "Player.Shoot", "Player.Reload"
             };
 
-            var hashes = new HashSet<int>();
+            var hashes = new HashSet<long>();
             foreach (var name in names)
             {
                 bool added = hashes.Add(name.DeterministicGetHashCode());

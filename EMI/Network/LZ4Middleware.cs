@@ -42,7 +42,7 @@ namespace EMI.Network
                 // Too small to compress — wrap with flag byte only
                 var output = new NGCArray(HEADER_SIZE_RAW + inputLen);
                 output.Bytes[0] = FLAG_RAW;
-                Buffer.BlockCopy(input.Bytes, input.Offset, output.Bytes, HEADER_SIZE_RAW, inputLen);
+                Buffer.BlockCopy(input.Bytes, 0, output.Bytes, HEADER_SIZE_RAW, inputLen);
                 return output;
             }
 
@@ -51,7 +51,7 @@ namespace EMI.Network
             var tempOutput = new NGCArray(HEADER_SIZE_COMPRESSED + maxCompressedSize);
 
             int compressedSize = LZ4Codec.Encode(
-                input.Bytes, input.Offset, inputLen,
+                input.Bytes, 0, inputLen,
                 tempOutput.Bytes, HEADER_SIZE_COMPRESSED, maxCompressedSize);
 
             if (compressedSize <= 0 || compressedSize >= inputLen)
@@ -60,7 +60,7 @@ namespace EMI.Network
                 tempOutput.Dispose();
                 var rawOutput = new NGCArray(HEADER_SIZE_RAW + inputLen);
                 rawOutput.Bytes[0] = FLAG_RAW;
-                Buffer.BlockCopy(input.Bytes, input.Offset, rawOutput.Bytes, HEADER_SIZE_RAW, inputLen);
+                Buffer.BlockCopy(input.Bytes, 0, rawOutput.Bytes, HEADER_SIZE_RAW, inputLen);
                 return rawOutput;
             }
 
@@ -92,7 +92,9 @@ namespace EMI.Network
         /// <inheritdoc/>
         public INGCArray ProcessIncoming(INGCArray input)
         {
-            if (input.Length < 1)
+            int inputLen = input.Length - input.Offset;
+
+            if (inputLen < 1)
                 throw new InvalidOperationException("LZ4Middleware: packet too short (no flag byte)");
 
             byte flag = input.Bytes[input.Offset];
@@ -100,7 +102,7 @@ namespace EMI.Network
             if (flag == FLAG_RAW)
             {
                 // Raw packet — strip flag byte
-                int dataLen = input.Length - HEADER_SIZE_RAW;
+                int dataLen = inputLen - HEADER_SIZE_RAW;
                 var output = new NGCArray(dataLen);
                 Buffer.BlockCopy(input.Bytes, input.Offset + HEADER_SIZE_RAW, output.Bytes, 0, dataLen);
                 return output;
@@ -108,7 +110,7 @@ namespace EMI.Network
 
             if (flag == FLAG_COMPRESSED)
             {
-                if (input.Length < HEADER_SIZE_COMPRESSED)
+                if (inputLen < HEADER_SIZE_COMPRESSED)
                     throw new InvalidOperationException("LZ4Middleware: compressed packet too short");
 
                 int originalSize = ReadInt32LE(input.Bytes, input.Offset + 1);
@@ -117,7 +119,7 @@ namespace EMI.Network
 
                 var output = new NGCArray(originalSize);
                 int decompressedSize = LZ4Codec.Decode(
-                    input.Bytes, input.Offset + HEADER_SIZE_COMPRESSED, input.Length - HEADER_SIZE_COMPRESSED,
+                    input.Bytes, input.Offset + HEADER_SIZE_COMPRESSED, inputLen - HEADER_SIZE_COMPRESSED,
                     output.Bytes, 0, originalSize);
 
                 if (decompressedSize != originalSize)
@@ -221,7 +223,7 @@ namespace EMI.Network
                     refP = hashTable[h];
                     hashTable[h] = iP;
                 }
-                while (refP < inputOffset || iP - refP >= MAXD ||
+                while (refP < inputOffset || refP >= iP || iP - refP >= MAXD ||
                        input[refP] != input[iP] ||
                        input[refP + 1] != input[iP + 1] ||
                        input[refP + 2] != input[iP + 2] ||

@@ -9,7 +9,7 @@ namespace EMI.Test
         public void Semaphore_StartsLocked()
         {
             var indicator = new Indicator.Func("WaitTest");
-            var handle = new RCWaitHandle(indicator);
+            var handle = new RCWaitHandle(indicator, 1);
 
             // WaitAsync с нулевым таймаутом — должен не пройти (семафор = 0)
             bool entered = handle.Semaphore.Wait(0);
@@ -20,7 +20,7 @@ namespace EMI.Test
         public async Task Release_UnlocksWait()
         {
             var indicator = new Indicator.Func("ReleaseTest");
-            var handle = new RCWaitHandle(indicator);
+            var handle = new RCWaitHandle(indicator, 2);
 
             // Освобождаем семафор
             handle.Semaphore.Release();
@@ -35,7 +35,7 @@ namespace EMI.Test
         public void Indicator_IsStored()
         {
             var indicator = new Indicator.Func("StoredTest");
-            var handle = new RCWaitHandle(indicator);
+            var handle = new RCWaitHandle(indicator, 3);
             Assert.AreSame(indicator, handle.Indicator);
         }
 
@@ -43,7 +43,7 @@ namespace EMI.Test
         public async Task WaitAsync_CancellationToken_Works()
         {
             var indicator = new Indicator.Func("CancelWaitTest");
-            var handle = new RCWaitHandle(indicator);
+            var handle = new RCWaitHandle(indicator, 4);
 
             var cts = new CancellationTokenSource(50);
             try

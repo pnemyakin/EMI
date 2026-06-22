@@ -26,7 +26,7 @@ namespace EMI
         /// <summary>
         /// [Устанавливается для всех подключённых клиентов] Максимальный размер пакета который может отправить удалённый пользователь за один раз (если размер будет превышен - клиент будет отключен)
         /// </summary>
-        public int MaxPacketAcceptSize = 1024 * 1024 * 10; //10 мегобайт
+        public int MaxPacketAcceptSize = 1024 * 1024 * 64; //64 мегабайт
         /// <summary>
         /// [Устанавливается для всех подключённых клиентов] Частота опроса пинга
         /// </summary>
@@ -282,16 +282,11 @@ namespace EMI
                 }
             }
 
-            CancellationTokenSource cts = new CancellationTokenSource();
-            token.Register(() => cts.Cancel());
-            await TaskUtilities.InvokeAsync(() =>
+            client = new Client(clientToUse, RPC, this)
             {
-                client = new Client(clientToUse, RPC, this)
-                {
-                    MaxPacketAcceptSize = MaxPacketAcceptSize,
-                    RandomDrop = RandomDrop,
-                };
-            }, cts).ConfigureAwait(false);
+                MaxPacketAcceptSize = MaxPacketAcceptSize,
+                RandomDrop = RandomDrop,
+            };
 
             var list = Clients;
             lock (list)

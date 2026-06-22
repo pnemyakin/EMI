@@ -3,18 +3,18 @@ using System.Runtime.InteropServices;
 
 namespace EMI.NetStream.Structures
 {
-    [StructLayout(LayoutKind.Explicit,Size = 12)]
+    [StructLayout(LayoutKind.Explicit, Size = 12)]
     internal struct SeekInInfo
     {
         [FieldOffset(0)]
-        public long offset;
+        public long Offset;
         [FieldOffset(8)]
-        public SeekOrigin origin;
+        public SeekOrigin Origin;
 
         public SeekInInfo(long offset, SeekOrigin origin)
         {
-            this.offset = offset;
-            this.origin = origin;
+            Offset = offset;
+            Origin = origin;
         }
     }
 }

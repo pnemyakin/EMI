@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("EMI")]
 [assembly: AssemblyDescription("Implements client-server data exchange between applications")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Avangard Game Studio")]
+[assembly: AssemblyCompany("MG Team")]
 [assembly: AssemblyProduct("EMI")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]

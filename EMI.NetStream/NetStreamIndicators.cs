@@ -3,23 +3,23 @@
 namespace EMI.NetStream
 {
     using Structures;
+
     /// <summary>
-    /// Функции для удалённого вызова
+    /// RPC-индикаторы для удалённых операций над потоком.
     /// </summary>
     internal class NetStreamIndicators
     {
-        public Indicator.FuncOut<NetStreamInfo> GetStreamInfo;
-        public Indicator.FuncOut<long> GetStreamLength;
-        public Indicator.FuncOut<long> GetStreamPosition;
-        public Indicator.FuncOut<bool, long> SetStreamPosition;
+        public readonly Indicator.FuncOut<NetStreamInfo> GetStreamInfo;
+        public readonly Indicator.FuncOut<long> GetStreamLength;
+        public readonly Indicator.FuncOut<long> GetStreamPosition;
+        public readonly Indicator.FuncOut<bool, long> SetStreamPosition;
 
-        public Indicator.FuncOut<FlushInfo> Flush;
-        public Indicator.FuncOut<ReadInfo, ReadInInfo> Read;
-        public Indicator.FuncOut<SeekInfo, SeekInInfo> Seek;
-        public Indicator.FuncOut<bool, long> SetLength;
-        public Indicator.FuncOut<WriteInfo, WriteInInfo> Write;
-        public Indicator.Func Close;
-        
+        public readonly Indicator.FuncOut<FlushInfo> Flush;
+        public readonly Indicator.FuncOut<ReadInfo, ReadInInfo> Read;
+        public readonly Indicator.FuncOut<SeekInfo, SeekInInfo> Seek;
+        public readonly Indicator.FuncOut<bool, long> SetLength;
+        public readonly Indicator.FuncOut<WriteInfo, WriteInInfo> Write;
+        public readonly Indicator.Func Close;
 
         public NetStreamIndicators(int id)
         {

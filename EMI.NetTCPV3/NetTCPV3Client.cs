@@ -171,6 +171,8 @@ namespace EMI.Network.NetTCPV3
             while (count > 0)
             {
                 int size = await NetworkStream.ReadAsync(buffer, offset, count, token).ConfigureAwait(false);
+                if (size == 0)
+                    throw new System.IO.IOException("Remote side closed the connection");
                 count -= size;
                 offset += size;
             }
@@ -200,7 +202,10 @@ namespace EMI.Network.NetTCPV3
                     lock (Server.TCPClients)
                         Server.TCPClients.Remove(this);
                 }
-                Task.Run(async () =>
+                // Отправляем причину разрыва, затем уведомляем подписчиков и закрываем сокет.
+                // Disconnected?.Invoke перенесён ВНУТРЬ Task.Run чтобы гарантировать:
+                // SendLow использует ещё живые семафоры, и только потом они уничтожаются в NetBaseTCPClient_Disconnected.
+                _ = Task.Run(async () =>
                 {
                     try
                     {
@@ -209,8 +214,13 @@ namespace EMI.Network.NetTCPV3
                             PacketHeader.Error, new CancellationTokenSource(1000).Token);
                         await Task.Delay(1500);
                     }
+                    catch
+                    {
+                        // Отправка ошибки не удалась — соединение уже мертво, это ожидаемо
+                    }
                     finally
                     {
+                        Disconnected?.Invoke(user_error);
                         try
                         {
                             TcpClient.Close();
@@ -218,7 +228,6 @@ namespace EMI.Network.NetTCPV3
                         catch { }
                     }
                 });
-                Disconnected?.Invoke(user_error);
             }
         }
 
@@ -234,38 +243,58 @@ namespace EMI.Network.NetTCPV3
             }
             else
             {
-                CancellationTokenSource cts = new CancellationTokenSource();
-                token.Register(() => cts.Cancel());
-                try
-                {
-                    TcpClient = new TcpClient();
-                    Init();
+                TcpClient = new TcpClient();
+                Init();
 
-                    bool wait = await EMI.TaskUtilities.InvokeAsync(() =>
+                var ep = Utilities.ParseIPAddress(address);
+                var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+                var connectThread = new Thread(() =>
+                {
+                    try
                     {
-                        TcpClient.Connect(Utilities.ParseIPAddress(address));
-                    }, cts).ConfigureAwait(false);
-                    if (wait == false || token.IsCancellationRequested)
+                        TcpClient.Connect(ep);
+                        tcs.TrySetResult(true);
+                    }
+                    catch (Exception ex)
+                    {
+                        tcs.TrySetException(ex);
+                    }
+                })
+                { IsBackground = true };
+                connectThread.Start();
+
+                using (token.Register(() => { try { TcpClient.Close(); } catch { } }))
+                {
+                    try
+                    {
+                        await tcs.Task.ConfigureAwait(false);
+                    }
+                    catch (SocketException) when (token.IsCancellationRequested)
                     {
                         try { TcpClient.Close(); } catch { }
                         IsConnect = false;
                         return false;
                     }
-                    else
+                    catch (Exception e) when (token.IsCancellationRequested)
                     {
-                        NetworkStream = TcpClient.GetStream();
-                        IsConnect = true;
-                        _ = Task.Factory.StartNew(DeliveredRateProcessor, TaskCreationOptions.LongRunning);
-                        return true;
+                        try { TcpClient.Close(); } catch { }
+                        Disconnected?.Invoke(e.ToString());
+                        IsConnect = false;
+                        return false;
                     }
                 }
-                catch (Exception e)
+
+                if (token.IsCancellationRequested)
                 {
                     try { TcpClient.Close(); } catch { }
                     IsConnect = false;
-                    Disconnected?.Invoke(e.ToString());
                     return false;
                 }
+
+                NetworkStream = TcpClient.GetStream();
+                IsConnect = true;
+                _ = Task.Factory.StartNew(DeliveredRateProcessor, TaskCreationOptions.LongRunning);
+                return true;
             }
         }
 
@@ -430,7 +459,7 @@ namespace EMI.Network.NetTCPV3
                     int size = (int)header.GetSize();
                     PacketHeader flags = header.Flags;
 
-                    if(!(flags.HasFlag(PacketHeader.PacketDone) || flags.HasFlag(PacketHeader.PacketDone)))
+                    if(!flags.HasFlag(PacketHeader.PacketDone))
                     {
                         _ = SendLowDone(header, token);
                     }

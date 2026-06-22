@@ -63,6 +63,11 @@ namespace EMI
         public async Task Push(INGCArray array, CancellationToken token)
         {
             // Ждём пока освободится место по байтам
+            // Важно: BytesCount — conservative upper bound (всегда >= реальной занятости стека).
+            // Счётчик увеличивается ДО фактического Push в стек (т.к. нельзя держать lock вокруг await),
+            // а уменьшается ПОСЛЕ Pop (в Handle.Dispose). Поэтому BytesCount может временно завышаться,
+            // но никогда не занижается — backpressure срабатывает чуть раньше, что безопасно.
+            // Жёсткий лимит по количеству элементов обеспечивает сам FixedStack (Channel c BoundedCapacity).
             while (BytesCount >= MaxBytesCount && !token.IsCancellationRequested)
             {
                 try { await Task.Delay(1, token).ConfigureAwait(false); }

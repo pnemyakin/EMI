@@ -93,7 +93,7 @@ Client(INetworkService service)
 ```csharp
 IRPCRemoveHandle RegisterMethod(Action handler, Indicator.Func indicator)
 IRPCRemoveHandle RegisterMethod<T1>(Action<T1> handler, Indicator.Func<T1> indicator)
-// ... до 20 параметров
+// ... до 100 параметров
 ```
 
 Регистрация метода с возвращаемым значением:
@@ -101,7 +101,7 @@ IRPCRemoveHandle RegisterMethod<T1>(Action<T1> handler, Indicator.Func<T1> indic
 ```csharp
 IRPCRemoveHandle RegisterMethod<TOut>(Func<TOut> handler, Indicator.FuncOut<TOut> indicator)
 IRPCRemoveHandle RegisterMethod<TOut, T1>(Func<T1, TOut> handler, Indicator.FuncOut<TOut, T1> indicator)
-// ... до 10 параметров
+// ... до 100 параметров
 ```
 
 Регистрация перенаправления:
@@ -126,7 +126,7 @@ IRPCRemoveHandle RegisterForwarding(AIndicator indicator, Func<Client, Client[]>
 new Indicator.Func("MethodName")                          // 0 параметров
 new Indicator.Func<string>("MethodName")                   // 1 параметр
 new Indicator.Func<int, float, string>("MethodName")       // 3 параметра
-// ... до 20 параметров
+// ... до 100 параметров
 ```
 
 Вызов:
@@ -144,7 +144,7 @@ await indicator.RCall(42, 3.14f, "текст", client, RCType.Guaranteed);     /
 ```csharp
 new Indicator.FuncOut<DateTime>("GetTime")                              // 0 параметров
 new Indicator.FuncOut<bool, string>("Authenticate")                     // 1 параметр
-// ... до 10 параметров
+// ... до 100 параметров
 ```
 
 Вызов:
@@ -156,7 +156,7 @@ bool ok = await indicator.RCall("token", client, RCType.ReturnWait);
 
 ### Важно
 
-Один экземпляр `Indicator` не является потокобезопасным для одновременных вызовов `RCall`. Параметры хранятся в полях экземпляра. Для параллельных вызовов используйте отдельные экземпляры или синхронизацию.
+Один экземпляр `Indicator` **потокобезопасен** для одновременных вызовов `RCall` — параметры не хранятся в полях, а передаются через лямбду непосредственно в момент вызова.
 
 ## RCType
 
@@ -202,7 +202,10 @@ Task Method();                        // асинхронный, без резу
 Task<int> Method();                   // асинхронный, с результатом
 void Method(int a, string b);         // с параметрами
 Task<bool> Method(string token);      // асинхронный, с параметрами и результатом
+Task<byte[]> Method(int id, CancellationToken ct); // с CancellationToken
 ```
+
+Если последний параметр метода — `CancellationToken`, он **не** сериализуется как данные, а пробрасывается в RPC-инфраструктуру для отмены вызова. На вызывающей стороне (прокси) токен передаётся в `RCall` и может отменить отправку или ожидание ответа. На принимающей стороне (реализация) обработчик получает `default(CancellationToken)`.
 
 Интерфейс не должен содержать свойства. Только методы.
 
@@ -280,6 +283,63 @@ using var array = new NGCArray(1024);
 | Исключение | Описание |
 |---|---|
 | `InvalidInterfaceException` | Тип не является интерфейсом или содержит свойства |
+
+## Подводные камни
+
+### [RCTypeOption] + FuncOut возвращает default(T)
+
+Если метод интерфейса `SyncInterface` возвращает `Task<T>` (или значение) и помечен атрибутом `[RCTypeOption(RCType.X)]` где `X != ReturnWait`, вызывающая сторона получит `default(T)` вместо реального результата — сервер не ждёт ответа.
+
+В DEBUG-сборке выводится предупреждение в консоль при построении `SyncInterface<T>`. В Release — тихий баг.
+
+```csharp
+// Опасно — клиент получит false вместо реального результата аутентификации
+[RCTypeOption(RCType.Guaranteed)]
+Task<bool> Authenticate(string token);
+
+// Правильно — RCType.ReturnWait используется по умолчанию для FuncOut
+Task<bool> Authenticate(string token);
+```
+
+### SyncInterface: синхронные методы блокируют поток
+
+Когда метод в интерфейсе объявлен как `void` или `T` (не `Task`), `SyncInterface` генерирует IL, который вызывает `.Wait()` или `.Result` на результирующей задаче. Это блокирует вызывающий поток.
+
+Если вызов происходит из потока с `SynchronizationContext` (UI-поток WPF/WinForms, ASP.NET classic), возможен дедлок.
+
+```csharp
+// Риск дедлока при вызове из UI-потока:
+void SendMessage(string msg);
+int GetCount();
+
+// Безопасно — явный async, управление возвратом вызывающей стороне:
+Task SendMessage(string msg);
+Task<int> GetCount();
+```
+
+### Client.RPC на серверной стороне — это глобальный реестр
+
+Объект `Client`, полученный из `server.Accept()`, имеет `Client.RPC == Server.RPC`. Регистрация метода через `serverClient.RPC.RegisterMethod(...)` добавляет его в **глобальный** реестр, доступный всем подключённым клиентам.
+
+Для методов, доступных только одному конкретному клиенту, используйте `Client.LocalRPC`:
+
+```csharp
+Client client = await server.Accept();
+
+// Глобально — все клиенты смогут вызвать этот метод:
+client.RPC.RegisterMethod(Handler, indicator);
+
+// Только для этого клиента:
+client.LocalRPC.RegisterMethod(Handler, indicator);
+```
+
+### Обработчики RPC поглощают исключения
+
+Если зарегистрированный обработчик выбросит исключение, оно будет перехвачено, залогировано (только в DEBUG), а вызывающая сторона получит `default(T)`. Исключение не приходит к вызывающей стороне. Это поведение намеренное — один сбойный обработчик не роняет весь процесс.
+
+### Лимит RPC-регистраций — 65536
+
+Общее число зарегистрированных методов на один `RPC`-реестр ограничено 65536 (16-битный ID в пакете). При превышении выбрасывается `RegisterLimitException`. `Server.RPC` и `Client.LocalRPC` — независимые реестры с отдельными счётчиками.
 
 ## PacketType
 

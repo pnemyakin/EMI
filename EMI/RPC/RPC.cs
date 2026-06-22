@@ -30,12 +30,12 @@ namespace EMI
         /// <summary>
         /// ������������������ ������� - ������������ ��� ������
         /// </summary>
-        private readonly Dictionary<int, MicroFunc> RegisteredMethods = new Dictionary<int, MicroFunc>();
-        private readonly Dictionary<int, ForwardingInfo> RegisteredForwarding = new Dictionary<int, ForwardingInfo>();
+        private readonly Dictionary<long, MicroFunc> RegisteredMethods = new Dictionary<long, MicroFunc>();
+        private readonly Dictionary<long, ForwardingInfo> RegisteredForwarding = new Dictionary<long, ForwardingInfo>();
 
 #if DEBUG
-        private readonly Dictionary<int, (string, int)> RegisteredMethodsName = new Dictionary<int, (string, int)>();
-        private readonly Dictionary<int,string> RegisteredForwardingName = new Dictionary<int, string>();
+        private readonly Dictionary<long, (string, int)> RegisteredMethodsName = new Dictionary<long, (string, int)>();
+        private readonly Dictionary<long, string> RegisteredForwardingName = new Dictionary<long, string>();
 #endif
 
 #if DEBUG
@@ -43,7 +43,7 @@ namespace EMI
         /// �������� ������ ������������������ �������
         /// </summary>
         /// <returns></returns>
-        public KeyValuePair<int,(string,int)>[] GetRegisteredMethodsName()
+        public KeyValuePair<long,(string,int)>[] GetRegisteredMethodsName()
         {
             lock (this)
             {
@@ -55,7 +55,7 @@ namespace EMI
         /// �������� ������ ������������������ ������� (Forwarding)
         /// </summary>
         /// <returns></returns>
-        public KeyValuePair<int, string>[] GetRegisteredForwardingName()
+        public KeyValuePair<long, string>[] GetRegisteredForwardingName()
         {
             lock (this)
             {
@@ -84,7 +84,7 @@ namespace EMI
         /// <summary>
         /// ���������� ������ � ����������� � ������ (��� + ID � DEBUG, ������ ID � Release)
         /// </summary>
-        internal string GetMethodInfo(int ID)
+        internal string GetMethodInfo(long ID)
         {
 #if DEBUG
             lock (this)
@@ -130,7 +130,7 @@ namespace EMI
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        internal MicroFunc TryGetRegisteredMethod(int ID)
+        internal MicroFunc TryGetRegisteredMethod(long ID)
         {
             lock (this)
             {
@@ -144,7 +144,7 @@ namespace EMI
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
-        internal ForwardingInfo TryGetRegisteredForwarding(int ID)
+        internal ForwardingInfo TryGetRegisteredForwarding(long ID)
         {
             lock (this)
             {
@@ -161,7 +161,7 @@ namespace EMI
         /// <returns></returns>
         private IRPCRemoveHandle RegisterMethodHelp(AIndicator indicator, MicroFunc micro)
         {
-            int id = indicator.ID;
+            long id = indicator.ID;
             lock (this)
             {
                 if (RegisteredMethods.ContainsKey(id))
@@ -216,12 +216,12 @@ namespace EMI
         /// </summary>
         public class RemoveHandleMethod : IRPCRemoveHandle
         {
-            private readonly int ID;
+            private readonly long ID;
             private RPC RPC;
             private MicroFunc Micro;
             private bool IsRemoved = false;
 
-            internal RemoveHandleMethod(int id, MicroFunc micro, RPC rpc)
+            internal RemoveHandleMethod(long id, MicroFunc micro, RPC rpc)
             {
                 ID = id;
                 Micro = micro;
@@ -270,11 +270,11 @@ namespace EMI
         /// </summary>
         public class RemoveHandleForwarding : IRPCRemoveHandle
         {
-            private readonly int ID;
+            private readonly long ID;
             private RPC RPC;
             private bool IsRemoved = false;
 
-            internal RemoveHandleForwarding(int id, RPC rpc)
+            internal RemoveHandleForwarding(long id, RPC rpc)
             {
                 ID = id;
                 RPC = rpc;

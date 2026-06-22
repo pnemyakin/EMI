@@ -265,6 +265,2076 @@ namespace EMI
             });
         }
 
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98, out T99 t99);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98, t99);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100>(RPCfunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100> method, Indicator.Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100>();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98, out T99 t99, out T100 t100);
+                try
+                {
+                    method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98, t99, t100);
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
         #endregion
         #region RegisterMethodReturned
         /// <summary>
@@ -551,6 +2621,2436 @@ namespace EMI
                 try
                 {
                     data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98, out T99 t99);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98, t99);
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100>(RPCfuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100> method, Indicator.FuncOut<Tout, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100> indicator)
+        {
+            var packager = Packager.Create<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, T22, T23, T24, T25, T26, T27, T28, T29, T30, T31, T32, T33, T34, T35, T36, T37, T38, T39, T40, T41, T42, T43, T44, T45, T46, T47, T48, T49, T50, T51, T52, T53, T54, T55, T56, T57, T58, T59, T60, T61, T62, T63, T64, T65, T66, T67, T68, T69, T70, T71, T72, T73, T74, T75, T76, T77, T78, T79, T80, T81, T82, T83, T84, T85, T86, T87, T88, T89, T90, T91, T92, T93, T94, T95, T96, T97, T98, T99, T100>();
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, out T1 t1, out T2 t2, out T3 t3, out T4 t4, out T5 t5, out T6 t6, out T7 t7, out T8 t8, out T9 t9, out T10 t10, out T11 t11, out T12 t12, out T13 t13, out T14 t14, out T15 t15, out T16 t16, out T17 t17, out T18 t18, out T19 t19, out T20 t20, out T21 t21, out T22 t22, out T23 t23, out T24 t24, out T25 t25, out T26 t26, out T27 t27, out T28 t28, out T29 t29, out T30 t30, out T31 t31, out T32 t32, out T33 t33, out T34 t34, out T35 t35, out T36 t36, out T37 t37, out T38 t38, out T39 t39, out T40 t40, out T41 t41, out T42 t42, out T43 t43, out T44 t44, out T45 t45, out T46 t46, out T47 t47, out T48 t48, out T49 t49, out T50 t50, out T51 t51, out T52 t52, out T53 t53, out T54 t54, out T55 t55, out T56 t56, out T57 t57, out T58 t58, out T59 t59, out T60 t60, out T61 t61, out T62 t62, out T63 t63, out T64 t64, out T65 t65, out T66 t66, out T67 t67, out T68 t68, out T69 t69, out T70 t70, out T71 t71, out T72 t72, out T73 t73, out T74 t74, out T75 t75, out T76 t76, out T77 t77, out T78 t78, out T79 t79, out T80 t80, out T81 t81, out T82 t82, out T83 t83, out T84 t84, out T85 t85, out T86 t86, out T87 t87, out T88 t88, out T89 t89, out T90 t90, out T91 t91, out T92 t92, out T93 t93, out T94 t94, out T95 t95, out T96 t96, out T97 t97, out T98 t98, out T99 t99, out T100 t100);
+                Tout data;
+                try
+                {
+                    data = method(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19, t20, t21, t22, t23, t24, t25, t26, t27, t28, t29, t30, t31, t32, t33, t34, t35, t36, t37, t38, t39, t40, t41, t42, t43, t44, t45, t46, t47, t48, t49, t50, t51, t52, t53, t54, t55, t56, t57, t58, t59, t60, t61, t62, t63, t64, t65, t66, t67, t68, t69, t70, t71, t72, t73, t74, t75, t76, t77, t78, t79, t80, t81, t82, t83, t84, t85, t86, t87, t88, t89, t90, t91, t92, t93, t94, t95, t96, t97, t98, t99, t100);
                 }
                 catch (Exception e)
                 {

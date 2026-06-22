@@ -1,45 +1,84 @@
 ﻿using EMI.Indicators;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace EMI.NetStream
 {
     /// <summary>
-    /// Создаёт хост для раздачи файлов
+    /// Хост для раздачи файлов через <see cref="FileDownloader"/>.
+    /// Создаёт <see cref="NetStreamHost"/> для каждого запрошенного файла.
     /// </summary>
-    public class FilesHost
+    public class FilesHost : IDisposable
     {
-        private Client Client;
-        private Func<string, Stream> Func;
-        private Indicator.FuncOut<(bool, int), string> GetFileIndicator;
+        private readonly Client _client;
+        private readonly Func<string, Stream> _getFile;
+        private readonly IRPCRemoveHandle _rpcHandle;
+        private readonly List<NetStreamHost> _openStreams = new List<NetStreamHost>();
+        private readonly object _sync = new object();
+        private bool _disposed;
 
         /// <summary>
-        /// Создать хост для раздачи файлов
+        /// Создать хост для раздачи файлов.
         /// </summary>
-        /// <param name="client">EMI клиент</param>
-        /// <param name="ID">айди хоста</param>
-        /// <param name="getFile">запрос на поток для считывания файла</param>
-        public FilesHost(Client client, int ID, Func<string, Stream> getFile)
+        /// <param name="client">EMI-клиент</param>
+        /// <param name="id">Идентификатор хоста (должен совпадать на стороне <see cref="FileDownloader"/>)</param>
+        /// <param name="getFile">
+        /// Функция, возвращающая <see cref="Stream"/> для указанного имени файла.
+        /// Вернуть <c>null</c> если файл не найден.
+        /// </param>
+        public FilesHost(Client client, int id, Func<string, Stream> getFile)
         {
-            Client = client;
-            Func = getFile;
+            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _getFile = getFile ?? throw new ArgumentNullException(nameof(getFile));
 
-            GetFileIndicator = new Indicator.FuncOut<(bool, int), string>("FileHost_GetFileIndicator_" + ID);
-            Client.LocalRPC.RegisterMethod(GetFile, GetFileIndicator);
+            var indicator = new Indicator.FuncOut<(bool, int), string>("FileHost_GetFileIndicator_" + id);
+            _rpcHandle = client.LocalRPC.RegisterMethod(GetFile, indicator);
         }
 
         private (bool, int) GetFile(string filePath)
         {
-            var data = Func(filePath);
+            Stream stream;
+            try
+            {
+                stream = _getFile(filePath);
+            }
+            catch
+            {
+                return (false, -1);
+            }
 
-            if (data == null)
+            if (stream == null)
                 return (false, -1);
 
-            var hostID = NetStreamHost.Create(Client, data);
+            var host = NetStreamHost.Create(_client, stream);
 
-            return (true, hostID);
+            lock (_sync)
+            {
+                _openStreams.Add(host);
+            }
+
+            return (true, host.ID);
         }
 
+        /// <summary>
+        /// Закрывает все открытые потоки и удаляет регистрацию RPC.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
 
+            try { _rpcHandle.Remove(); } catch { }
+
+            lock (_sync)
+            {
+                foreach (var host in _openStreams)
+                {
+                    try { host.Dispose(); } catch { }
+                }
+                _openStreams.Clear();
+            }
+        }
     }
 }

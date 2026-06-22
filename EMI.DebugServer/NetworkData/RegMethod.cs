@@ -2,11 +2,11 @@
 {
     public struct RegMethod
     {
-        public int ID;
+        public long ID;
         public string Name;
         public int Count;
 
-        public RegMethod(int iD, string name, int count)
+        public RegMethod(long iD, string name, int count)
         {
             ID = iD;
             Name = name;

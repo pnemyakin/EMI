@@ -9,7 +9,7 @@ namespace EMI.Test
         public void Func_Constructor_SetsID()
         {
             var indicator = new Indicator.Func("TestMethod");
-            int expectedID = "TestMethod".DeterministicGetHashCode();
+            long expectedID = "TestMethod".DeterministicGetHashCode();
             Assert.AreEqual(expectedID, indicator.ID);
         }
 
@@ -60,7 +60,7 @@ namespace EMI.Test
         public void FuncT1_Constructor()
         {
             var indicator = new Indicator.Func<int>("TypedMethod");
-            int expectedID = "TypedMethod".DeterministicGetHashCode();
+            long expectedID = "TypedMethod".DeterministicGetHashCode();
             Assert.AreEqual(expectedID, indicator.ID);
         }
 
@@ -68,14 +68,14 @@ namespace EMI.Test
         public void FuncOut_Constructor()
         {
             var indicator = new Indicator.FuncOut<int>("ReturnMethod");
-            int expectedID = "ReturnMethod".DeterministicGetHashCode();
+            long expectedID = "ReturnMethod".DeterministicGetHashCode();
             Assert.AreEqual(expectedID, indicator.ID);
         }
 
         [TestMethod("Множество индикаторов не конфликтуют")]
         public void ManyIndicators_NoConflicts()
         {
-            var ids = new HashSet<int>();
+            var ids = new HashSet<long>();
             var names = new[]
             {
                 "Player.Move", "Player.Jump", "Player.Shoot",

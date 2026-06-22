@@ -3,26 +3,26 @@
     internal static class Deterministic
     {
         /// <summary>
-        /// Возвращает хеш код строки текста (детермизированный [одинаковый для одной и той же строки на всех устройсвах])
+        /// Возвращает 64-битный хеш код строки текста (детерминированный — одинаковый для одной и той же строки на всех устройствах).
+        /// Используется алгоритм FNV-1a 64-bit (Fowler–Noll–Vo).
         /// </summary>
         /// <param name="str">строка текста для которой необходимо расчитать хеш код</param>
-        /// <returns>хеш код строки текста</returns>
-        public static int DeterministicGetHashCode(this string str)
+        /// <returns>64-битный хеш код строки текста</returns>
+        public static long DeterministicGetHashCode(this string str)
         {
+            // FNV-1a 64-bit constants
+            const long FNV_OFFSET_BASIS = unchecked((long)0xcbf29ce484222325);
+            const long FNV_PRIME = 0x100000001b3;
+
             unchecked
             {
-                int hash1 = (5381 << 16) + 5381;
-                int hash2 = hash1;
-
-                for (int i = 0; i < str.Length; i += 2)
+                long hash = FNV_OFFSET_BASIS;
+                for (int i = 0; i < str.Length; i++)
                 {
-                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
-                    if (i == str.Length - 1)
-                        break;
-                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                    hash ^= str[i];
+                    hash *= FNV_PRIME;
                 }
-
-                return hash1 + (hash2 * 1566083941);
+                return hash;
             }
         }
     }
