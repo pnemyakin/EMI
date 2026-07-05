@@ -429,8 +429,7 @@ namespace EMI
                         else
                         {
                             DPack.DPing.PackUP(array.Bytes, 1, TickTime.Now);
-                            // Отправляем ping как unreliable чтобы не блокироваться congestion window при тяжёлой нагрузке
-                            _ = MyNetworkClient.Send(array, false, token);
+                            _ = MyNetworkClient.Send(array, true, token);
                         }
                     }
                     catch (Exception e)
@@ -545,14 +544,11 @@ namespace EMI
                 {
                     case PacketType.Ping_Send:
                         array.Bytes[array.Offset - 1] = (byte)PacketType.Ping_Receive;
-                        // Отправляем pong как unreliable чтобы не застревать в очереди congestion window
-                        await MyNetworkClient.Send(array, false, token).ConfigureAwait(false);
+                        await MyNetworkClient.Send(array, true, token).ConfigureAwait(false);
                         break;
                     case PacketType.Ping_Receive:
                         DPack.DPing.UnPack(array.Bytes, array.Offset, out var time);
-                        if (LastPing < time)
-                            Ping = TickTime.Now - time;
-                        // LastPing уже обновлён выше
+                        Ping = TickTime.Now - time;
                         break;
                     case PacketType.RPC_Simple:
                         {

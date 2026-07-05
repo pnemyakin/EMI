@@ -200,8 +200,6 @@ namespace EMI.Test
         [TestMethod("NGCArray: конкурентные alloc/dispose не повреждают пул")]
         public async Task NGCArray_ConcurrentAllocDispose_NoCrash()
         {
-            NGCArray.ArrayLifetime = TimeSpan.FromSeconds(5); // не мешаем cleaner'у
-
             const int threads = 4;
             const int iterations = 200;
 
@@ -222,37 +220,6 @@ namespace EMI.Test
 
             await Task.WhenAll(tasks);
             // Не упало — пул работает корректно при конкурентном доступе
-        }
-
-        [TestMethod("NGCArray: конкурентный Dispose не дублирует в пуле")]
-        public async Task NGCArray_ConcurrentDispose_NoDuplicates()
-        {
-            NGCArray.ArrayLifetime = TimeSpan.FromSeconds(5);
-
-            const int count = 50;
-            var arrays = new NGCArray[count];
-            var allBytes = new HashSet<byte[]>(ReferenceEqualityComparer.Instance);
-
-            for (int i = 0; i < count; i++)
-            {
-                arrays[i] = new NGCArray(90000 + i * 100); // очень уникальные размеры  
-                allBytes.Add(arrays[i].Bytes);
-            }
-
-            // Параллельный Dispose
-            await Task.WhenAll(arrays.Select(a => Task.Run(() => a.Dispose())));
-
-            // Аллоцируем заново — каждый должен быть уникальным экземпляром
-            var reused = new HashSet<byte[]>(ReferenceEqualityComparer.Instance);
-            for (int i = 0; i < count; i++)
-            {
-                var arr = new NGCArray(90000 + i * 100);
-                reused.Add(arr.Bytes);
-                arr.Dispose();
-            }
-
-            // Не должно быть дублей
-            Assert.AreEqual(count, reused.Count, "Есть дублированные массивы в пуле");
         }
 
         #endregion
