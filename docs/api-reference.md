@@ -188,8 +188,8 @@ SyncInterface<T>(string name) where T : class
 
 | Атрибут | Описание |
 |---|---|
-| `[OnlyServer]` | Метод вызывается только от клиента к серверу |
-| `[OnlyClient]` | Метод вызывается только от сервера к клиенту |
+| `[OnlyServer]` | Метод вызывается только от сервера к клиенту (server proxy → client handler) |
+| `[OnlyClient]` | Метод вызывается только от клиента к серверу (client proxy → server handler) |
 | `[RCTypeOption(RCType)]` | Переопределение типа доставки |
 | `[AsyncCompile]` | Пометка для асинхронной компиляции |
 
@@ -265,6 +265,88 @@ using var array = new NGCArray(1024);
 | `NGCArray.TotalUseSize` | `long` | Суммарный объём используемой памяти |
 | `NGCArray.FreeArraysCount` | `int` | Количество свободных массивов в пуле |
 | `NGCArray.TotalFreeArraysSize` | `long` | Суммарный объём свободных массивов |
+
+## RawBuffer
+
+Пространство имён: `EMI.NGC`
+
+Специальная структура для передачи бинарных данных через RPC **без GC-аллокаций на приёмной стороне**. В отличие от `byte[]`, который при каждом получении аллоцируется в куче, `RawBuffer` использует `NGCArray` — пул `ArrayPool<byte>.Shared`.
+
+### Когда использовать `RawBuffer` вместо `byte[]`
+
+| Сценарий | `byte[]` | `RawBuffer` |
+|---|---|---|
+| Низкочастотные вызовы | ✅ Ок | Избыточно |
+| High-throughput (тысячи RPC/сек) | ❌ GC-давление | ✅ Пул, нет GC |
+| Крупные блобы (мегабайты) | ❌ Фрагментация LOH | ✅ Пул |
+| Детерминированная производительность | ❌ GC-паузы | ✅ Предсказуемо |
+
+### Как устроен
+
+**Отправка:** `PackRawBuffer : IPackagerMethod<RawBuffer>` — кастомный упаковщик SmartPackager. Данные пишутся напрямую через `Marshal.Copy`, без поэлементной сериализации. Формат на wire: `[int: длина] [byte: данные...]` (4 байта префикса).
+
+**Получение:** при регистрации `RegisterMethod<...>` строится **dispose-чейн** — цепочка `RefFunc`-делегатов, по одному на каждый RawBuffer-параметр. После вызова обработчика цепочка автоматически освобождает все RawBuffer (возврат в `ArrayPool`). Построение цепочки происходит **один раз при регистрации**, в горячем пути — только `?.Invoke`.
+
+**Multi-param:** работает полностью. `foo(int, RawBuffer, string, RawBuffer)` — оба RawBuffer будут освобождены.
+
+### Отправка
+
+```csharp
+var indicator = new Indicator.Func<RawBuffer>("UploadFile");
+
+using var buffer = new RawBuffer(4096);
+buffer.Span[0] = 0x01;
+// ...
+
+await indicator.RCall(buffer, client, RCType.Guaranteed);
+```
+
+### Получение
+
+```csharp
+// Один параметр
+rpc.RegisterMethod<RawBuffer>((RawBuffer buffer) =>
+{
+    var span = buffer.Span;
+    // buffer авто-освобождается
+}, indicator);
+
+// Multi-param: оба RawBuffer авто-освобождаются
+rpc.RegisterMethod<int, RawBuffer, string, RawBuffer>(
+    (int id, RawBuffer data, string name, RawBuffer meta) =>
+{
+    // data и meta авто-освобождаются после выхода
+}, indicator);
+```
+
+### ⚠️ RawBuffer как возвращаемое значение (TOut)
+
+Если метод **возвращает** `RawBuffer`, авто-dispose **не** применяется — фреймворк не знает когда вы закончили чтение. Вы **обязаны** вызвать `Dispose()` самостоятельно:
+
+```csharp
+rpc.RegisterMethod<RawBuffer>((RawBuffer buffer) =>
+{
+    // Читаем данные
+    var data = new byte[buffer.Length];
+    Buffer.BlockCopy(buffer.Bytes, buffer.Offset, data, 0, buffer.Length);
+    
+    buffer.Dispose(); // ← ОБЯЗАТЕЛЬНО! Авто-dispose не для возвращаемых значений
+    return data;
+}, indicator);
+```
+
+### Свойства и методы
+
+| Член | Тип | Описание |
+|---|---|---|
+| `RawBuffer(int size)` | конструктор | Выделить буфер из пула |
+| `Bytes` | `byte[]` | Массив байт |
+| `Offset` | `int` | Смещение начала полезных данных |
+| `Length` | `int` | Длина полезных данных |
+| `IsEmpty` | `bool` | Буфер пуст / освобождён |
+| `Span` | `Span<byte>` | Span на полезные данные |
+| `Memory` | `Memory<byte>` | Memory на полезные данные |
+| `Dispose()` | метод | Освободить буфер (возврат в пул) |
 
 ## Исключения
 

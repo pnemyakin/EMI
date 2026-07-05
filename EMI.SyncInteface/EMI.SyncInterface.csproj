@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>EMI.SyncInterface</RootNamespace>
     <AssemblyName>EMI.SyncInterface</AssemblyName>
     <LangVersion>latest</LangVersion>

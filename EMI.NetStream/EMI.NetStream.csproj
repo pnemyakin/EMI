@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>EMI.NetStream</RootNamespace>
     <AssemblyName>EMI.NetStream</AssemblyName>
     <LangVersion>latest</LangVersion>

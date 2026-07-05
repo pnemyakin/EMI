@@ -1,34 +1,33 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-
-using SmartPackager;
+using System.Linq;
 
 namespace EMI
 {
-    using NGC;
     using Indicators;
     using MyException;
+    using NGC;
     using RPCInternal;
+
     /// <summary>
-    /// �������� �� ��������������� �������� �������� ��� ������������ ������
+    /// Класс для регистрации и обработки удалённых вызовов методов
     /// </summary>
     public partial class RPC
     {
         /// <summary>
-        /// �������� � ���� ��� �� ������� �������
+        /// Делегат для вызова метода по сети без возврата значения
         /// </summary>
-        /// <param name="array">�������������� ����� ������</param>
+        /// <param name="array">Упакованный массив данных</param>
         /// <returns></returns>
         internal delegate IRPCReturn MicroFunc(INGCArray array);
         /// <summary>
-        /// ��������� ����� �������� ���������� ��������� ���������
+        /// Получить список клиентов, которым переслать удалённый вызов
         /// </summary>
-        /// <param name="sendClient">����� ������ ����� ���������� ���������</param>
+        /// <param name="sendClient">Клиент, который сделал удалённый вызов</param>
         /// <returns></returns>
         public delegate Client[] ForwardingInfo(Client sendClient);
         /// <summary>
-        /// ������������������ ������� - ������������ ��� ������
+        /// Зарегистрированные методы - используется для вызова
         /// </summary>
         private readonly Dictionary<long, MicroFunc> RegisteredMethods = new Dictionary<long, MicroFunc>();
         private readonly Dictionary<long, ForwardingInfo> RegisteredForwarding = new Dictionary<long, ForwardingInfo>();
@@ -40,7 +39,7 @@ namespace EMI
 
 #if DEBUG
         /// <summary>
-        /// �������� ������ ������������������ �������
+        /// Получить список зарегистрированных методов
         /// </summary>
         /// <returns></returns>
         public KeyValuePair<long,(string,int)>[] GetRegisteredMethodsName()
@@ -52,7 +51,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// �������� ������ ������������������ ������� (Forwarding)
+        /// Получить список зарегистрированных методов (Forwarding)
         /// </summary>
         /// <returns></returns>
         public KeyValuePair<long, string>[] GetRegisteredForwardingName()
@@ -66,23 +65,23 @@ namespace EMI
 
 #if DEBUG
         /// <summary>
-        /// ���������� ����� ������� ������ ������������������ �������
+        /// Вызывается после изменения списка зарегистрированных методов
         /// </summary>
         public event Action OnChangedRegisteredMethods;
         /// <summary>
-        /// ���������� ����� ������� ������ ������������������ ������� (Forwarding)
+        /// Вызывается после изменения списка зарегистрированных методов (Forwarding)
         /// </summary>
         public event Action OnChangedRegisteredMethodsForwarding;
 #endif
         /// <summary>
-        /// ��������� ��� HeadlessHandler, � ��������� ������� ����������� �������� �� ���������
+        /// Конструктор для HeadlessHandler, в обычном режиме используйте синглтон на клиенте
         /// </summary>
         public RPC()
         {
         }
 
         /// <summary>
-        /// ���������� ������ � ����������� � ������ (��� + ID � DEBUG, ������ ID � Release)
+        /// Возвращает информацию о зарегистрированном методе (имя + ID в DEBUG, только ID в Release)
         /// </summary>
         internal string GetMethodInfo(long ID)
         {
@@ -97,7 +96,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// ���������� ������ ������������������ ������� ��� �����������
+        /// Возвращает список зарегистрированных методов для отображения
         /// </summary>
         internal string GetRegisteredMethodsList()
         {
@@ -105,16 +104,16 @@ namespace EMI
             lock (this)
             {
                 if (RegisteredMethodsName.Count == 0)
-                    return "(�����)";
+                    return "(пусто)";
                 return string.Join(", ", RegisteredMethodsName.Values.Select(v => v.Item1));
             }
 #else
-            return "(�������� ������ � DEBUG)";
+            return "(доступно только в DEBUG)";
 #endif
         }
 
         /// <summary>
-        /// �������� ���������� ��� ������ RPC ������
+        /// Логирует исключения для вызова RPC метода
         /// </summary>
         internal static void LogRPCException(AIndicator indicator, Exception e)
         {
@@ -126,7 +125,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// �������� �������� ������� �� ���� - ���� �� ���������� ������ null (������-���������)
+        /// Попытка получить метод по ID - если не существует, вернёт null (потоко-безопасно)
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -140,7 +139,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// �������� �������� ������� �� ���� - ���� �� ���������� ������ null (������-���������)
+        /// Попытка получить метод пересылки по ID - если не существует, вернёт null (потоко-безопасно)
         /// </summary>
         /// <param name="ID"></param>
         /// <returns></returns>
@@ -154,7 +153,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// ���������� �������� ����������� ������ (������� ������ �������� ������������)
+        /// Внутренний метод регистрации метода (поддерживает множественную регистрацию)
         /// </summary>
         /// <param name="indicator"></param>
         /// <param name="micro"></param>
@@ -186,10 +185,10 @@ namespace EMI
         }
 
         /// <summary>
-        /// ������������ ����� ��������� �������
+        /// Зарегистрировать метод пересылки вызова
         /// </summary>
-        /// <param name="indicator">������ �� ������� ��� ������ �� ��������� ��������</param>
-        /// <param name="info">������� ����� ���������� ��� ��������� ��������� � ������ ������� ������ �������� ������� ���������� ��������� ���������</param>
+        /// <param name="indicator">Ссылка на метод для вызова на удалённом клиенте</param>
+        /// <param name="info">Функция, возвращающая список клиентов для пересылки удалённого вызова</param>
         /// <returns></returns>
         public IRPCRemoveHandle RegisterForwarding(AIndicator indicator, ForwardingInfo info)
         {
@@ -209,10 +208,61 @@ namespace EMI
             }
         }
 
-// RegisterMethod overloads moved to RPC.Generated.cs (generated from RPC.Generated.tt)
+        #region RegisterMethod
 
         /// <summary>
-        /// ��������� ������� ������������������ �����
+        /// Зарегистрировать метод для удалённого вызова RPC (без аргументов)
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod(RPCfunc method, Indicator.Func indicator)
+        {
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                try
+                {
+                    method();
+                }
+                catch (Exception e)
+                {
+                    LogRPCException(indicator, e);
+                }
+                return null;
+            });
+        }
+
+        #endregion
+        #region RegisterMethodReturned
+
+        /// <summary>
+        /// Зарегистрировать метод для удалённого вызова RPC (без аргументов, с возвращаемым значением)
+        /// </summary>
+        /// <param name="method">метод</param>
+        /// <param name="indicator">ссылка на метод</param>
+        public IRPCRemoveHandle RegisterMethod<Tout>(RPCfuncOut<Tout> method, Indicator.FuncOut<Tout> indicator)
+        {
+            var @out = RPCReturn<Tout>.Create();
+            return RegisterMethodHelp(indicator, (INGCArray array) =>
+            {
+                Tout data;
+                try
+                {
+                    data = method();
+                }
+                catch (Exception e)
+                {
+                    data = default;
+                    LogRPCException(indicator, e);
+                }
+                @out.Set(data);
+                return @out;
+            });
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Позволяет удалить зарегистрированный метод
         /// </summary>
         public class RemoveHandleMethod : IRPCRemoveHandle
         {
@@ -229,7 +279,7 @@ namespace EMI
             }
 
             /// <summary>
-            /// ������� ����� �� ������ ������������������ (��� ������ ������ ����� �������)
+            /// Удаляет метод из списка зарегистрированных (его больше нельзя будет вызвать)
             /// </summary>
             public void Remove()
             {
@@ -266,7 +316,7 @@ namespace EMI
         }
 
         /// <summary>
-        /// ��������� ������� ������������������ �����
+        /// Позволяет удалить зарегистрированный метод пересылки
         /// </summary>
         public class RemoveHandleForwarding : IRPCRemoveHandle
         {
@@ -281,7 +331,7 @@ namespace EMI
             }
 
             /// <summary>
-            /// ������� ����� �� ������ ������������������ (��� ������ ������ ����� �������)
+            /// Удаляет метод из списка зарегистрированных (его больше нельзя будет вызвать)
             /// </summary>
             public void Remove()
             {
@@ -302,23 +352,23 @@ namespace EMI
         }
 
         /// <summary>
-        /// ��������� �������� ��� ������ � ������ ��� �� ������� ��� ������ ����� ��� ����� �����
+        /// Позволяет группировать несколько RemoveHandle для удаления всех сразу
         /// </summary>
         public class RemoveHandleGroup
         {
             private readonly HashSet<IRPCRemoveHandle> Handles = new HashSet<IRPCRemoveHandle>();
 
             /// <summary>
-            /// �������� ����� � ������ ��� ��������
+            /// Добавить handle в группу для удаления
             /// </summary>
-            /// <param name="handle">�����</param>
+            /// <param name="handle">Handle</param>
             public void Add(IRPCRemoveHandle handle)
             {
                 Handles.Add(handle);
             }
 
             /// <summary>
-            /// ������� ��� ����������� ������
+            /// Удалить все зарегистрированные handles
             /// </summary>
             public void RemoveAll()
             {

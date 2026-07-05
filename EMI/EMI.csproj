@@ -25,6 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -41,15 +45,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Indicator.tt</DependentUpon>
     </Compile>
+    <Compile Update="RPC\RefFuncDelegate.g.cs">
+      <DependentUpon>RefFuncDelegate.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="RPC\RPC.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RPC.tt</DependentUpon>
+    </Compile>
     <Compile Update="RPC\RPCFuncDelegate.g.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RPCFuncDelegate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="RPC\RPC.g.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>RPC.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
@@ -57,6 +66,10 @@
     <None Update="Indicators\Indicator.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Indicator.g.cs</LastGenOutput>
+    </None>
+    <None Update="RPC\RefFuncDelegate.tt">
+      <LastGenOutput>RefFuncDelegate.g.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
     </None>
     <None Update="RPC\RPCFuncDelegate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
