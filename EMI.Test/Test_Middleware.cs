@@ -412,73 +412,68 @@ namespace EMI.Test
 
         #endregion
 
-        #region Compatibility Handshake Tests (v2 — server sends key+descriptor, client receives)
+        #region Handshake v3 Tests (IKeyExchange — key negotiated, never sent in cleartext)
 
-        [TestMethod("Handshake v2: сжатие + шифрование — успех")]
+        [TestMethod("Handshake v3: сжатие + шифрование (PSK) — успех")]
         public async Task Handshake_CompressionEncryption_Success()
         {
             byte[] key = GenerateKey(32);
             var (clientSide, serverSide) = CreateConnectedPair();
 
-            // Server side: has LZ4 + AES-GCM
-            var serverLz4 = new LZ4Middleware();
-            using var serverAes = new AesGcmMiddleware(key);
-            var mwServer = new MiddlewareNetworkClient(serverSide, serverLz4, serverAes);
-
-            // Run both sides concurrently — server sends first, client reads first
+            // Обе стороны — одна ступень (PSK), сжатие включено
             var serverTask = MiddlewareNetworkClient.PerformServerHandshake(
-                serverSide, mwServer, key, CancellationToken.None);
+                serverSide, true, new PreSharedKeyExchange(key), CancellationToken.None);
             var clientTask = MiddlewareNetworkClient.PerformClientHandshake(
-                clientSide, true, true, null, CancellationToken.None);
+                clientSide, true, new PreSharedKeyExchange(key), CancellationToken.None);
 
             await Task.WhenAll(serverTask, clientTask);
 
-            Assert.IsNull(serverTask.Result, $"Server handshake error: {serverTask.Result}");
+            Assert.IsNull(serverTask.Result.Error, $"Server handshake error: {serverTask.Result.Error}");
             Assert.IsNull(clientTask.Result.Error, $"Client handshake error: {clientTask.Result.Error}");
             Assert.IsNotNull(clientTask.Result.Middlewares);
-            Assert.AreEqual(2, clientTask.Result.Middlewares.Length);
+            Assert.AreEqual(2, clientTask.Result.Middlewares.Length); // LZ4 + AES-GCM
         }
 
-        [TestMethod("Handshake v2: без middleware с обеих сторон — успех")]
+        [TestMethod("Handshake v3: без middleware с обеих сторон — успех")]
         public async Task Handshake_NoMiddleware_Success()
         {
             var (clientSide, serverSide) = CreateConnectedPair();
 
             var serverTask = MiddlewareNetworkClient.PerformServerHandshake(
-                serverSide, null, null, CancellationToken.None);
+                serverSide, false, null, CancellationToken.None);
             var clientTask = MiddlewareNetworkClient.PerformClientHandshake(
-                clientSide, false, false, null, CancellationToken.None);
+                clientSide, false, null, CancellationToken.None);
 
             await Task.WhenAll(serverTask, clientTask);
 
-            Assert.IsNull(serverTask.Result, $"Server handshake error: {serverTask.Result}");
+            Assert.IsNull(serverTask.Result.Error, $"Server handshake error: {serverTask.Result.Error}");
             Assert.IsNull(clientTask.Result.Error, $"Client handshake error: {clientTask.Result.Error}");
             Assert.IsNull(clientTask.Result.Middlewares);
         }
 
-        [TestMethod("Handshake v2: клиент хочет шифрование, сервер нет — ошибка")]
+        [TestMethod("Handshake v3: клиент хочет шифрование, сервер нет — ошибка")]
         [Timeout(10000)]
         public async Task Handshake_ClientEncryptionServerNone_Error()
         {
+            byte[] key = GenerateKey(32);
             var (clientSide, serverSide) = CreateConnectedPair();
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-            // Server without middleware
+            // Сервер без шифрования
             var serverTask = MiddlewareNetworkClient.PerformServerHandshake(
-                serverSide, null, null, cts.Token);
-            // Client expects encryption
+                serverSide, false, null, cts.Token);
+            // Клиент ждёт шифрование (PSK)
             var clientTask = MiddlewareNetworkClient.PerformClientHandshake(
-                clientSide, false, true, null, cts.Token);
+                clientSide, false, new PreSharedKeyExchange(key), cts.Token);
 
             await Task.WhenAll(serverTask, clientTask);
 
-            // Client should detect mismatch (encryption flag mismatch before descriptor compare)
+            // Клиент детектит несовпадение флагов/стратегии
             Assert.IsNotNull(clientTask.Result.Error, "Client should detect encryption mismatch");
-            Assert.IsTrue(clientTask.Result.Error.Contains("incompatible", StringComparison.OrdinalIgnoreCase));
         }
 
-        [TestMethod("Handshake v2: сервер со сжатием, клиент без — ошибка")]
+        [TestMethod("Handshake v3: сервер со сжатием, клиент без — ошибка")]
         [Timeout(10000)]
         public async Task Handshake_ServerCompressionClientNone_Error()
         {
@@ -486,54 +481,50 @@ namespace EMI.Test
 
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
 
-            var serverLz4 = new LZ4Middleware();
-            var mwServer = new MiddlewareNetworkClient(serverSide, serverLz4);
-
             var serverTask = MiddlewareNetworkClient.PerformServerHandshake(
-                serverSide, mwServer, null, cts.Token);
-            // Client doesn't want compression
+                serverSide, true, null, cts.Token);   // сервер: сжатие вкл
             var clientTask = MiddlewareNetworkClient.PerformClientHandshake(
-                clientSide, false, false, null, cts.Token);
+                clientSide, false, null, cts.Token);   // клиент: сжатие выкл
 
             await Task.WhenAll(serverTask, clientTask);
 
-            // Client should detect compression mismatch
             Assert.IsNotNull(clientTask.Result.Error, "Client should detect compression mismatch");
-            Assert.IsTrue(clientTask.Result.Error.Contains("incompatible", StringComparison.OrdinalIgnoreCase));
         }
 
-        [TestMethod("Handshake v2: клиент получает ключ от сервера")]
-        public async Task Handshake_ClientReceivesKey()
+        [TestMethod("Handshake v3: RSA — клиент и сервер согласуют один ключ")]
+        public async Task Handshake_RsaSharedKey()
         {
-            byte[] key = GenerateKey(32);
             var (clientSide, serverSide) = CreateConnectedPair();
 
-            using var serverAes = new AesGcmMiddleware(key);
-            var mwServer = new MiddlewareNetworkClient(serverSide, serverAes);
+            using var serverKex = RsaKeyExchange.CreateServer();
+            var clientKex = RsaKeyExchange.CreateClient();
 
             var serverTask = MiddlewareNetworkClient.PerformServerHandshake(
-                serverSide, mwServer, key, CancellationToken.None);
+                serverSide, false, serverKex, CancellationToken.None);
             var clientTask = MiddlewareNetworkClient.PerformClientHandshake(
-                clientSide, false, true, null, CancellationToken.None);
+                clientSide, false, clientKex, CancellationToken.None);
 
             await Task.WhenAll(serverTask, clientTask);
 
-            Assert.IsNull(serverTask.Result);
-            Assert.IsNull(clientTask.Result.Error);
+            Assert.IsNull(serverTask.Result.Error, $"Server: {serverTask.Result.Error}");
+            Assert.IsNull(clientTask.Result.Error, $"Client: {clientTask.Result.Error}");
+            Assert.IsNotNull(serverTask.Result.Middlewares);
             Assert.IsNotNull(clientTask.Result.Middlewares);
 
-            // Verify the client got a working AesGcmMiddleware (encrypt + decrypt roundtrip)
+            // Ключ не передавался открытым текстом, но обе стороны согласовали ОДИН ключ:
+            // шифруем клиентским AES, расшифровываем серверным.
             var clientAes = clientTask.Result.Middlewares[0] as AesGcmMiddleware;
-            Assert.IsNotNull(clientAes, "Client middleware should be AesGcmMiddleware");
+            var serverAes = serverTask.Result.Middlewares[0] as AesGcmMiddleware;
+            Assert.IsNotNull(clientAes);
+            Assert.IsNotNull(serverAes);
             using (clientAes)
+            using (serverAes)
             {
                 var original = CreateTestArray(64, 0xAB);
                 using var encrypted = clientAes.ProcessOutgoing(original);
-                // Server-side AES should decrypt what client-side AES encrypted
                 using var decrypted = serverAes.ProcessIncoming(encrypted);
-                CollectionAssert.AreEqual(
-                    GetBytes(original), GetBytes(decrypted),
-                    "Server should decrypt client's data with the same key");
+                CollectionAssert.AreEqual(GetBytes(original), GetBytes(decrypted),
+                    "Server should decrypt client's data with the negotiated key");
             }
         }
 

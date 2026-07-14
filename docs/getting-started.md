@@ -155,23 +155,58 @@ server.RPC.RegisterForwarding(indicator, (Client sender) => server.ServerClients
 
 В этом примере любое сообщение, отправленное клиентом с типом `RCType.Forwarding`, будет передано всем остальным подключённым клиентам.
 
-## Шифрование и сжатие
+## Сжатие
 
-Включаются до запуска сервера или подключения клиента:
+Включается до запуска сервера или подключения клиента (настройки должны совпадать):
+
+```csharp
+server.UseCompression = true;   // LZ4
+client.UseCompression = true;
+```
+
+## Шифрование
+
+EMI использует AES-256-GCM. Ключ **никогда не передаётся по сети открытым текстом** — его
+согласует выбранная стратегия обмена ключами (`IKeyExchange`). Уровень защиты выбирается
+под вашу инфраструктуру и модель угроз — см. [лестницу уровней](security.md).
+
+Базовое включение (уровень 2, RSA key-transport — защита от пассивной прослушки):
 
 ```csharp
 // Сервер
-server.UseEncryption = true;    // AES-256-GCM
-server.UseCompression = true;   // LZ4
+server.UseEncryption = true;    // при Start() создаётся RSA-стратегия по умолчанию
 server.Start("127.0.0.1#9000");
 
-// Клиент (должен совпадать с настройками сервера)
-client.UseEncryption = true;
-client.UseCompression = true;
+// Клиент
+client.UseEncryption = true;    // получит и проверит ключ в рукопожатии
 await client.Connect("127.0.0.1#9000", token);
 ```
 
-Ключ шифрования генерируется сервером и передаётся клиенту автоматически при рукопожатии.
+Защита от активного MITM (уровень 3, пиннинг публичного ключа сервера):
+
+```csharp
+// Сервер: стабильная RSA-пара, публичный ключ раздаётся клиентам
+var kex = RsaKeyExchange.CreateServer();
+byte[] serverPublicKey = kex.ExportPublicKey();   // встроить в билд клиента
+server.UseEncryption = true;
+server.KeyExchange = kex;
+
+// Клиент: сверяет ключ сервера с закреплённым
+client.UseEncryption = true;
+client.KeyExchange = RsaKeyExchange.CreateClientPinned(serverPublicKey);
+```
+
+Pre-Shared Key (уровень 1, ключ роздан вне сети, по проводу не идёт вообще):
+
+```csharp
+byte[] psk = /* 32 байта, розданы обеим сторонам безопасно */;
+server.UseEncryption = true;
+server.KeyExchange = new PreSharedKeyExchange(psk);
+client.UseEncryption = true;
+client.KeyExchange = new PreSharedKeyExchange(psk);
+```
+
+Подробнее о выборе уровня, гарантиях и ограничениях — [docs/security.md](security.md).
 
 Можно добавить свой middleware:
 

@@ -149,8 +149,8 @@ namespace EMI
         private IPacketMiddleware[] _middlewares;
 
         /// <summary>
-        /// Включить AES-256-GCM шифрование. Ключ будет получен от сервера при Connect().
-        /// Устанавливать ДО Connect().
+        /// Включить AES-256-GCM шифрование. Ключ согласуется при Connect() через <see cref="KeyExchange"/>
+        /// (по умолчанию RSA key-transport) и НЕ передаётся открытым текстом. Устанавливать ДО Connect().
         /// </summary>
         public bool UseEncryption { get; set; }
 
@@ -159,6 +159,15 @@ namespace EMI
         /// Устанавливать ДО Connect().
         /// </summary>
         public bool UseCompression { get; set; }
+
+        /// <summary>
+        /// Стратегия согласования ключа шифрования (должна соответствовать ступени сервера).
+        /// Если <see cref="UseEncryption"/>=true и здесь null — при Connect() создаётся
+        /// <see cref="Network.RsaKeyExchange.CreateClient()"/> (уровень 2: доверяет ключу из handshake,
+        /// защита от прослушки, НЕ от MITM). Для защиты от MITM — <see cref="Network.RsaKeyExchange.CreateClientPinned"/>
+        /// с публичным ключом сервера; для PSK — <see cref="Network.PreSharedKeyExchange"/>.
+        /// </summary>
+        public IKeyExchange KeyExchange { get; set; }
 
         /// <summary>
         /// Инициализирует клиента но не подключает к серверу
@@ -263,12 +272,10 @@ namespace EMI
 
             CancellationRun = new CancellationTokenSource();
 
-            // Автогенерация middleware из UseEncryption/UseCompression (если не заданы вручную)
-            if (_middlewares == null && (UseEncryption || UseCompression))
-            {
-                // Middleware будут созданы после получения ключа от сервера в handshake
-                // Пока только помечаем что они нужны
-            }
+            // Авто-путь: если шифрование включено, а стратегия не задана — RSA уровня 2
+            // (доверяет ключу из handshake: защита от прослушки, не от MITM).
+            if (_middlewares == null && UseEncryption && KeyExchange == null)
+                KeyExchange = Network.RsaKeyExchange.CreateClient();
 
             var status = await MyNetworkClient.Connect(address, token).ConfigureAwait(false);
 
@@ -287,12 +294,16 @@ namespace EMI
 
             if (status == true)
             {
-                // Handshake: получаем ключ от сервера + проверка совместимости
-                bool needsHandshake = _middlewares != null || UseEncryption || UseCompression;
-                if (needsHandshake)
+                // Ручные middleware — прямая обёртка без handshake (пользователь координирует ключ сам).
+                if (_middlewares != null && _middlewares.Length > 0)
+                {
+                    MyNetworkClient = new MiddlewareNetworkClient(MyNetworkClient, _middlewares);
+                }
+                // Авто-путь: договариваемся о флагах + обмене ключами (v3, ключ не идёт открытым текстом).
+                else if (UseCompression || (KeyExchange != null && KeyExchange.ProducesKey))
                 {
                     var result = await MiddlewareNetworkClient.PerformClientHandshake(
-                        MyNetworkClient, UseCompression, UseEncryption, _middlewares, token).ConfigureAwait(false);
+                        MyNetworkClient, UseCompression, KeyExchange, token).ConfigureAwait(false);
 
                     if (result.Error != null)
                     {
@@ -302,7 +313,6 @@ namespace EMI
                         throw new InvalidOperationException(result.Error);
                     }
 
-                    // Оборачиваем клиент middleware декоратором с полученными middleware
                     if (result.Middlewares != null && result.Middlewares.Length > 0)
                     {
                         _middlewares = result.Middlewares;

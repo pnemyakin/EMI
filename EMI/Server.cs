@@ -113,8 +113,8 @@ namespace EMI
         public RateLimitConfig RateLimit { get; set; }
 
         /// <summary>
-        /// Включить AES-256-GCM шифрование. Ключ генерируется автоматически при Start() и передаётся клиентам при handshake.
-        /// Устанавливать ДО Start().
+        /// Включить AES-256-GCM шифрование. Ключ НЕ передаётся открытым текстом — его согласует
+        /// <see cref="KeyExchange"/> (по умолчанию RSA key-transport). Устанавливать ДО Start().
         /// </summary>
         public bool UseEncryption { get; set; }
 
@@ -125,9 +125,13 @@ namespace EMI
         public bool UseCompression { get; set; }
 
         /// <summary>
-        /// Ключ шифрования, генерируется при Start() если UseEncryption = true
+        /// Стратегия согласования ключа шифрования (лестница уровней, см. docs).
+        /// Если <see cref="UseEncryption"/>=true и здесь null — при Start() создаётся
+        /// <see cref="Network.RsaKeyExchange.CreateServer()"/> (уровень 2: защита от прослушки,
+        /// не от активного MITM). Для защиты от MITM задайте свою стратегию с фиксированной парой,
+        /// а клиентам раздайте публичный ключ для пиннинга; для PSK — <see cref="Network.PreSharedKeyExchange"/>.
         /// </summary>
-        internal byte[] EncryptionKey { get; private set; }
+        public IKeyExchange KeyExchange { get; set; }
 
         /// <summary>
         /// Создаёт новый сервер
@@ -172,13 +176,10 @@ namespace EMI
                 Clients = new List<Client>();
                 CancellationTokenSource = new CancellationTokenSource();
 
-                // Автогенерация ключа шифрования при UseEncryption (если EncryptionKey не задан вручную)
-                if (UseEncryption && EncryptionKey == null)
-                {
-                    EncryptionKey = new byte[32];
-                    using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
-                        rng.GetBytes(EncryptionKey);
-                }
+                // Стратегия обмена ключами: по умолчанию RSA (ключ не идёт открытым текстом).
+                // RSA-пара создаётся один раз и живёт всё время работы сервера (клиенты могут её пиннить).
+                if (UseEncryption && KeyExchange == null)
+                    KeyExchange = Network.RsaKeyExchange.CreateServer();
 
                 LowServer.StartServer(address);
                 PingProcessStart();
@@ -244,42 +245,28 @@ namespace EMI
             token.ThrowIfCancellationRequested();
             Client client = null;
 
-            // Подготовка middleware для серверного клиента
-            // ВАЖНО: каждый клиент получает СВОИ экземпляры middleware (AesGcm имеет stateful nonce)
-            IPacketMiddleware[] clientMws = null;
-            if (UseEncryption || UseCompression)
-            {
-                var mwList = new System.Collections.Generic.List<IPacketMiddleware>();
-                if (UseCompression) mwList.Add(new LZ4Middleware());
-                if (UseEncryption && EncryptionKey != null) mwList.Add(new AesGcmMiddleware(EncryptionKey));
-                clientMws = mwList.ToArray();
-            }
-            else if (Middlewares != null && Middlewares.Length > 0)
-            {
-                // Ручные middleware — пользователь отвечает за thread-safety
-                clientMws = Middlewares;
-            }
-
-            MiddlewareNetworkClient middlewareWrapper = null;
+            // Подготовка middleware для серверного клиента.
+            // ВАЖНО: каждый клиент получает СВОИ экземпляры middleware (AesGcm имеет stateful nonce).
             INetworkClient clientToUse = LowClient;
-            if (clientMws != null && clientMws.Length > 0)
-            {
-                middlewareWrapper = new MiddlewareNetworkClient(LowClient, clientMws);
-                clientToUse = middlewareWrapper;
-            }
 
-            // Handshake: отправка ключа + проверка совместимости
-            // Выполняем только если есть middleware (клиент делает то же самое)
-            bool needsHandshake = clientMws != null || UseEncryption || UseCompression;
-            if (needsHandshake)
+            if (Middlewares != null && Middlewares.Length > 0)
             {
-                var error = await MiddlewareNetworkClient.PerformServerHandshake(
-                    LowClient, middlewareWrapper, EncryptionKey, token).ConfigureAwait(false);
-                if (error != null)
+                // Продвинутый режим: middleware заданы вручную, ключ пользователь координирует сам.
+                // Обмен ключами (handshake v3) не выполняется — прямая обёртка.
+                clientToUse = new MiddlewareNetworkClient(LowClient, Middlewares);
+            }
+            else if (UseCompression || (KeyExchange != null && KeyExchange.ProducesKey))
+            {
+                // Авто-путь: договариваемся о флагах + обмене ключами (ключ НЕ идёт открытым текстом).
+                var result = await MiddlewareNetworkClient.PerformServerHandshake(
+                    LowClient, UseCompression, KeyExchange, token).ConfigureAwait(false);
+                if (result.Error != null)
                 {
-                    LowClient.Disconnect(error);
-                    throw new InvalidOperationException(error);
+                    LowClient.Disconnect(result.Error);
+                    throw new InvalidOperationException(result.Error);
                 }
+                if (result.Middlewares != null && result.Middlewares.Length > 0)
+                    clientToUse = new MiddlewareNetworkClient(LowClient, result.Middlewares);
             }
 
             client = new Client(clientToUse, RPC, this)

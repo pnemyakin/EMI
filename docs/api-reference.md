@@ -18,9 +18,10 @@ Server(INetworkService service)
 |---|---|---|
 | `IsRun` | `bool` | Сервер запущен и принимает подключения |
 | `RPC` | `RPC` | Глобальный реестр RPC-методов, общий для всех клиентов |
-| `UseEncryption` | `bool` | Включить AES-256-GCM шифрование (устанавливать до `Start`) |
+| `UseEncryption` | `bool` | Включить AES-256-GCM шифрование (устанавливать до `Start`). Ключ согласуется через `KeyExchange`, по сети открытым текстом не идёт |
 | `UseCompression` | `bool` | Включить LZ4 сжатие (устанавливать до `Start`) |
-| `Middlewares` | `List<IPacketMiddleware>` | Ручная настройка цепочки middleware |
+| `KeyExchange` | `IKeyExchange` | Стратегия согласования ключа (лестница уровней, см. [security.md](security.md)). По умолчанию при `UseEncryption=true` — `RsaKeyExchange.CreateServer()` (уровень 2) |
+| `Middlewares` | `List<IPacketMiddleware>` | Ручная настройка цепочки middleware (продвинутый режим, handshake не выполняется) |
 | `ServerClients` | `Client[]` | Массив подключённых клиентов (только DEBUG) |
 
 ### Методы
@@ -68,6 +69,7 @@ Client(INetworkService service)
 | `RandomDrop` | `RandomDropType` | Политика выборочного отбрасывания пакетов при перегрузке |
 | `UseEncryption` | `bool` | Шифрование (устанавливать до `Connect`) |
 | `UseCompression` | `bool` | Сжатие (устанавливать до `Connect`) |
+| `KeyExchange` | `IKeyExchange` | Стратегия обмена ключом; должна соответствовать ступени сервера. null + `UseEncryption` → RSA inline (см. [security.md](security.md)) |
 
 ### Методы
 
@@ -212,6 +214,17 @@ Task<byte[]> Method(int id, CancellationToken ct); // с CancellationToken
 ## HeadlessHandler
 
 Пространство имён: `EMI.Headless`
+
+`HeadlessHandler` — это **RPC-движок и middleware без встроенного транспорта и без модели соединения**.
+Доставку байтов обеспечивает пользователь: задаёт делегат отправки и сам вызывает `AcceptPacket`.
+Подходит для любого внешнего канала (Steam P2P, релеи, WebSocket, транспорт игрового движка,
+in-memory очереди в тестах), а не только для Steam. Перенаправление (`RPC_Forwarding`) не поддерживается.
+
+**Шифрование в Headless.** Автоматический обмен ключами (уровни 2–3 из [security.md](security.md))
+здесь недоступен — для него нужен управляемый библиотекой handshake-раунд, которого у Headless нет.
+Доступны только:
+- **Уровень 1 (PSK):** передайте `new AesGcmMiddleware(key)` в `UseMiddleware(...)` — ключ роздан вне сети.
+- **Уровень 0:** без шифрования, если внешний транспорт уже шифрует трафик (Steam P2P — да).
 
 ### Свойства
 
