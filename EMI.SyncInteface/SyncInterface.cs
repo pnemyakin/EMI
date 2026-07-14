@@ -48,8 +48,11 @@ namespace EMI.SyncInterface
                 tBuilderServer.AddInterfaceImplementation(interfaceType);
 
                 int NameID = 0; // используется для наименования переменных
-                var fieldClientClient = tBuilderClient.DefineField(Utils.FieldNameCreate(ref NameID), typeof(Client), fieldAttributes);
-                var fieldClientServer = tBuilderServer.DefineField(Utils.FieldNameCreate(ref NameID), typeof(Client), fieldAttributes);
+                // Поле-клиент хранит AClient (не Client), чтобы прокси работал и с Client, и с
+                // HeadlessHandler (Steam P2P). Тело метода лишь передаёт это поле в Indicator.RCall,
+                // который принимает AClient — смена типа поля семантически безопасна.
+                var fieldClientClient = tBuilderClient.DefineField(Utils.FieldNameCreate(ref NameID), typeof(AClient), fieldAttributes);
+                var fieldClientServer = tBuilderServer.DefineField(Utils.FieldNameCreate(ref NameID), typeof(AClient), fieldAttributes);
                 var ServerFields = new List<FieldList>();
                 var ClientFields = new List<FieldList>();
                 var serverMethods = new List<MarkeredMethod>();
@@ -196,7 +199,7 @@ namespace EMI.SyncInterface
                 //конструктор
                 void createConstructor(TypeBuilder tBuilder, FieldInfo ClientField, List<FieldList> fieldsClass)
                 {
-                    var constructorArguments = new List<Type> { typeof(Client) };
+                    var constructorArguments = new List<Type> { typeof(AClient) };
                     foreach (var arg in fieldsClass)
                         constructorArguments.Add(arg.Type);
 
@@ -229,8 +232,17 @@ namespace EMI.SyncInterface
         }
 
         public T NewIndicator(Client client)
+            => NewIndicator((AClient)client, client.IsServerSide);
+
+        /// <summary>
+        /// Создаёт прокси для произвольного AClient (например HeadlessHandler для Steam P2P),
+        /// у которого нет свойства IsServerSide — сторону указываем явно.
+        /// </summary>
+        /// <param name="client">клиент (Client или HeadlessHandler)</param>
+        /// <param name="isServerSide">true = серверная сторона (шлёт вызовы IClientRPC клиенту)</param>
+        public T NewIndicator(AClient client, bool isServerSide)
         {
-            if (client.IsServerSide)
+            if (isServerSide)
             {
                 var args = new List<object> { client };
                 foreach (var arg in Types.ServerFields)
@@ -261,6 +273,18 @@ namespace EMI.SyncInterface
 #endif
             RegisterClass(server.RPC, Class, Types.ClientMethods);
         }
+
+        /// <summary>
+        /// Регистрирует реализацию для произвольного RPC (например HeadlessHandler.RPC для
+        /// Steam P2P), у которого нет свойства Logger. Сторона выбирает набор методов так же,
+        /// как перегрузки Client/Server: серверная сторона регистрирует ClientMethods
+        /// (вызовы, приходящие от клиентов), клиентская — ServerMethods.
+        /// </summary>
+        /// <param name="rpc">RPC-таблица (HeadlessHandler.RPC)</param>
+        /// <param name="Class">реализация интерфейса</param>
+        /// <param name="isServerSide">true = серверная сторона</param>
+        public void RegisterClass(RPC rpc, T Class, bool isServerSide)
+            => RegisterClass(rpc, Class, isServerSide ? Types.ClientMethods : Types.ServerMethods);
 
 #if DEBUG
         private void LogValidationWarnings(Logger logger)
