@@ -153,90 +153,118 @@ namespace EMI.Network
 
         #region Handshake Protocol
 
-        // Handshake v2 Protocol (binary, over raw INetworkClient BEFORE middleware is applied):
+        // Handshake v3 Protocol (binary, over raw INetworkClient BEFORE middleware is applied).
+        // Ключ больше НЕ передаётся открытым текстом — его согласует IKeyExchange.
         //
         // Server → Client:
-        //   [MAGIC_HI: 1] [MAGIC_LO: 1] [flags: 1 byte (bit0=compress, bit1=encrypt)]
-        //   [key_len: 1 byte] [encryption_key: key_len bytes]
-        //   [desc_len: 1 byte] [compatibility_descriptor: desc_len bytes]
+        //   [MAGIC_HI:1] [MAGIC_LO:1] [VERSION:1]
+        //   [flags:1 (bit0=compress, bit1=encrypt)]
+        //   [kexId:1]                              — идентификатор стратегии обмена ключами
+        //   [offerLen:2 LE] [offer: offerLen]      — payload стратегии (RSA pubkey и т.п.)
+        //   [descLen:1] [descriptor: descLen]
         //
         // Client → Server:
-        //   [MAGIC_HI: 1] [MAGIC_LO: 1] [flags: 1 byte]
-        //   [desc_len: 1 byte] [compatibility_descriptor: desc_len bytes]
+        //   [MAGIC_HI:1] [MAGIC_LO:1] [VERSION:1]
+        //   [flags:1] [kexId:1]
+        //   [respLen:2 LE] [response: respLen]     — payload ответа стратегии (зашифр. ключ и т.п.)
+        //   [descLen:1] [descriptor: descLen]
         //
-        // Both sides compare descriptors. If mismatch → error string returned.
+        // Обе стороны сверяют flags/kexId/descriptor. Несовпадение → строка ошибки.
 
         private const byte MAGIC_HI = 0xE1;
         private const byte MAGIC_LO = 0x4D;
+        private const byte VERSION = 3;
         private const byte FLAG_COMPRESS = 0x01;
         private const byte FLAG_ENCRYPT = 0x02;
 
         /// <summary>
-        /// Результат handshake на стороне клиента
+        /// Результат handshake. Для обеих сторон: Error (null = ок) и готовая цепочка middleware.
         /// </summary>
         public struct HandshakeResult
         {
             /// <summary>Ошибка (null = успех)</summary>
             public string Error;
-            /// <summary>Готовые middleware для клиента (с ключом от сервера)</summary>
+            /// <summary>Готовые middleware (с согласованным ключом); null = без middleware</summary>
             public IPacketMiddleware[] Middlewares;
         }
 
+        private const int HANDSHAKE_MAX = 4096; // RSA-2048 SPKI ~294 B, с запасом
+
         /// <summary>
-        /// Handshake на стороне СЕРВЕРА: отправляет ключ + дескриптор, получает дескриптор от клиента, сравнивает.
-        /// Вызывается НА СЫРОМ INetworkClient (до middleware), потому что ключ ещё не у клиента.
+        /// Строит дескриптор совместимости детерминированно из флагов
+        /// (одинаково на клиенте и сервере, не требует созданных middleware).
+        /// Массив пар [id, version, ...] по порядку цепочки.
+        /// </summary>
+        private static byte[] BuildDescriptor(bool compress, bool encrypt)
+        {
+            int n = (compress ? 1 : 0) + (encrypt ? 1 : 0);
+            var d = new byte[n * 2];
+            int p = 0;
+            if (compress) { d[p++] = MiddlewareIds.LZ4; d[p++] = 1; }
+            if (encrypt) { d[p++] = MiddlewareIds.AesGcm; d[p++] = 1; }
+            return d;
+        }
+
+        /// <summary>
+        /// Строит цепочку middleware из флага сжатия и согласованного ключа
+        /// (шифрование включается наличием ключа).
+        /// </summary>
+        private static IPacketMiddleware[] BuildChain(bool compress, byte[] key)
+        {
+            var list = new System.Collections.Generic.List<IPacketMiddleware>(2);
+            if (compress) list.Add(new LZ4Middleware());
+            if (key != null) list.Add(new AesGcmMiddleware(key));
+            return list.Count > 0 ? list.ToArray() : null;
+        }
+
+        /// <summary>
+        /// Handshake на стороне СЕРВЕРА (протокол v3): договаривается о флагах и стратегии обмена
+        /// ключами, выполняет обмен (ключ НЕ передаётся открытым текстом), строит middleware.
+        /// Вызывается НА СЫРОМ INetworkClient (до middleware).
         /// </summary>
         /// <param name="rawClient">сырой клиент (без middleware)</param>
-        /// <param name="mwClient">middleware-обёрнутый клиент (для дескриптора), может быть null</param>
-        /// <param name="encryptionKey">ключ шифрования (null если без шифрования)</param>
+        /// <param name="useCompression">включить LZ4-сжатие</param>
+        /// <param name="keyExchange">стратегия обмена ключами (см. лестницу уровней)</param>
         /// <param name="token">токен отмены</param>
-        /// <returns>null = OK, иначе строка ошибки</returns>
-        public static async Task<string> PerformServerHandshake(
-            INetworkClient rawClient, MiddlewareNetworkClient mwClient,
-            byte[] encryptionKey, CancellationToken token)
+        /// <returns>Error=null и Middlewares для обёртки клиента, либо Error с описанием</returns>
+        public static async Task<HandshakeResult> PerformServerHandshake(
+            INetworkClient rawClient, bool useCompression, IKeyExchange keyExchange,
+            CancellationToken token)
         {
-            byte[] descriptor = mwClient?.CompatibilityDescriptor ?? Array.Empty<byte>();
+            keyExchange = keyExchange ?? NoKeyExchange.Instance;
+            bool useEncryption = keyExchange.ProducesKey;
+
             byte flags = 0;
-            if (mwClient != null)
-            {
-                foreach (var mw in mwClient._middlewares)
-                {
-                    if (mw.Id == MiddlewareIds.LZ4) flags |= FLAG_COMPRESS;
-                    if (mw.Id == MiddlewareIds.AesGcm) flags |= FLAG_ENCRYPT;
-                }
-            }
+            if (useCompression) flags |= FLAG_COMPRESS;
+            if (useEncryption) flags |= FLAG_ENCRYPT;
+            byte[] descriptor = BuildDescriptor(useCompression, useEncryption);
+            byte[] offer = useEncryption ? keyExchange.ServerOffer() : Array.Empty<byte>();
 
-            byte keyLen = (encryptionKey != null) ? (byte)encryptionKey.Length : (byte)0;
-            byte descLen = (byte)descriptor.Length;
+            await SendHandshakePacket(rawClient, flags, keyExchange.Id, offer, descriptor, token)
+                .ConfigureAwait(false);
 
-            // Send: [magic(2)] [flags(1)] [keyLen(1)] [key(N)] [descLen(1)] [desc(M)]
-            int packetSize = 2 + 1 + 1 + keyLen + 1 + descLen;
-            var sendArray = new EasyArray(packetSize);
-            int pos = 0;
-            sendArray.Bytes[pos++] = MAGIC_HI;
-            sendArray.Bytes[pos++] = MAGIC_LO;
-            sendArray.Bytes[pos++] = flags;
-            sendArray.Bytes[pos++] = keyLen;
-            if (keyLen > 0)
-            {
-                Buffer.BlockCopy(encryptionKey, 0, sendArray.Bytes, pos, keyLen);
-                pos += keyLen;
-            }
-            sendArray.Bytes[pos++] = descLen;
-            if (descLen > 0)
-                Buffer.BlockCopy(descriptor, 0, sendArray.Bytes, pos, descLen);
-
-            await rawClient.Send(sendArray, true, token).ConfigureAwait(false);
-
-            // Receive client descriptor
-            var recvArray = await rawClient.AcceptPacket(256, token).ConfigureAwait(false);
+            var recv = await rawClient.AcceptPacket(HANDSHAKE_MAX, token).ConfigureAwait(false);
             try
             {
-                return ValidateClientResponse(recvArray, descriptor);
+                var parsed = ParseHandshakePacket(recv, "client");
+                if (parsed.Error != null) return new HandshakeResult { Error = parsed.Error };
+                if (parsed.Flags != flags)
+                    return new HandshakeResult { Error = $"Handshake: флаги клиента ({parsed.Flags}) не совпадают с серверными ({flags})" };
+                if (parsed.KeyExchangeId != keyExchange.Id)
+                    return new HandshakeResult { Error = $"Handshake: стратегия ключа клиента ({parsed.KeyExchangeId}) != серверной ({keyExchange.Id})" };
+                string descErr = CompareDescriptor(parsed, descriptor);
+                if (descErr != null) return new HandshakeResult { Error = descErr };
+
+                byte[] key = useEncryption ? keyExchange.ServerComplete(parsed.Payload) : null;
+                return new HandshakeResult { Error = null, Middlewares = BuildChain(useCompression, key) };
+            }
+            catch (Exception ex)
+            {
+                return new HandshakeResult { Error = "Handshake (server) failed: " + ex.Message };
             }
             finally
             {
-                recvArray.Dispose();
+                recv.Dispose();
             }
         }
 
@@ -245,207 +273,144 @@ namespace EMI.Network
         /// </summary>
         /// <param name="rawClient">сырой клиент</param>
         /// <param name="useCompression">клиент хочет сжатие?</param>
-        /// <param name="useEncryption">клиент хочет шифрование?</param>
-        /// <param name="manualMiddlewares">middleware заданные вручную (если не null — используются вместо auto)</param>
+        /// <param name="keyExchange">стратегия обмена ключами (та же ступень, что и на сервере)</param>
         /// <param name="token">токен отмены</param>
         public static async Task<HandshakeResult> PerformClientHandshake(
-            INetworkClient rawClient, bool useCompression, bool useEncryption,
-            IPacketMiddleware[] manualMiddlewares, CancellationToken token)
+            INetworkClient rawClient, bool useCompression, IKeyExchange keyExchange,
+            CancellationToken token)
         {
-            // Receive server packet
-            var recvArray = await rawClient.AcceptPacket(256, token).ConfigureAwait(false);
-            byte[] serverDescriptor;
-            byte[] encryptionKey = null;
-            byte serverFlags;
+            keyExchange = keyExchange ?? NoKeyExchange.Instance;
+            bool useEncryption = keyExchange.ProducesKey;
 
+            var recv = await rawClient.AcceptPacket(HANDSHAKE_MAX, token).ConfigureAwait(false);
+            HandshakePacket srv;
             try
             {
-                if (recvArray.IsEmpty())
-                    return new HandshakeResult { Error = "Handshake failed: server disconnected" };
-
-                var bytes = recvArray.Bytes;
-                int offset = recvArray.Offset;
-
-                if (recvArray.Length < 5) // magic(2) + flags(1) + keyLen(1) + descLen(1)
-                    return new HandshakeResult { Error = "Handshake failed: server packet too short" };
-
-                if (bytes[offset] != MAGIC_HI || bytes[offset + 1] != MAGIC_LO)
-                    return new HandshakeResult { Error = "Handshake failed: invalid magic (server may not support handshake)" };
-
-                serverFlags = bytes[offset + 2];
-                byte keyLen = bytes[offset + 3];
-
-                int pos = offset + 4;
-                if (keyLen > 0)
-                {
-                    if (recvArray.Length < pos + keyLen + 1)
-                        return new HandshakeResult { Error = "Handshake failed: key truncated" };
-                    encryptionKey = new byte[keyLen];
-                    Buffer.BlockCopy(bytes, pos, encryptionKey, 0, keyLen);
-                    pos += keyLen;
-                }
-
-                byte descLen = bytes[pos++];
-                serverDescriptor = new byte[descLen];
-                if (descLen > 0)
-                {
-                    if (recvArray.Length < pos + descLen)
-                        return new HandshakeResult { Error = "Handshake failed: descriptor truncated" };
-                    Buffer.BlockCopy(bytes, pos, serverDescriptor, 0, descLen);
-                }
+                srv = ParseHandshakePacket(recv, "server");
             }
             finally
             {
-                recvArray.Dispose();
+                recv.Dispose();
             }
+            if (srv.Error != null) return new HandshakeResult { Error = srv.Error };
 
-            // Build client middleware chain
-            IPacketMiddleware[] clientMiddlewares;
-            if (manualMiddlewares != null)
-            {
-                clientMiddlewares = manualMiddlewares;
-            }
+            byte flags = 0;
+            if (useCompression) flags |= FLAG_COMPRESS;
+            if (useEncryption) flags |= FLAG_ENCRYPT;
+            byte[] descriptor = BuildDescriptor(useCompression, useEncryption);
+
+            // Несовпадение конфигурации — всё равно шлём ответ (чтобы сервер не завис), затем ошибка.
+            string cfgErr = null;
+            if (srv.Flags != flags)
+                cfgErr = $"Handshake: флаги сервера ({srv.Flags}) не совпадают с клиентскими ({flags})";
+            else if (srv.KeyExchangeId != keyExchange.Id)
+                cfgErr = $"Handshake: стратегия ключа сервера ({srv.KeyExchangeId}) != клиентской ({keyExchange.Id})";
             else
+                cfgErr = CompareDescriptor(srv, descriptor);
+
+            byte[] response = Array.Empty<byte>();
+            byte[] key = null;
+            if (cfgErr == null && useEncryption)
             {
-                var mwList = new System.Collections.Generic.List<IPacketMiddleware>();
-                bool serverHasCompress = (serverFlags & FLAG_COMPRESS) != 0;
-                bool serverHasEncrypt = (serverFlags & FLAG_ENCRYPT) != 0;
-
-                string mismatchError = null;
-
-                // Проверяем совпадение флагов
-                if (useCompression != serverHasCompress)
-                {
-                    mismatchError = $"Middleware incompatible! Client compression={useCompression}, Server compression={serverHasCompress}";
-                }
-                else if (useEncryption != serverHasEncrypt)
-                {
-                    mismatchError = $"Middleware incompatible! Client encryption={useEncryption}, Server encryption={serverHasEncrypt}";
-                }
-
-                if (useCompression)
-                    mwList.Add(new LZ4Middleware());
-                if (useEncryption && encryptionKey != null)
-                    mwList.Add(new AesGcmMiddleware(encryptionKey));
-
-                clientMiddlewares = mwList.Count > 0 ? mwList.ToArray() : null;
-
-                // При несовпадении флагов — всё равно отправляем ответ (чтобы сервер не завис), потом возвращаем ошибку
-                if (mismatchError != null)
-                {
-                    await SendClientResponse(rawClient, useCompression, useEncryption, Array.Empty<byte>(), token).ConfigureAwait(false);
-                    return new HandshakeResult { Error = mismatchError };
-                }
+                try { key = keyExchange.ClientComplete(srv.Payload, out response); }
+                catch (Exception ex) { cfgErr = "Handshake (client) key exchange failed: " + ex.Message; }
             }
 
-            // Build client descriptor
-            byte[] clientDescriptor;
-            if (clientMiddlewares != null && clientMiddlewares.Length > 0)
-            {
-                clientDescriptor = new byte[clientMiddlewares.Length * 2];
-                for (int i = 0; i < clientMiddlewares.Length; i++)
-                {
-                    clientDescriptor[i * 2] = clientMiddlewares[i].Id;
-                    clientDescriptor[i * 2 + 1] = clientMiddlewares[i].Version;
-                }
-            }
-            else
-            {
-                clientDescriptor = Array.Empty<byte>();
-            }
+            await SendHandshakePacket(rawClient, flags, keyExchange.Id, response, descriptor, token)
+                .ConfigureAwait(false);
 
-            // Compare descriptors
-            string descError = null;
-            if (serverDescriptor.Length != clientDescriptor.Length)
-            {
-                descError = $"Middleware incompatible! Local=[{FormatDescriptor(clientDescriptor, 0, clientDescriptor.Length)}], Remote=[{FormatDescriptor(serverDescriptor, 0, serverDescriptor.Length)}]";
-            }
-            else
-            {
-                for (int i = 0; i < serverDescriptor.Length; i++)
-                {
-                    if (serverDescriptor[i] != clientDescriptor[i])
-                    {
-                        descError = $"Middleware incompatible! Local=[{FormatDescriptor(clientDescriptor, 0, clientDescriptor.Length)}], Remote=[{FormatDescriptor(serverDescriptor, 0, serverDescriptor.Length)}]";
-                        break;
-                    }
-                }
-            }
+            if (cfgErr != null) return new HandshakeResult { Error = cfgErr };
+            return new HandshakeResult { Error = null, Middlewares = BuildChain(useCompression, key) };
+        }
 
-            // Всегда отправляем ответ (чтобы сервер не завис на AcceptPacket)
-            await SendClientResponse(rawClient, useCompression, useEncryption, clientDescriptor, token).ConfigureAwait(false);
-
-            if (descError != null)
-                return new HandshakeResult { Error = descError };
-
-            return new HandshakeResult { Error = null, Middlewares = clientMiddlewares };
+        /// <summary>Разобранный handshake-пакет протокола v3.</summary>
+        private struct HandshakePacket
+        {
+            public string Error;
+            public byte Flags;
+            public byte KeyExchangeId;
+            public byte[] Payload;     // offer (от сервера) или response (от клиента)
+            public byte[] Descriptor;
         }
 
         /// <summary>
-        /// Отправляет ответ клиента серверу (magic + flags + descriptor)
+        /// Отправляет handshake-пакет v3: magic+version, flags, kexId, payload (len16), descriptor (len8).
         /// </summary>
-        private static async Task SendClientResponse(
-            INetworkClient rawClient, bool useCompression, bool useEncryption,
-            byte[] clientDescriptor, CancellationToken token)
+        private static async Task SendHandshakePacket(
+            INetworkClient rawClient, byte flags, byte kexId,
+            byte[] payload, byte[] descriptor, CancellationToken token)
         {
-            byte cDescLen = (byte)clientDescriptor.Length;
-            byte clientFlags = 0;
-            if (useCompression) clientFlags |= FLAG_COMPRESS;
-            if (useEncryption) clientFlags |= FLAG_ENCRYPT;
+            payload = payload ?? Array.Empty<byte>();
+            descriptor = descriptor ?? Array.Empty<byte>();
+            if (payload.Length > ushort.MaxValue) throw new InvalidOperationException("handshake payload too large");
+            if (descriptor.Length > byte.MaxValue) throw new InvalidOperationException("handshake descriptor too large");
 
-            int sendSize = 2 + 1 + 1 + cDescLen; // magic(2) + flags(1) + descLen(1) + desc
-            var sendArray = new EasyArray(sendSize);
-            sendArray.Bytes[0] = MAGIC_HI;
-            sendArray.Bytes[1] = MAGIC_LO;
-            sendArray.Bytes[2] = clientFlags;
-            sendArray.Bytes[3] = cDescLen;
-            if (cDescLen > 0)
-                Buffer.BlockCopy(clientDescriptor, 0, sendArray.Bytes, 4, cDescLen);
+            // magic(2)+ver(1)+flags(1)+kex(1)+payloadLen(2)+payload+descLen(1)+desc
+            int size = 2 + 1 + 1 + 1 + 2 + payload.Length + 1 + descriptor.Length;
+            var arr = new EasyArray(size);
+            var b = arr.Bytes;
+            int p = 0;
+            b[p++] = MAGIC_HI; b[p++] = MAGIC_LO; b[p++] = VERSION;
+            b[p++] = flags; b[p++] = kexId;
+            b[p++] = (byte)(payload.Length & 0xFF);
+            b[p++] = (byte)(payload.Length >> 8);
+            if (payload.Length > 0) { Buffer.BlockCopy(payload, 0, b, p, payload.Length); p += payload.Length; }
+            b[p++] = (byte)descriptor.Length;
+            if (descriptor.Length > 0) Buffer.BlockCopy(descriptor, 0, b, p, descriptor.Length);
 
-            await rawClient.Send(sendArray, true, token).ConfigureAwait(false);
+            await rawClient.Send(arr, true, token).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Старый handshake для совместимости (когда middleware заданы вручную без ключа)
+        /// Разбирает входящий handshake-пакет v3. peer — "server"/"client" для сообщений об ошибке.
         /// </summary>
-        public async Task<string> PerformHandshake(CancellationToken token)
+        private static HandshakePacket ParseHandshakePacket(INGCArray recv, string peer)
         {
-            return await PerformServerHandshake(_inner, this, null, token).ConfigureAwait(false);
+            if (recv.IsEmpty())
+                return new HandshakePacket { Error = $"Handshake failed: {peer} disconnected" };
+
+            var b = recv.Bytes;
+            int o = recv.Offset;
+            int len = recv.Length;
+
+            // magic(2)+ver(1)+flags(1)+kex(1)+payloadLen(2)+descLen(1) = 8 минимум
+            if (len < 8)
+                return new HandshakePacket { Error = $"Handshake failed: {peer} packet too short" };
+            if (b[o] != MAGIC_HI || b[o + 1] != MAGIC_LO)
+                return new HandshakePacket { Error = $"Handshake failed: invalid magic from {peer}" };
+            if (b[o + 2] != VERSION)
+                return new HandshakePacket { Error = $"Handshake failed: {peer} protocol version {b[o + 2]} != {VERSION}" };
+
+            byte flags = b[o + 3];
+            byte kexId = b[o + 4];
+            int payloadLen = b[o + 5] | (b[o + 6] << 8);
+            int p = o + 7;
+            if (len < 7 + payloadLen + 1)
+                return new HandshakePacket { Error = $"Handshake failed: {peer} payload truncated" };
+            var payload = new byte[payloadLen];
+            if (payloadLen > 0) Buffer.BlockCopy(b, p, payload, 0, payloadLen);
+            p += payloadLen;
+
+            byte descLen = b[p++];
+            if (len < (p - o) + descLen)
+                return new HandshakePacket { Error = $"Handshake failed: {peer} descriptor truncated" };
+            var desc = new byte[descLen];
+            if (descLen > 0) Buffer.BlockCopy(b, p, desc, 0, descLen);
+
+            return new HandshakePacket { Error = null, Flags = flags, KeyExchangeId = kexId, Payload = payload, Descriptor = desc };
         }
 
-        private static string ValidateClientResponse(INGCArray recvArray, byte[] expectedDescriptor)
+        /// <summary>Сверяет дескриптор из пакета с ожидаемым; null = совпало.</summary>
+        private static string CompareDescriptor(HandshakePacket p, byte[] expected)
         {
-            if (recvArray.IsEmpty())
-                return "Handshake failed: client disconnected during handshake";
-
-            var bytes = recvArray.Bytes;
-            int offset = recvArray.Offset;
-
-            if (recvArray.Length < 4)
-                return "Handshake failed: client packet too short";
-
-            if (bytes[offset] != MAGIC_HI || bytes[offset + 1] != MAGIC_LO)
-                return "Handshake failed: invalid magic from client";
-
-            // byte clientFlags = bytes[offset + 2]; // можно проверить при необходимости
-            byte descLen = bytes[offset + 3];
-
-            if (recvArray.Length < 4 + descLen)
-                return "Handshake failed: client descriptor truncated";
-
-            // Compare descriptors
-            if (descLen != expectedDescriptor.Length)
-            {
-                return $"Middleware incompatible! Server=[{FormatDescriptor(expectedDescriptor, 0, expectedDescriptor.Length)}], Client=[{FormatDescriptor(bytes, offset + 4, descLen)}]";
-            }
-            for (int i = 0; i < descLen; i++)
-            {
-                if (bytes[offset + 4 + i] != expectedDescriptor[i])
-                {
-                    return $"Middleware incompatible! Server=[{FormatDescriptor(expectedDescriptor, 0, expectedDescriptor.Length)}], Client=[{FormatDescriptor(bytes, offset + 4, descLen)}]";
-                }
-            }
-            return null; // OK
+            var got = p.Descriptor ?? Array.Empty<byte>();
+            bool same = got.Length == expected.Length;
+            if (same)
+                for (int i = 0; i < got.Length; i++)
+                    if (got[i] != expected[i]) { same = false; break; }
+            if (same) return null;
+            return $"Middleware incompatible! Local=[{FormatDescriptor(expected, 0, expected.Length)}], " +
+                   $"Remote=[{FormatDescriptor(got, 0, got.Length)}]";
         }
 
         #endregion
