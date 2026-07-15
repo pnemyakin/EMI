@@ -10,6 +10,7 @@
 // Не редактируйте вручную — изменения будут потеряны при регенерации.
 // </auto-generated>
 using System;
+using System.Threading.Tasks;
 using SmartPackager;
 
 namespace EMI
@@ -51,7 +52,7 @@ namespace EMI
                     packager.UnPack(array.Bytes, array.Offset, <#= unpackOutParams #>);
                     try { method(<#= methodCallParams #>); }
                     catch (Exception e) { LogRPCException(indicator, e); }
-                    return null;
+                    return new ValueTask<IRPCReturn>((IRPCReturn)null);
                 });
             }
             else
@@ -62,7 +63,7 @@ namespace EMI
                     try { method(<#= methodCallParams #>); }
                     catch (Exception e) { LogRPCException(indicator, e); }
                     finally { __chain?.Invoke(<#= chainInvokeParams #>); }
-                    return null;
+                    return new ValueTask<IRPCReturn>((IRPCReturn)null);
                 });
             }
         }
@@ -103,7 +104,7 @@ namespace EMI
                     try { data = method(<#= methodCallParams #>); }
                     catch (Exception e) { data = default; LogRPCException(indicator, e); }
                     @out.Set(data);
-                    return @out;
+                    return new ValueTask<IRPCReturn>(@out);
                 });
             }
             else
@@ -116,7 +117,7 @@ namespace EMI
                     catch (Exception e) { data = default; LogRPCException(indicator, e); }
                     finally { __chain?.Invoke(<#= chainInvokeParams #>); }
                     @out.Set(data);
-                    return @out;
+                    return new ValueTask<IRPCReturn>(@out);
                 });
             }
         }

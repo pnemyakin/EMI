@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EMI
 {
@@ -19,7 +20,7 @@ namespace EMI
         /// </summary>
         /// <param name="array">Упакованный массив данных</param>
         /// <returns></returns>
-        internal delegate IRPCReturn MicroFunc(INGCArray array);
+        internal delegate ValueTask<IRPCReturn> MicroFunc(INGCArray array);
         /// <summary>
         /// Получить список клиентов, которым переслать удалённый вызов
         /// </summary>
@@ -227,7 +228,7 @@ namespace EMI
                 {
                     LogRPCException(indicator, e);
                 }
-                return null;
+                return new ValueTask<IRPCReturn>((IRPCReturn)null);
             });
         }
 
@@ -255,7 +256,7 @@ namespace EMI
                     LogRPCException(indicator, e);
                 }
                 @out.Set(data);
-                return @out;
+                return new ValueTask<IRPCReturn>(@out);
             });
         }
 

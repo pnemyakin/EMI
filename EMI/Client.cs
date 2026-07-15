@@ -727,46 +727,57 @@ namespace EMI
             }
 
             int capturedCallId = callId;
-            _dispatcher.Post(() =>
-            {
-                INGCArray sendArray = null;
-                try
-                {
-                    CurrentCaller = this; // серверные хендлеры видят вызвавшего клиента
-                    var @return = funcs.Invoke(array);
+            // Диспетчеризуем async-единицу работы. Для sync-хендлеров ValueTask завершён синхронно
+            // (сквозной проход без приостановки); для async-хендлеров продолжение вернётся туда,
+            // куда его направит SynchronizationContext активного диспетчера (см. PumpDispatcher).
+            _dispatcher.Post(() => _ = InvokeAndRespond(funcs, array, handle, needReturn, capturedCallId, token));
+        }
 
-                    // Ответ пакуем ЗДЕСЬ, пока входной буфер ещё жив (возврат может алиасить его,
-                    // напр. RawBuffer). Отправку выносим на сетевой поток — main-поток не ждёт I/O.
-                    if (needReturn)
+        /// <summary>
+        /// Исполняет RPC-хендлер (возможно асинхронный) и, если нужен ответ, пакует и отправляет его.
+        /// Входной буфер (<paramref name="handle"/>) удерживается до завершения хендлера и упаковки —
+        /// это безопасно и для async-хендлеров, и для возвратов, алиасящих входной буфер (RawBuffer).
+        /// Отправка ответа вынесена на сетевой поток, чтобы поток диспетчера не ждал сетевой I/O.
+        /// </summary>
+        private async Task InvokeAndRespond(
+            RPC.MicroFunc funcs, INGCArray array, InputStackBuffer.Handle handle,
+            bool needReturn, int callId, CancellationToken token)
+        {
+            INGCArray sendArray = null;
+            try
+            {
+                CurrentCaller = this; // серверные хендлеры видят вызвавшего клиента
+                IRPCReturn @return = await funcs.Invoke(array).ConfigureAwait(true);
+
+                if (needReturn)
+                {
+                    const int bsize = DPack.sizeof_DRPCReturned + 1;
+                    int size = bsize + (@return?.PackSize ?? 0);
+                    sendArray = new NGCArray(size);
+                    sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
+                    DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, callId);
+                    if (@return != null)
                     {
-                        const int bsize = DPack.sizeof_DRPCReturned + 1;
-                        int size = bsize + (@return?.PackSize ?? 0);
-                        sendArray = new NGCArray(size);
-                        sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
-                        DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, capturedCallId);
-                        if (@return != null)
-                        {
-                            sendArray.Offset += bsize;
-                            @return.PackUp(sendArray);
-                            sendArray.Offset = 0; // курсор записи → начало данных
-                        }
+                        sendArray.Offset += bsize;
+                        @return.PackUp(sendArray);
+                        sendArray.Offset = 0; // курсор записи → начало данных
                     }
                 }
-                catch (Exception e)
-                {
-                    // Ошибка распаковки/обработки не должна ронять приёмный цикл или глушиться пулом.
-                    Logger.Log(this, Messages.AcceptPacketError, e.ToString());
-                    sendArray?.Dispose();
-                    sendArray = null;
-                }
-                finally
-                {
-                    handle.Dispose(); // входной буфер после Invoke + упаковки больше не нужен
-                }
+            }
+            catch (Exception e)
+            {
+                // Ошибка распаковки/обработки не должна ронять приёмный цикл или глушиться пулом.
+                Logger.Log(this, Messages.AcceptPacketError, e.ToString());
+                sendArray?.Dispose();
+                sendArray = null;
+            }
+            finally
+            {
+                handle.Dispose(); // входной буфер после Invoke + упаковки больше не нужен
+            }
 
-                if (sendArray != null)
-                    _ = SendReturn(sendArray, token);
-            });
+            if (sendArray != null)
+                await SendReturn(sendArray, token).ConfigureAwait(false);
         }
 
         /// <summary>

@@ -217,7 +217,10 @@ namespace EMI.Headless
             {
                 if (needReturn)
                 {
-                    var @return = funcs.Invoke(array);
+                    // Headless синхронен (исполнение на потоке вызывающего AcceptPacket).
+                    // ValueTask sync-хендлера завершён синхронно; для async-хендлера здесь
+                    // произойдёт кооперативное ожидание завершения.
+                    var @return = funcs.Invoke(array).GetAwaiter().GetResult();
                     const int bsize = DPack.sizeof_DRPC + 1;
                     int size = bsize;
                     if (@return != null)
@@ -243,7 +246,7 @@ namespace EMI.Headless
                 }
                 else
                 {
-                    funcs.Invoke(array);
+                    funcs.Invoke(array).GetAwaiter().GetResult();
                 }
             }
             else
@@ -274,7 +277,7 @@ namespace EMI.Headless
 
             if (funcs != null)
             {
-                var @return = funcs.Invoke(array);
+                var @return = funcs.Invoke(array).GetAwaiter().GetResult();
                 const int bsize = DPack.sizeof_DRPCReturned + 1;
                 int size = bsize;
                 if (@return != null)

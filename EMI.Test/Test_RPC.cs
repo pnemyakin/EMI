@@ -171,8 +171,9 @@ namespace EMI.Test
             rpc.RegisterMethod(() => { throw new InvalidOperationException("Test"); }, indicator);
 
             var micro = rpc.TryGetRegisteredMethod(indicator.ID);
-            // Исключение ловится внутри lambda и выводится в Console
-            var result = micro(INGCArrayUtils.EmptyArray);
+            // Исключение ловится внутри lambda и выводится в Console.
+            // MicroFunc теперь возвращает ValueTask<IRPCReturn> (sync-путь завершён синхронно).
+            var result = micro(INGCArrayUtils.EmptyArray).GetAwaiter().GetResult();
             Assert.IsNull(result); // Для void-метода возвращается null
         }
     }
