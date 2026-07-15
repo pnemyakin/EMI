@@ -134,6 +134,19 @@ namespace EMI
         public IKeyExchange KeyExchange { get; set; }
 
         /// <summary>
+        /// Стратегия исполнения входящих RPC-обработчиков для всех клиентов сервера
+        /// (на каком потоке и в каком порядке). По умолчанию <see cref="ThreadPoolDispatcher"/>.
+        /// Наследуется каждым принятым клиентом. Для Unity/движков задайте общий
+        /// <see cref="PumpDispatcher"/> и вызывайте <c>Pump()</c> из главного цикла. Никогда не null.
+        /// </summary>
+        public IRpcDispatcher Dispatcher
+        {
+            get => _dispatcher;
+            set => _dispatcher = value ?? throw new ArgumentNullException(nameof(value));
+        }
+        private IRpcDispatcher _dispatcher = ThreadPoolDispatcher.Instance;
+
+        /// <summary>
         /// Создаёт новый сервер
         /// </summary>
         /// <param name="service">интерфейс подключения</param>

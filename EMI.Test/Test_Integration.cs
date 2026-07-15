@@ -298,6 +298,63 @@ namespace EMI.Test
 
         #endregion
 
+        #region Dispatcher
+
+        [TestMethod("Интеграция: PumpDispatcher — RPC ждёт Pump(), исполняется в потоке Pump")]
+        [Timeout(15000)]
+        public async Task Integration_RPC_PumpDispatcher()
+        {
+            using var env = await TestEnv.CreateAsync();
+
+            var pump = new EMI.PumpDispatcher();
+            env.Client.Dispatcher = pump; // хендлеры принимающего клиента — только по Pump()
+
+            int handlerTid = -1;
+            var indicator = new Indicator.FuncOut<string, string>("Echo");
+            env.Client.LocalRPC.RegisterMethod<string, string>(
+                (msg) =>
+                {
+                    handlerTid = Thread.CurrentThread.ManagedThreadId;
+                    return $"echo: {msg}";
+                }, indicator);
+
+            var callTask = indicator.RCall("hi", env.ServerClient, RCType.ReturnWait);
+
+            // Пакет дошёл, но хендлер не должен исполниться без Pump()
+            await Task.Delay(300);
+            Assert.IsFalse(callTask.IsCompleted, "RPC не должен исполниться до Pump()");
+            Assert.AreEqual(-1, handlerTid, "хендлер не должен был запуститься");
+
+            // Качаем помпу из ЭТОГО потока, пока вызов не завершится
+            int pumpTid = Thread.CurrentThread.ManagedThreadId;
+            string result = null;
+            for (int i = 0; i < 100 && result == null; i++)
+            {
+                pump.Pump();
+                if (callTask.IsCompleted) { result = await callTask; break; }
+                await Task.Delay(20);
+            }
+
+            Assert.AreEqual("echo: hi", result);
+            Assert.AreEqual(pumpTid, handlerTid, "хендлер должен исполниться в потоке, вызвавшем Pump()");
+        }
+
+        [TestMethod("Интеграция: InlineDispatcher — RPC работает без переброски потоков")]
+        [Timeout(15000)]
+        public async Task Integration_RPC_InlineDispatcher()
+        {
+            using var env = await TestEnv.CreateAsync();
+            env.Client.Dispatcher = EMI.InlineDispatcher.Instance;
+
+            var indicator = new Indicator.FuncOut<string, string>("Echo");
+            env.Client.LocalRPC.RegisterMethod<string, string>((msg) => $"inline: {msg}", indicator);
+
+            var result = await indicator.RCall("x", env.ServerClient, RCType.ReturnWait);
+            Assert.AreEqual("inline: x", result);
+        }
+
+        #endregion
+
         #region Middleware: сжатие
 
         [TestMethod("Интеграция: RPC с UseCompression")]
