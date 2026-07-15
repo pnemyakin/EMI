@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace EMI
 {
@@ -112,6 +113,43 @@ namespace EMI
                 done++;
                 try { call(); }
                 catch (Exception e) { OnHandlerError?.Invoke(e); }
+            }
+            return done;
+        }
+
+        /// <summary>
+        /// Исполнять вызовы, пока не истечёт <paramref name="budget"/> (ограничение времени на кадр).
+        /// <para>
+        /// Бюджет проверяется МЕЖДУ вызовами и не прерывает уже запущенный обработчик —
+        /// один тяжёлый вызов может выйти за бюджет (кооперативная модель, мягкий потолок).
+        /// Хотя бы один вызов исполняется всегда (если очередь непуста), даже при нулевом бюджете,
+        /// чтобы очередь гарантированно двигалась.
+        /// </para>
+        /// </summary>
+        /// <param name="budget">лимит времени на этот заход</param>
+        /// <returns>сколько вызовов исполнено</returns>
+        public int Pump(TimeSpan budget) => Pump(int.MaxValue, budget);
+
+        /// <summary>
+        /// Комбинированный бюджет: не более <paramref name="max"/> вызовов И не дольше <paramref name="budget"/>.
+        /// Ограничение по времени проверяется между вызовами (см. <see cref="Pump(TimeSpan)"/>).
+        /// </summary>
+        /// <param name="max">максимум вызовов за заход</param>
+        /// <param name="budget">лимит времени на этот заход</param>
+        /// <returns>сколько вызовов исполнено</returns>
+        public int Pump(int max, TimeSpan budget)
+        {
+            if (max <= 0) return 0;
+            long budgetTicks = budget.Ticks > 0 ? budget.Ticks : 0;
+            var sw = Stopwatch.StartNew();
+            int done = 0;
+            while (done < max && _queue.TryDequeue(out var call))
+            {
+                done++;
+                try { call(); }
+                catch (Exception e) { OnHandlerError?.Invoke(e); }
+                // Проверяем бюджет ПОСЛЕ исполнения — минимум один вызов гарантирован.
+                if (sw.Elapsed.Ticks >= budgetTicks) break;
             }
             return done;
         }

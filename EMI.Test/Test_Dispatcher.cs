@@ -176,6 +176,59 @@ namespace EMI.Test
             Assert.ThrowsException<InvalidOperationException>(() => new SynchronizationContextDispatcher());
         }
 
+        [TestMethod("Pump(max): исполняет не больше N за заход")]
+        public void Pump_MaxLimit()
+        {
+            var pump = new PumpDispatcher();
+            int ran = 0;
+            for (int i = 0; i < 10; i++) pump.Post(() => ran++);
+
+            int done = pump.Pump(3);
+            Assert.AreEqual(3, done, "должно исполниться ровно 3");
+            Assert.AreEqual(3, ran);
+            Assert.AreEqual(7, pump.PendingCount, "остальные ждут");
+        }
+
+        [TestMethod("Pump(TimeSpan): хотя бы один вызов при нулевом бюджете")]
+        public void Pump_ZeroBudget_RunsAtLeastOne()
+        {
+            var pump = new PumpDispatcher();
+            int ran = 0;
+            for (int i = 0; i < 5; i++) pump.Post(() => ran++);
+
+            int done = pump.Pump(TimeSpan.Zero);
+            Assert.AreEqual(1, done, "минимум один вызов гарантирован даже при нулевом бюджете");
+            Assert.AreEqual(4, pump.PendingCount);
+        }
+
+        [TestMethod("Pump(TimeSpan): останавливается по исчерпании бюджета времени")]
+        public void Pump_TimeBudget_StopsWhenExceeded()
+        {
+            var pump = new PumpDispatcher();
+            int ran = 0;
+            // Каждый вызов ~5 мс; при бюджете 20 мс успеет несколько, но не все 20.
+            for (int i = 0; i < 20; i++)
+                pump.Post(() => { ran++; System.Threading.Thread.Sleep(5); });
+
+            int done = pump.Pump(TimeSpan.FromMilliseconds(20));
+            Assert.IsTrue(done >= 1 && done < 20, $"должно исполниться частично, а не всё: {done}");
+            Assert.AreEqual(done, ran);
+            Assert.AreEqual(20 - done, pump.PendingCount);
+        }
+
+        [TestMethod("Pump(max, TimeSpan): срабатывает лимит по числу раньше времени")]
+        public void Pump_MaxAndBudget_MaxWinsFirst()
+        {
+            var pump = new PumpDispatcher();
+            int ran = 0;
+            for (int i = 0; i < 10; i++) pump.Post(() => ran++);
+
+            // Большой бюджет времени, но max=2 → ограничивает число.
+            int done = pump.Pump(2, TimeSpan.FromSeconds(10));
+            Assert.AreEqual(2, done);
+            Assert.AreEqual(8, pump.PendingCount);
+        }
+
         private static IEnumerable<int> Range(int start, int count)
         {
             for (int i = 0; i < count; i++) yield return start + i;
