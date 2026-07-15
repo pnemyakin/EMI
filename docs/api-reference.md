@@ -21,6 +21,7 @@ Server(INetworkService service)
 | `UseEncryption` | `bool` | Включить AES-256-GCM шифрование (устанавливать до `Start`). Ключ согласуется через `KeyExchange`, по сети открытым текстом не идёт |
 | `UseCompression` | `bool` | Включить LZ4 сжатие (устанавливать до `Start`) |
 | `KeyExchange` | `IKeyExchange` | Стратегия согласования ключа (лестница уровней, см. [security.md](security.md)). По умолчанию при `UseEncryption=true` — `RsaKeyExchange.CreateServer()` (уровень 2) |
+| `Dispatcher` | `IRpcDispatcher` | Стратегия исполнения RPC-обработчиков (поток/порядок). Наследуется всеми клиентами. По умолчанию `ThreadPoolDispatcher`. Для Unity — `PumpDispatcher` |
 | `Middlewares` | `List<IPacketMiddleware>` | Ручная настройка цепочки middleware (продвинутый режим, handshake не выполняется) |
 | `ServerClients` | `Client[]` | Массив подключённых клиентов (только DEBUG) |
 
@@ -70,6 +71,7 @@ Client(INetworkService service)
 | `UseEncryption` | `bool` | Шифрование (устанавливать до `Connect`) |
 | `UseCompression` | `bool` | Сжатие (устанавливать до `Connect`) |
 | `KeyExchange` | `IKeyExchange` | Стратегия обмена ключом; должна соответствовать ступени сервера. null + `UseEncryption` → RSA inline (см. [security.md](security.md)) |
+| `Dispatcher` | `IRpcDispatcher` | Стратегия исполнения RPC-обработчиков (поток/порядок). По умолчанию `ThreadPoolDispatcher`. Для Unity/движков — `PumpDispatcher`/`SynchronizationContextDispatcher` (см. [getting-started](getting-started.md)) |
 
 ### Методы
 

@@ -11,6 +11,7 @@ namespace EMI
     using MyException;
     using Network;
     using NGC;
+    using RPCInternal;
     using System.Diagnostics;
 
     /// <summary>
@@ -170,6 +171,19 @@ namespace EMI
         public IKeyExchange KeyExchange { get; set; }
 
         /// <summary>
+        /// Стратегия исполнения входящих RPC-обработчиков (на каком потоке и в каком порядке).
+        /// По умолчанию <see cref="ThreadPoolDispatcher"/> (пул потоков, параллельно — как раньше).
+        /// Для Unity/движков задайте <see cref="PumpDispatcher"/> или <see cref="SynchronizationContextDispatcher"/>.
+        /// На серверном клиенте наследуется от <see cref="Server.Dispatcher"/>. Никогда не null.
+        /// </summary>
+        public IRpcDispatcher Dispatcher
+        {
+            get => _dispatcher;
+            set => _dispatcher = value ?? throw new ArgumentNullException(nameof(value));
+        }
+        private IRpcDispatcher _dispatcher = ThreadPoolDispatcher.Instance;
+
+        /// <summary>
         /// Инициализирует клиента но не подключает к серверу
         /// </summary>
         /// <param name="network">интерфейс подключения</param>
@@ -216,6 +230,7 @@ namespace EMI
                 MyNetworkClient = network;
             RPC = rpc;
             Server = server;
+            _dispatcher = server.Dispatcher; // наследуем стратегию исполнения RPC от сервера
 
             // Инициализация rate limiter из конфигурации сервера
             if (server.RateLimit != null)
@@ -522,7 +537,11 @@ namespace EMI
             if (token.IsCancellationRequested)
                 return;
 
-            using (var ArrayHandle = await InputStack.Pop(token))
+            var ArrayHandle = await InputStack.Pop(token);
+            // Владение хендлом может быть передано диспетчеру (для RPC-веток): тогда его освободит
+            // замыкание после funcs.Invoke, а не этот finally. Struct-хендл диспозится ровно один раз.
+            bool handleTransferred = false;
+            try
             {
                 if (token.IsCancellationRequested || ArrayHandle.Buffer.IsEmpty())
                     return;
@@ -562,12 +581,16 @@ namespace EMI
                         break;
                     case PacketType.RPC_Simple:
                         {
-                            _ = RPCRun(false, array, token).ConfigureAwait(false);
+                            // Владение хендлом уходит в диспетчер: Invoke исполнится на выбранном
+                            // потоке, хендл освободится после него. Здесь finally его не трогает.
+                            DispatchRPCRun(false, ArrayHandle, token);
+                            handleTransferred = true;
                         }
                         break;
                     case PacketType.RPC_Return:
                         {
-                            _ = RPCRunWithReturn(array, token).ConfigureAwait(false);
+                            DispatchRPCRun(true, ArrayHandle, token);
+                            handleTransferred = true;
                         }
                         break;
                     case PacketType.RPC_Returned:
@@ -655,132 +678,125 @@ namespace EMI
                         break;
                 }
             }
-        }
-
-        /// <summary>
-        /// Вызов метода (без возврата значения)
-        /// </summary>
-        /// <param name="needReturn">нужно ли отправить результат</param>
-        /// <param name="array">массив данных для отправки</param>
-        /// <param name="token">токен отмены</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async Task RPCRun(bool needReturn, INGCArray array, CancellationToken token)
-        {
-            DPack.DRPC.UnPack(array.Bytes, array.Offset, out var id);
-            array.Offset += sizeof(long);
-            var funcs = RPC.TryGetRegisteredMethod(id);
-
-            if (funcs == null)
+            finally
             {
-                funcs = LocalRPC.TryGetRegisteredMethod(id);
-            }
-
-            if (funcs != null)
-            {
-                CurrentCaller = this; // expose calling client to server-side handlers
-                if (needReturn)
-                {
-                    var @return = funcs.Invoke(array);
-                    const int bsize = DPack.sizeof_DRPC + 1;
-                    int size = bsize;
-                    if (@return != null)
-                        size += @return.PackSize;
-
-                    INGCArray sendArray = new NGCArray(size);
-                    try
-                    {
-                        sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
-                        DPack.DRPC.PackUP(sendArray.Bytes, 1, id);
-                        if (@return != null)
-                        {
-                            sendArray.Offset += bsize;
-                            @return.PackUp(sendArray);
-                            sendArray.Offset = 0; // Offset использовался как курсор записи; данные начинаются с 0
-                        }
-                        await MyNetworkClient.Send(sendArray, true, token);
-                    }
-                    finally
-                    {
-                        sendArray.Dispose();
-                    }
-                }
-                else
-                {
-                    funcs.Invoke(array);
-                }
-            }
-            else
-            {
-                // Логируем информацию о незарегистрированном методе
-                string methodInfo = RPC.GetMethodInfo(id);
-                string localInfo = LocalRPC.GetMethodInfo(id);
-                Logger.Log(this, Messages.RPCNotFound, id, methodInfo);
-#if DEBUG
-                Logger.Log(this, Messages.RPCRegisteredList, RPC.GetRegisteredMethodsList());
-                if (RPC != LocalRPC)
-                    Logger.Log(this, Messages.RPCRegisteredListLocal, LocalRPC.GetRegisteredMethodsList());
-#endif
+                if (!handleTransferred)
+                    ArrayHandle.Dispose();
             }
         }
 
         /// <summary>
-        /// Вызов метода с возвратом значения (RPC_Return).
-        /// Извлекает methodId и callId из пакета, отправляет callId в ответе.
+        /// Разбирает заголовок RPC-пакета на сетевом потоке, ищет метод, и передаёт САМ ВЫЗОВ
+        /// обработчика в <see cref="Dispatcher"/> (там он исполнится на нужном потоке).
+        /// Владелец <paramref name="handle"/> — этот метод: буфер освобождается после Invoke.
+        /// Отправка ответа (RPC_Returned) идёт fire-and-forget на сетевом потоке, чтобы не
+        /// блокировать поток диспетчера (например, main-поток Unity) на сетевом I/O.
         /// </summary>
-        /// <param name="array">массив данных</param>
+        /// <param name="needReturn">true для RPC_Return (нужно отправить результат)</param>
+        /// <param name="handle">хендл входного буфера; владение переходит сюда</param>
         /// <param name="token">токен отмены</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private async Task RPCRunWithReturn(INGCArray array, CancellationToken token)
+        private void DispatchRPCRun(bool needReturn, InputStackBuffer.Handle handle, CancellationToken token)
         {
-            DPack.DRPCReturn.UnPack(array.Bytes, array.Offset, out var methodId, out var callId);
-            array.Offset += DPack.sizeof_DRPCReturn;
-            var funcs = RPC.TryGetRegisteredMethod(methodId);
-
-            if (funcs == null)
+            var array = handle.Buffer;
+            long methodId;
+            int callId = 0;
+            if (needReturn)
             {
-                funcs = LocalRPC.TryGetRegisteredMethod(methodId);
-            }
-
-            if (funcs != null)
-            {
-                CurrentCaller = this;
-                var @return = funcs.Invoke(array);
-                const int bsize = DPack.sizeof_DRPCReturned + 1;
-                int size = bsize;
-                if (@return != null)
-                    size += @return.PackSize;
-
-                INGCArray sendArray = new NGCArray(size);
-                try
-                {
-                    sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
-                    DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, callId);
-                    if (@return != null)
-                    {
-                        sendArray.Offset += bsize;
-                        @return.PackUp(sendArray);
-                        sendArray.Offset = 0; // Offset использовался как курсор записи; данные начинаются с 0
-                    }
-                    await MyNetworkClient.Send(sendArray, true, token);
-                }
-                finally
-                {
-                    sendArray.Dispose();
-                }
+                DPack.DRPCReturn.UnPack(array.Bytes, array.Offset, out methodId, out callId);
+                array.Offset += DPack.sizeof_DRPCReturn;
             }
             else
             {
-                // Логируем информацию о незарегистрированном методе
+                DPack.DRPC.UnPack(array.Bytes, array.Offset, out methodId);
+                array.Offset += sizeof(long);
+            }
+
+            var funcs = RPC.TryGetRegisteredMethod(methodId) ?? LocalRPC.TryGetRegisteredMethod(methodId);
+            if (funcs == null)
+            {
+                // Незарегистрированный метод — дальше диспетчер не гоняем, буфер освобождаем сразу.
+                handle.Dispose();
                 string methodInfo = RPC.GetMethodInfo(methodId);
-                string localInfo = LocalRPC.GetMethodInfo(methodId);
                 Logger.Log(this, Messages.RPCNotFound, methodId, methodInfo);
 #if DEBUG
                 Logger.Log(this, Messages.RPCRegisteredList, RPC.GetRegisteredMethodsList());
                 if (RPC != LocalRPC)
                     Logger.Log(this, Messages.RPCRegisteredListLocal, LocalRPC.GetRegisteredMethodsList());
 #endif
+                return;
+            }
+
+            int capturedCallId = callId;
+            // Диспетчеризуем async-единицу работы. Для sync-хендлеров ValueTask завершён синхронно
+            // (сквозной проход без приостановки); для async-хендлеров продолжение вернётся туда,
+            // куда его направит SynchronizationContext активного диспетчера (см. PumpDispatcher).
+            _dispatcher.Post(() => _ = InvokeAndRespond(funcs, array, handle, needReturn, capturedCallId, token));
+        }
+
+        /// <summary>
+        /// Исполняет RPC-хендлер (возможно асинхронный) и, если нужен ответ, пакует и отправляет его.
+        /// Входной буфер (<paramref name="handle"/>) удерживается до завершения хендлера и упаковки —
+        /// это безопасно и для async-хендлеров, и для возвратов, алиасящих входной буфер (RawBuffer).
+        /// Отправка ответа вынесена на сетевой поток, чтобы поток диспетчера не ждал сетевой I/O.
+        /// </summary>
+        private async Task InvokeAndRespond(
+            RPC.MicroFunc funcs, INGCArray array, InputStackBuffer.Handle handle,
+            bool needReturn, int callId, CancellationToken token)
+        {
+            INGCArray sendArray = null;
+            try
+            {
+                CurrentCaller = this; // серверные хендлеры видят вызвавшего клиента
+                IRPCReturn @return = await funcs.Invoke(array).ConfigureAwait(true);
+
+                if (needReturn)
+                {
+                    const int bsize = DPack.sizeof_DRPCReturned + 1;
+                    int size = bsize + (@return?.PackSize ?? 0);
+                    sendArray = new NGCArray(size);
+                    sendArray.Bytes[0] = (byte)PacketType.RPC_Returned;
+                    DPack.DRPCReturned.PackUP(sendArray.Bytes, 1, callId);
+                    if (@return != null)
+                    {
+                        sendArray.Offset += bsize;
+                        @return.PackUp(sendArray);
+                        sendArray.Offset = 0; // курсор записи → начало данных
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // Ошибка распаковки/обработки не должна ронять приёмный цикл или глушиться пулом.
+                Logger.Log(this, Messages.AcceptPacketError, e.ToString());
+                sendArray?.Dispose();
+                sendArray = null;
+            }
+            finally
+            {
+                handle.Dispose(); // входной буфер после Invoke + упаковки больше не нужен
+            }
+
+            if (sendArray != null)
+                await SendReturn(sendArray, token).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Отправляет уже упакованный ответ RPC_Returned. Вынесено из потока диспетчера,
+        /// чтобы пользовательский поток (main-поток движка) не ждал сетевой I/O.
+        /// </summary>
+        private async Task SendReturn(INGCArray sendArray, CancellationToken token)
+        {
+            try
+            {
+                await MyNetworkClient.Send(sendArray, true, token).ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(this, Messages.AcceptPacketError, e.ToString());
+            }
+            finally
+            {
+                sendArray.Dispose();
             }
         }
 

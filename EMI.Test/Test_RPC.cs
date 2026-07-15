@@ -1,5 +1,8 @@
+using System.Threading.Tasks;
 using EMI.Indicators;
 using EMI.MyException;
+using EMI.NGC;
+using EMI.RPCInternal;
 
 namespace EMI.Test
 {
@@ -171,9 +174,44 @@ namespace EMI.Test
             rpc.RegisterMethod(() => { throw new InvalidOperationException("Test"); }, indicator);
 
             var micro = rpc.TryGetRegisteredMethod(indicator.ID);
-            // Исключение ловится внутри lambda и выводится в Console
-            var result = micro(INGCArrayUtils.EmptyArray);
+            // Исключение ловится внутри lambda и выводится в Console.
+            // MicroFunc теперь возвращает ValueTask<IRPCReturn> (sync-путь завершён синхронно).
+            var result = micro(INGCArrayUtils.EmptyArray).GetAwaiter().GetResult();
             Assert.IsNull(result); // Для void-метода возвращается null
+        }
+
+        [TestMethod("Async: RegisterMethodAsync не блокирует — await реального Task, результат в ValueTask")]
+        public async Task RegisterMethodAsync_NonBlocking_ReturnsAwaitedResult()
+        {
+            var rpc = new RPC();
+            var indicator = new Indicator.FuncOut<int>("AsyncReturn");
+
+            // Хендлер с реальной точкой приостановки (await Task.Delay) — если бы путь
+            // блокировал через .GetResult(), это всё равно бы «сработало», но здесь мы
+            // проверяем, что MicroFunc сам асинхронный: ValueTask завершается ПОСЛЕ Delay.
+            rpc.RegisterMethodAsync<int>(async () =>
+            {
+                await Task.Delay(30).ConfigureAwait(false);
+                return 4242;
+            }, indicator);
+
+            var micro = rpc.TryGetRegisteredMethod(indicator.ID);
+            Assert.IsNotNull(micro);
+
+            var vt = micro(INGCArrayUtils.EmptyArray);
+            // Ключевой момент: на момент вызова Task ещё не завершён (идёт Delay),
+            // значит MicroFunc действительно асинхронный, а не блокирующий.
+            Assert.IsFalse(vt.IsCompleted, "MicroFunc должен быть асинхронным (Task ещё в Delay), а не блокировать");
+
+            var ret = await vt;
+            Assert.IsNotNull(ret, "async Task<int> должен вернуть упаковщик результата");
+
+            // Распаковываем результат из ответа, чтобы убедиться, что значение доехало.
+            int size = ret.PackSize;
+            using var buf = new NGCArray(size);
+            ret.PackUp(buf);
+            SmartPackager.Packager.Create<int>().UnPack(buf.Bytes, 0, out int value);
+            Assert.AreEqual(4242, value);
         }
     }
 }
