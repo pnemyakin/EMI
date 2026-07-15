@@ -308,6 +308,11 @@ namespace EMI.SyncInterface
                 bool hasCT = method.HasTrailingCancellationToken();
                 //создаёт делегат для регистрации метода
                 Delegate runDelegate;
+                // Имя перегрузки регистрации: sync → RegisterMethod, async → RegisterMethodAsync (без блокировки).
+                string regName = nameof(rpc.RegisterMethod);
+                // Явные generic-аргументы для MakeGenericMethod (для async они не совпадают с аргументами делегата).
+                Type[] regGenericArgs;
+
                 if (method.ReturnType == typeof(void))
                 {
                     // Синхронный void → RPCfunc напрямую (или через обёртку если есть CancellationToken)
@@ -315,17 +320,31 @@ namespace EMI.SyncInterface
                         runDelegate = Utils.MakeRPCDelegateWithTrailingCT(rpcParameters, Class, method);
                     else
                         runDelegate = Utils.MakeRPCDelegate(rpcParameters, Class, method);
+                    regGenericArgs = rpcParameters;
                 }
                 else if (method.ReturnType == typeof(Task))
                 {
-                    // Async void (Task) → обёртка в RPCfunc через .GetAwaiter().GetResult()
-                    runDelegate = Utils.MakeRPCDelegateAsyncVoid(rpcParameters, Class, method);
+                    // Async void (Task): строим RPCfuncOut<Task, ...>, возвращающий Task НАПРЯМУЮ (без GetResult),
+                    // и регистрируем через RegisterMethodAsync — MicroFunc await-ит его неблокирующе.
+                    if (hasCT)
+                        runDelegate = Utils.MakeRPCDelegateOutWithTrailingCT(typeof(Task), rpcParameters, Class, method);
+                    else
+                        runDelegate = Utils.MakeRPCDelegateOut(typeof(Task), rpcParameters, Class, method);
+                    regName = "RegisterMethodAsync";
+                    regGenericArgs = rpcParameters; // RegisterMethodAsync<T1...> (Task зафиксирован)
                 }
                 else if (method.ReturnType.BaseType == typeof(Task))
                 {
-                    // Async с возвратом (Task<T>) → обёртка в RPCfuncOut<T>
-                    var returnType = method.GetReturnType();
-                    runDelegate = Utils.MakeRPCDelegateAsyncOut(returnType, rpcParameters, Class, method);
+                    // Async с возвратом (Task<T>): RPCfuncOut<Task<T>, ...> напрямую (без GetResult) → RegisterMethodAsync<Tout, ...>.
+                    if (hasCT)
+                        runDelegate = Utils.MakeRPCDelegateOutWithTrailingCT(method.ReturnType, rpcParameters, Class, method);
+                    else
+                        runDelegate = Utils.MakeRPCDelegateOut(method.ReturnType, rpcParameters, Class, method);
+                    regName = "RegisterMethodAsync";
+                    var unwrapped = method.GetReturnType(); // T из Task<T>
+                    regGenericArgs = new Type[rpcParameters.Length + 1];
+                    regGenericArgs[0] = unwrapped;
+                    Array.Copy(rpcParameters, 0, regGenericArgs, 1, rpcParameters.Length);
                 }
                 else
                 {
@@ -334,6 +353,7 @@ namespace EMI.SyncInterface
                         runDelegate = Utils.MakeRPCDelegateOutWithTrailingCT(method.ReturnType, rpcParameters, Class, method);
                     else
                         runDelegate = Utils.MakeRPCDelegateOut(method.ReturnType, rpcParameters, Class, method);
+                    regGenericArgs = runDelegate.GetType().GetGenericArguments();
                 }
 
                 Type delegateType = runDelegate.GetType();
@@ -348,9 +368,9 @@ namespace EMI.SyncInterface
                 if (genericIndicatorType.IsGenericType)
                     genericIndicatorType = genericIndicatorType.GetGenericTypeDefinition();
 
-                MethodInfo RegMethod = typeof(RPC).FindMethodPro(nameof(rpc.RegisterMethod), new Type[] { genericDelegateType, genericIndicatorType });
+                MethodInfo RegMethod = typeof(RPC).FindMethodPro(regName, new Type[] { genericDelegateType, genericIndicatorType });
                 if(RegMethod.IsGenericMethod)
-                    RegMethod = RegMethod.MakeGenericMethod(delegateType.GetGenericArguments());
+                    RegMethod = RegMethod.MakeGenericMethod(regGenericArgs);
 
                 RegMethod.Invoke(rpc, new object[] {runDelegate, mMethod.Indicator});
             }

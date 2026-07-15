@@ -261,6 +261,38 @@ namespace EMI
         }
 
         #endregion
+        #region RegisterMethodAsync (без аргументов)
+
+        /// <summary>
+        /// Зарегистрировать async-метод (Task, без аргументов) — БЕЗ блокировки потока.
+        /// </summary>
+        public IRPCRemoveHandle RegisterMethodAsync(RPCfuncOut<System.Threading.Tasks.Task> method, Indicator.Func indicator)
+        {
+            return RegisterMethodHelp(indicator, async (INGCArray array) =>
+            {
+                try { await method().ConfigureAwait(true); }
+                catch (Exception e) { LogRPCException(indicator, e); }
+                return (IRPCReturn)null;
+            });
+        }
+
+        /// <summary>
+        /// Зарегистрировать async-метод (Task&lt;Tout&gt;, без аргументов) — БЕЗ блокировки потока.
+        /// </summary>
+        public IRPCRemoveHandle RegisterMethodAsync<Tout>(RPCfuncOut<System.Threading.Tasks.Task<Tout>> method, Indicator.FuncOut<Tout> indicator)
+        {
+            return RegisterMethodHelp(indicator, async (INGCArray array) =>
+            {
+                Tout data;
+                try { data = await method().ConfigureAwait(true); }
+                catch (Exception e) { data = default; LogRPCException(indicator, e); }
+                var @out = RPCReturn<Tout>.Create();
+                @out.Set(data);
+                return (IRPCReturn)@out;
+            });
+        }
+
+        #endregion
 
         /// <summary>
         /// Позволяет удалить зарегистрированный метод

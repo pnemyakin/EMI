@@ -124,5 +124,82 @@ namespace EMI
 
 <#  } // end return RegisterMethod loop #>
         #endregion
+        #region RegisterMethodAsync (void Task)
+<#
+    // ===== RegisterMethodAsync (async void — Task) =====
+    for (int i = 1; i <= MaxParams; i++)
+    {
+        var typeList = string.Join(", ", Enumerable.Range(1, i).Select(n => "T" + n));
+        var unpackOutParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"out T{n} t{n}"));
+        var methodCallParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"t{n}"));
+        var chainInvokeParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"ref t{n}"));
+        var fields = Enumerable.Range(1, i).ToList();
+#>
+        /// <summary>
+        /// Зарегистрировать async-метод (Task) для удалённого вызова RPC — БЕЗ блокировки потока.
+        /// </summary>
+        public IRPCRemoveHandle RegisterMethodAsync<<#= typeList #>>(RPCfuncOut<System.Threading.Tasks.Task, <#= typeList #>> method, Indicator.Func<<#= typeList #>> indicator)
+        {
+            RefFunc<<#= typeList #>> __chain = null;
+            bool __hasRaw = false;
+<#      foreach (var n in fields) { #>
+            if (typeof(T<#= n #>) == typeof(RawBuffer)) { __hasRaw = true; __chain += (<#= string.Join(", ", fields.Select(m => $"ref T{m} t{m}")) #>) => System.Runtime.CompilerServices.Unsafe.As<T<#= n #>, RawBuffer>(ref t<#= n #>).Dispose(); }
+<#      } #>
+
+            var packager = Packager.Create<<#= typeList #>>();
+
+            return RegisterMethodHelp(indicator, async (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, <#= unpackOutParams #>);
+                try { await method(<#= methodCallParams #>).ConfigureAwait(true); }
+                catch (Exception e) { LogRPCException(indicator, e); }
+<#      if (i > 0) { #>
+                finally { __chain?.Invoke(<#= chainInvokeParams #>); }
+<#      } #>
+                return (IRPCReturn)null;
+            });
+        }
+
+<#  } // end async void loop #>
+        #endregion
+        #region RegisterMethodAsync (Task<Tout>)
+<#
+    // ===== RegisterMethodAsync (async return — Task<Tout>) =====
+    for (int i = 1; i <= MaxParams; i++)
+    {
+        var typeList = string.Join(", ", Enumerable.Range(1, i).Select(n => "T" + n));
+        var unpackOutParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"out T{n} t{n}"));
+        var methodCallParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"t{n}"));
+        var chainInvokeParams = string.Join(", ", Enumerable.Range(1, i).Select(n => $"ref t{n}"));
+        var fields = Enumerable.Range(1, i).ToList();
+#>
+        /// <summary>
+        /// Зарегистрировать async-метод (Task&lt;Tout&gt;) для удалённого вызова RPC — БЕЗ блокировки потока.
+        /// </summary>
+        public IRPCRemoveHandle RegisterMethodAsync<Tout, <#= typeList #>>(RPCfuncOut<System.Threading.Tasks.Task<Tout>, <#= typeList #>> method, Indicator.FuncOut<Tout, <#= typeList #>> indicator)
+        {
+            RefFunc<<#= typeList #>> __chain = null;
+            bool __hasRaw = false;
+<#      foreach (var n in fields) { #>
+            if (typeof(T<#= n #>) == typeof(RawBuffer)) { __hasRaw = true; __chain += (<#= string.Join(", ", fields.Select(m => $"ref T{m} t{m}")) #>) => System.Runtime.CompilerServices.Unsafe.As<T<#= n #>, RawBuffer>(ref t<#= n #>).Dispose(); }
+<#      } #>
+
+            var packager = Packager.Create<<#= typeList #>>();
+
+            return RegisterMethodHelp(indicator, async (INGCArray array) =>
+            {
+                packager.UnPack(array.Bytes, array.Offset, <#= unpackOutParams #>);
+                Tout data;
+                try { data = await method(<#= methodCallParams #>).ConfigureAwait(true); }
+                catch (Exception e) { data = default; LogRPCException(indicator, e); }
+                finally { __chain?.Invoke(<#= chainInvokeParams #>); }
+                var @out = RPCReturn<Tout>.Create();
+                @out.Set(data);
+                return (IRPCReturn)@out;
+            });
+        }
+
+<#  } // end async return loop #>
+        #endregion
     }
 }
